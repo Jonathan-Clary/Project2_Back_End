@@ -9,7 +9,7 @@ public class Hotel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hotelId;
+    private int hotelId;
 
     @Column(nullable = false)
     private String hotelName;
@@ -25,7 +25,7 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(Long hotelId, String hotelName, String address) {
+    public Hotel(int hotelId, String hotelName, String address) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
         this.address = address;
@@ -34,11 +34,11 @@ public class Hotel {
     // Getters and Setters
 
 
-    public Long getHotelId() {
+    public int getHotelId() {
         return hotelId;
     }
 
-    public void setHotelId(Long hotelId) {
+    public void setHotelId(int hotelId) {
         this.hotelId = hotelId;
     }
 
