@@ -21,7 +21,7 @@ public class Saved {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // TODO: this could be one to one will decide later
     private User user;
 
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "hotelId")
     @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Hotel hotel;
 
