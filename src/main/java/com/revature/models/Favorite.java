@@ -1,18 +1,14 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Entity
-@Table(name = "saved")
-public class Saved {
+@Table(name = "favorites")
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int saved_id;
+    private int favorite_id;
 
     @Column(nullable = false)
     private String date_added;
@@ -25,22 +21,22 @@ public class Saved {
     @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Hotel hotel;
 
-    public Saved() {
+    public Favorite() {
     }
 
-    public Saved(int saved_id, String date_added, User user, Hotel hotel) {
-        this.saved_id = saved_id;
+    public Favorite(int favorite_id, String date_added, User user, Hotel hotel) {
+        this.favorite_id = favorite_id;
         this.date_added = date_added;
         this.user = user;
         this.hotel = hotel;
     }
 
-    public int getSaved_id() {
-        return saved_id;
+    public int getFavorite_id() {
+        return favorite_id;
     }
 
-    public void setSaved_id(int saved_id) {
-        this.saved_id = saved_id;
+    public void setFavorite_id(int favorite_id) {
+        this.favorite_id = favorite_id;
     }
 
     public String getDate_added() {
@@ -69,8 +65,8 @@ public class Saved {
 
     @Override
     public String toString() {
-        return "Saved{" +
-                "saved_id=" + saved_id +
+        return "Favorite{" +
+                "favorite_id=" + favorite_id +
                 ", date_added='" + date_added + '\'' +
                 ", user=" + user +
                 ", hotel=" + hotel +
