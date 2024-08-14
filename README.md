@@ -1,2 +1,4 @@
-# Project2_Back_End
-Back-End for Project2
+# Project2
+Travel Planner Application
+
+Please push to development branch
