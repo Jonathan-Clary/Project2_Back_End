@@ -1,5 +1,4 @@
-package com.revature.TravelPlanner.models;
-
+package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -31,7 +30,7 @@ public class Admin {
     //Relational Variable(s)
     @JsonIgnore
     @OneToMany(mappedBy = "admin", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    private List<Notes> notes;
+    private List<Note> notes;
 
     //Constructors
     public Admin() {
@@ -86,12 +85,12 @@ public class Admin {
         this.password = password;
     }
 
-    public List<Notes> getNotes() {
-        return notes;
+    public List<Note> getNotes() {
+      return notes;
     }
 
-    public void setNotes(List<Notes> notes) {
-        this.notes = notes;
+    public void setNotes(List<Note> notes) {
+      this.notes = notes;
     }
 
     //toString

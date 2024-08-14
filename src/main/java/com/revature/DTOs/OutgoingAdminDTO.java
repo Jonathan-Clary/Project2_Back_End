@@ -1,4 +1,4 @@
-package com.revature.TravelPlanner.models.DTOs;
+package com.revature.DTOs;
 
 import java.util.List;
 

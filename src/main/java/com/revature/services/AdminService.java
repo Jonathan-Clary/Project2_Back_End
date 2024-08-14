@@ -1,9 +1,9 @@
-package com.revature.TravelPlanner.services;
+package com.revature.services;
 
-import com.revature.TravelPlanner.DAOs.AdminDAO;
-import com.revature.TravelPlanner.mappers.AdminMapper;
-import com.revature.TravelPlanner.models.Admin;
-import com.revature.TravelPlanner.models.DTOs.OutgoingAdminDTO;
+import com.revature.DAOs.AdminDAO;
+import com.revature.mappers.AdminMapper;
+import com.revature.models.Admin;
+import com.revature.DTOs.OutgoingAdminDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

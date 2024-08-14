@@ -1,7 +1,7 @@
-package com.revature.TravelPlanner.controllers;
+package com.revature.controllers;
 
-import com.revature.TravelPlanner.models.DTOs.OutgoingAdminDTO;
-import com.revature.TravelPlanner.services.AdminService;
+import com.revature.DTOs.OutgoingAdminDTO;
+import com.revature.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
