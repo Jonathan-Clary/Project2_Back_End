@@ -1,11 +1,14 @@
 package com.revature.controllers;
 
 
+import com.revature.exceptions.CustomException;
+import com.revature.models.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -17,5 +20,12 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+
+    @PatchMapping
+    public ResponseEntity<Object> updateReimbursementDescription(@RequestBody Map<String,String> newUser) throws CustomException {
+
+        return null;
     }
 }
