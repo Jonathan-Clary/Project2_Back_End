@@ -24,8 +24,19 @@ public class UserController {
 
 
     @PatchMapping
-    public ResponseEntity<Object> updateReimbursementDescription(@RequestBody Map<String,String> newUser) throws CustomException {
+    public ResponseEntity<Object> updateLoggedInUserProfile(@RequestBody Map<String,String> newUser) throws CustomException {
+        var user = userService.updateUserById(loggedInUserId(), newUser);
+        return ResponseEntity.ok(user);
+    }
 
-        return null;
+    // handles all the custom exceptions
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<Object> handleCustomException( CustomException e){
+        return ResponseEntity.status(e.getStatus()).body(e.getMsg());
+    }
+
+    private int loggedInUserId(){
+        // later we'll use the ID that's in the Token
+        return 1;
     }
 }
