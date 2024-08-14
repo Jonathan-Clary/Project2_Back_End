@@ -1,16 +1,16 @@
 package com.revature.services;
 
-import com.revature.DAOs.StaysDAO;
+import com.revature.DAOs.StayDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StaysService {
+public class StayService {
 
-    private StaysDAO staysDAO;
+    private StayDAO stayDAO;
 
     @Autowired
-    public StaysService(StaysDAO staysDAO) {
-        this.staysDAO = staysDAO;
+    public StayService(StayDAO stayDAO) {
+        this.stayDAO = stayDAO;
     }
 }
