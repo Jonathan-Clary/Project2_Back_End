@@ -1,11 +1,10 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "reviews")
-public class Reviews {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +23,14 @@ public class Reviews {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User user;
 
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "hotelId")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Hotel hotel;
 
-    public Reviews() {
+    public Review() {
     }
 
-    public Reviews(int review_id, String date_added, int stars, String review_text, User user, Hotel hotel) {
+    public Review(int review_id, String date_added, int stars, String review_text, User user, Hotel hotel) {
         this.review_id = review_id;
         this.date_added = date_added;
         this.stars = stars;

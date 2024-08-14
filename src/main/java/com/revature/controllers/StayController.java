@@ -1,7 +1,7 @@
 package com.revature.controllers;
 
 
-import com.revature.services.StaysService;
+import com.revature.services.StayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/stays")
 @CrossOrigin
-public class StaysController {
+public class StayController {
 
-    private StaysService staysService;
+    private StayService stayService;
 
     @Autowired
-    public StaysController(StaysService staysService) {
-        this.staysService = staysService;
+    public StayController(StayService stayService) {
+        this.stayService = stayService;
     }
 }
