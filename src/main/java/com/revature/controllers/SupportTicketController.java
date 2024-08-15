@@ -29,7 +29,7 @@ public class SupportTicketController {
 
     //Endpoint ./support?id={supportTicketId}
     @GetMapping
-    public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id", required = false) int id ) {
+    public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id") int id ) {
 
         try {
 

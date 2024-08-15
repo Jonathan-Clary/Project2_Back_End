@@ -34,6 +34,8 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    /*TODO::Date() creates Date obj w/ current date and time. Date().getTime() returns a long value of the generated Date.
+        Potentially easier to implement then creating a String when an account is created. */
     @Column(nullable = false)
     private String dateCreated;
 

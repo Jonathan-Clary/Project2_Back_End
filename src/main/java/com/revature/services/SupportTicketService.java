@@ -10,6 +10,7 @@ import com.revature.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.mappers.UserOutgoingSupportTicketMapper;
 import com.revature.models.Note;
 import com.revature.models.SupportTicket;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,24 +19,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class SupportTicketService {
 
     //Model Variable
-    private SupportTicketDAO stDao;
-    private AdminDAO aDao;
-    private NoteDAO nDao;
+    private final SupportTicketDAO stDao;
+    private final AdminDAO aDao;
+    private final NoteDAO nDao;
 
     //Mappers
-    private AdminOutgoingSupportTicketMapper mapperAdmin;
-    private UserOutgoingSupportTicketMapper mapperUser;
-
-    //Constructor
-    @Autowired
-    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao) {
-        this.stDao = stDao;
-        this.aDao = aDao;
-        this.nDao = nDao;
-    }
+    private final AdminOutgoingSupportTicketMapper mapperAdmin;
+    private final UserOutgoingSupportTicketMapper mapperUser;
 
     //Methods
 
@@ -46,10 +40,9 @@ public class SupportTicketService {
 
         if (st.isPresent()) {
 
-            return mapperUser.toDto(st.get());
+             return mapperUser.toDto(st.get());
 
         } else {
-
             throw new Exception();  //TODO::Create SupportTicketNotFoundException
 
         }

@@ -45,16 +45,17 @@ public class SupportTicket {
     private Type type;
 
 
-    private Date createdAt;
+    private long createdAt;
 
-    private Date resolvedAt;
+    private long resolvedAt;
 
 
     // This method is executed before persisting the ticket into the database
     @PrePersist
     private void onCreate(){
         // Sets the timestamps for when the ticket is created
-        createdAt = new Date();
+        Date epoch = new Date();
+        createdAt = epoch.getTime();
 
         // Sets PENDING as the default status
         // when the ticket is created for the first time
@@ -130,19 +131,19 @@ public class SupportTicket {
         this.type = type;
     }
 
-    public Date getCreatedAt() {
+    public long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getResolvedAt() {
+    public long getResolvedAt() {
         return resolvedAt;
     }
 
-    public void setResolvedAt(Date resolvedAt) {
+    public void setResolvedAt(long resolvedAt) {
         this.resolvedAt = resolvedAt;
     }
 }
