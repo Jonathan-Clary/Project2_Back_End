@@ -19,9 +19,9 @@ public class FavoriteController {
     public FavoriteController(FavoriteService favoriteService){this.favoriteService = favoriteService;}
 
     @PostMapping
-    public ResponseEntity<Favorite> addFavorite(@RequestBody Favorite new_favorite){
+    public ResponseEntity<Favorite> addFavorite(@RequestBody Favorite newFavorite){
         try{
-            return ResponseEntity.status(201).body(favoriteService.addFavorite(new_favorite));
+            return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
         }catch(Exception e){
             return ResponseEntity.status(400).body(null);
         }
@@ -36,28 +36,28 @@ public class FavoriteController {
         }
     }
 
-    @GetMapping("/user={user_id}")
-    public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable int user_id){
+    @GetMapping("/user={userId}")
+    public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable int userId){
         try{
-            return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(user_id));
+            return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(userId));
         }catch(Exception e){
             return ResponseEntity.status(404).body(null);
         }
     }
 
-    @GetMapping("/hotel={hotel_id}")
-    public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable int hotel_id){
+    @GetMapping("/hotel={hotelId}")
+    public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable int hotelId){
         try{
-            return ResponseEntity.ok(favoriteService.findAllFavoriteByHotel(hotel_id));
+            return ResponseEntity.ok(favoriteService.findAllFavoriteByHotel(hotelId));
         }catch(Exception e){
             return ResponseEntity.status(404).body(null);
         }
     }
 
-    @DeleteMapping("/favorite={favorite_id}")
-    public ResponseEntity<Object> deleteReview(@PathVariable int favorite_id){
+    @DeleteMapping("/favorite={favoriteId}")
+    public ResponseEntity<Object> deleteReview(@PathVariable int favoriteId){
         try{
-            favoriteService.deleteFavorite(favorite_id);
+            favoriteService.deleteFavorite(favoriteId);
             return ResponseEntity.status(200).body("deleted");
         }catch(Exception e) {
             return ResponseEntity.status(404).body(null);
