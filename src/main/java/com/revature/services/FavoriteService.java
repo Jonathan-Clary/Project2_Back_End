@@ -30,12 +30,12 @@ public class FavoriteService {
         return favoriteDAO.findAll();
     }
 
-    public List<Favorite> findAllFavoriteByUser(int user_id) throws CustomException {
-        return favoriteDAO.findByUserUser_id(userService.getUserById(user_id).getUserId());
+    public List<Favorite> findAllFavoriteByUser(int userId) throws CustomException {
+        return favoriteDAO.findByUserUserId(userService.getUserById(userId).getUserId());
     }
 
-    public List<Favorite> findAllFavoriteByHotel(int hotel_id) throws CustomException{
-        return favoriteDAO.findByUserUser_id(hotelService.getHotelById(hotel_id).getHotelId());
+    public List<Favorite> findAllFavoriteByHotel(int hotelId) throws CustomException{
+        return favoriteDAO.findByUserUserId(hotelService.getHotelById(hotelId).getHotelId());
     }
 
     public Favorite addFavorite(Favorite favorite) throws CustomException{
@@ -48,16 +48,16 @@ public class FavoriteService {
         }
     }
 
-    public void deleteFavorite(int favorite_id) throws CustomException{
-        favoriteDAO.deleteById(getFavoriteById(favorite_id).getFavorite_id());
+    public void deleteFavorite(int favoriteId) throws CustomException{
+        favoriteDAO.deleteById(getFavoriteById(favoriteId).getFavoriteId());
     }
 
-    public Favorite getFavoriteById(int favorite_id) throws CustomException{
-        Optional<Favorite> favorite = favoriteDAO.findById(favorite_id);
+    public Favorite getFavoriteById(int favoriteId) throws CustomException{
+        Optional<Favorite> favorite = favoriteDAO.findById(favoriteId);
         if(favorite.isPresent()){
             return favorite.get();
         }else{
-            throw new FavoriteNotFoundException("Favorite with id: "+favorite_id+" was not found");
+            throw new FavoriteNotFoundException("Favorite with id: "+favoriteId+" was not found");
         }
     }
 

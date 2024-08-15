@@ -8,16 +8,16 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int review_id;
+    private int reviewId;
 
     @Column(nullable = false)
-    private String date_added;
+    private String dateAdded;
 
     @Column(nullable = false)
     private int stars;
 
     @Column(nullable = false)
-    private String review_text;
+    private String reviewText;
 
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -30,29 +30,29 @@ public class Review {
     public Review() {
     }
 
-    public Review(int review_id, String date_added, int stars, String review_text, User user, Hotel hotel) {
-        this.review_id = review_id;
-        this.date_added = date_added;
+    public Review(int reviewId, String dateAdded, int stars, String reviewText, User user, Hotel hotel) {
+        this.reviewId = reviewId;
+        this.dateAdded = dateAdded;
         this.stars = stars;
-        this.review_text = review_text;
+        this.reviewText = reviewText;
         this.user = user;
         this.hotel = hotel;
     }
 
-    public int getReview_id() {
-        return review_id;
+    public int getReviewId() {
+        return reviewId;
     }
 
-    public void setReview_id(int review_id) {
-        this.review_id = review_id;
+    public void setReviewId(int reviewId) {
+        this.reviewId = reviewId;
     }
 
-    public String getDate_added() {
-        return date_added;
+    public String getDateAdded() {
+        return dateAdded;
     }
 
-    public void setDate_added(String date_added) {
-        this.date_added = date_added;
+    public void setDateAdded(String dateAdded) {
+        this.dateAdded = dateAdded;
     }
 
     public int getStars() {
@@ -63,12 +63,12 @@ public class Review {
         this.stars = stars;
     }
 
-    public String getReview_text() {
-        return review_text;
+    public String getReviewText() {
+        return reviewText;
     }
 
-    public void setReview_text(String review_text) {
-        this.review_text = review_text;
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
     }
 
     public User getUser() {
@@ -90,10 +90,10 @@ public class Review {
     @Override
     public String toString() {
         return "Reviews{" +
-                "review_id=" + review_id +
-                ", date_added='" + date_added + '\'' +
+                "reviewId=" + reviewId +
+                ", dateAdded='" + dateAdded + '\'' +
                 ", stars=" + stars +
-                ", review_text='" + review_text + '\'' +
+                ", reviewText='" + reviewText + '\'' +
                 ", user=" + user +
                 ", hotel=" + hotel +
                 '}';
