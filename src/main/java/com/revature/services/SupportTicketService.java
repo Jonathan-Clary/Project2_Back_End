@@ -1,12 +1,14 @@
 package com.revature.services;
 
 import com.revature.DAOs.AdminDAO;
+import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.mappers.UserOutgoingSupportTicketMapper;
+import com.revature.models.Note;
 import com.revature.models.SupportTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,7 @@ public class SupportTicketService {
         int total = (int)aDao.count();
 
         //Instantiate Lists
-        List<Note> nl = nDao.findAllByAdminAdminId(); //TODO::Create NoteDAO and method
+        List<Note> nl = nDao.findAllByAdminAdminId(id); //TODO::Create NoteDAO and method
         List<SupportTicket> stl = new ArrayList<SupportTicket>();
         List<AdminOutgoingSupportTicketDTO> returnList = new ArrayList<AdminOutgoingSupportTicketDTO>();
 

@@ -1,13 +1,12 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "notes")
-public class Notes {
+public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +26,10 @@ public class Notes {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private SupportTicket support_ticket;
 
-    public Notes() {
+    public Note() {
     }
 
-    public Notes(int note_id, String text, Date date_created, Admin admin, SupportTicket support_ticket) {
+    public Note(int note_id, String text, Date date_created, Admin admin, SupportTicket support_ticket) {
         this.note_id = note_id;
         this.text = text;
         this.date_created = date_created;
@@ -72,17 +71,17 @@ public class Notes {
         this.admin = admin;
     }
 
-    public SupportTicket getSupport_ticket() {
+    public SupportTicket getSupportTicket() {
         return support_ticket;
     }
 
-    public void setSupport_ticket(SupportTicket support_ticket) {
+    public void setSupportTicket(SupportTicket support_ticket) {
         this.support_ticket = support_ticket;
     }
 
     @Override
     public String toString() {
-        return "Notes{" +
+        return "Note{" +
                 "note_id=" + note_id +
                 ", text='" + text + '\'' +
                 ", date_created=" + date_created +
