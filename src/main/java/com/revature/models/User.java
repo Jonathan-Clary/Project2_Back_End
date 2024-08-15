@@ -2,6 +2,9 @@ package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
@@ -14,10 +17,17 @@ public class User {
     private int userId;
 
     @Column(nullable = false)
+    @Size(min = 3, message = "please enter at least 3 characters")
     private String firstName;
 
     @Column(nullable = false)
+    @Size(min = 3, message = "please enter at least 3 characters")
     private String lastName;
+
+    @Column(nullable = false)
+    @NotEmpty(message = "email is required")
+    @Email(message = "please enter a valid email")
+    private String email;
 
     //prevents returning password in json
     //more secure
@@ -29,11 +39,12 @@ public class User {
 
     public User() {}
 
-    public User(int userId, String firstName, String lastName, String password, String dateCreated) {
+    public User(int userId, String firstName, String lastName, String password, String email, String dateCreated) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.email = email;
         this.dateCreated = dateCreated;
     }
 
@@ -76,6 +87,10 @@ public class User {
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 
     @Override
     public String toString() {

@@ -7,9 +7,10 @@ import java.util.Date;
 @Entity
 @Table(name = "support_tickets")
 public class SupportTicket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer supportTicketId;
+    private int supportTicketId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
@@ -20,6 +21,7 @@ public class SupportTicket {
         PENDING,
         RESOLVED,
     }
+
     // Ensures that the enum values are stored as strings
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -88,11 +90,11 @@ public class SupportTicket {
                 '}';
     }
 
-    public Integer getSupportTicketId() {
+    public int getSupportTicketId() {
         return supportTicketId;
     }
 
-    public void setSupportTicketId(Integer supportTicketId) {
+    public void setSupportTicketId(int supportTicketId) {
         this.supportTicketId = supportTicketId;
     }
 
