@@ -1,6 +1,7 @@
 package com.revature.mappers;
 
 import com.revature.models.Admin;
+import com.revature.models.Note;
 import com.revature.DTOs.OutgoingAdminDTO;
 
 import java.util.List;

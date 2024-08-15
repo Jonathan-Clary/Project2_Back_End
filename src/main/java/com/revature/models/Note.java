@@ -72,17 +72,17 @@ public class Note {
         this.admin = admin;
     }
 
-    public SupportTicket getSupport_ticket() {
+    public SupportTicket getSupportTicket() {
         return support_ticket;
     }
 
-    public void setSupport_ticket(SupportTicket support_ticket) {
+    public void setSupportTicket(SupportTicket support_ticket) {
         this.support_ticket = support_ticket;
     }
 
     @Override
     public String toString() {
-        return "Notes{" +
+        return "Note{" +
                 "note_id=" + note_id +
                 ", text='" + text + '\'' +
                 ", date_created=" + date_created +
