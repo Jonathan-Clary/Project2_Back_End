@@ -1,13 +1,13 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
+// Refactored model class name from 'Notes' to 'Note' to align with naming conventions and industry standards.
 @Entity
 @Table(name = "notes")
-public class Notes {
+public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,10 @@ public class Notes {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private SupportTicket support_ticket;
 
-    public Notes() {
+    public Note() {
     }
 
-    public Notes(int note_id, String text, Date date_created, Admin admin, SupportTicket support_ticket) {
+    public Note(int note_id, String text, Date date_created, Admin admin, SupportTicket support_ticket) {
         this.note_id = note_id;
         this.text = text;
         this.date_created = date_created;
