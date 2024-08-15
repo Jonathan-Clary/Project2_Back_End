@@ -23,7 +23,7 @@ public class SupportTicketService {
     //Model Variable
     private SupportTicketDAO stDao;
     private AdminDAO aDao;
-    private NoteDAO nDao;  //TODO::Resolve when Note MVC is instantiated
+    private NoteDAO nDao;
 
     //Mappers
     private AdminOutgoingSupportTicketMapper mapperAdmin;
@@ -56,30 +56,75 @@ public class SupportTicketService {
 
     }
 
-    //Method to return all tickets assigned to an admin //TODO::How valid is this method?
-    public List<AdminOutgoingSupportTicketDTO> getAllToAdminId(int id)  throws UserNotFoundException{
+    //Methods to return all SupportTickets for Users
+    public List<UserOutgoingSupportTicketDTO> getAllSupportTickets() {
+
+        //Instantiate Lists
+        List<SupportTicket> stl = stDao.findAll();
+        List<UserOutgoingSupportTicketDTO> returnList = new ArrayList<UserOutgoingSupportTicketDTO>();
+
+        for (SupportTicket st: stl) {
+
+            returnList.add(mapperUser.toDto(st));
+
+        }
+
+        return returnList;
+
+    }
+
+    //Methods to return all SupportTickets for Admins
+    public List<AdminOutgoingSupportTicketDTO> getAlSupportTicketsAdmin() {
+
+        //Instantiate Lists
+        List<Note> nl = nDao.findAll();
+        List<AdminOutgoingSupportTicketDTO> returnList = new ArrayList<AdminOutgoingSupportTicketDTO>();
+
+        for (Note n: nl) {
+
+            returnList.add(mapperAdmin.toDto(n.getSupportTicket(), n.getAdmin().getAdmin_id()));
+
+        }
+
+        return returnList;
+
+    }
+
+    //Method to return all tickets assigned to an admin
+    public List<AdminOutgoingSupportTicketDTO> getAllToAdminId(int id)  throws UserNotFoundException, Exception{
 
         //Check if Admin exists
         if (!(aDao.existsById(id))) {
             throw new UserNotFoundException(id); //TODO::Create AdminNotFoundException
         }
 
-        //Find total number of admin
-        int total = (int)aDao.count();
-
         //Instantiate Lists
-        List<Note> nl = nDao.findAllByAdminAdminId(id); //TODO::Create NoteDAO and method
+        List<Note> nl = nDao.findAllByAdminAdminId(id);
         List<SupportTicket> stl = new ArrayList<SupportTicket>();
         List<AdminOutgoingSupportTicketDTO> returnList = new ArrayList<AdminOutgoingSupportTicketDTO>();
 
         //Find SupportTickets that are assigned to Admin
         for (Note n: nl) {
-            stl.add(stDao.findBy(n.getSupportTicket().getSupportTicketId())); //TODO::Note getter
+
+            Optional<SupportTicket> optST = stDao.findById(n.getSupportTicket().getSupportTicketId());
+
+            if (optST.isPresent()) {
+
+                stl.add(optST.get());
+
+            } else {
+
+                throw new Exception(""); //TODO::Create SupportTicketNotFoundException
+
+            }
+
         }
 
         //Create AdminOutgoingSupportTicketDTO List
         for (SupportTicket st: stl) {
-            returnList.add(mapperAdmin.toDto(st,total));
+
+            returnList.add(mapperAdmin.toDto(st,id));
+
         }
 
         return returnList;

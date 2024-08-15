@@ -1,11 +1,15 @@
 package com.revature.controllers;
 
+import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.SupportTicket.Type;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/support")
@@ -33,14 +37,11 @@ public class SupportTicketController {
             return ResponseEntity.ok(returnSupportTicket);
 
         } catch (Exception e) {
-
             return ResponseEntity.status(400).body(e.getMessage());
 
         }
 
     }
-
-    //TODO::GetMapping for getAllSupportTickets
 
     //Case-sensitive. Query in ALL CAPS!
     @GetMapping("/get")
@@ -50,6 +51,33 @@ public class SupportTicketController {
         return ResponseEntity.ok("TODO");
     }
 
-    //TODO::GetMapping which calls all SupportTickets of a Type and assigned to an a particular Admin(adinId)
+    //Get All SupportTickets
+    @GetMapping("/get/all")
+    public ResponseEntity<List<UserOutgoingSupportTicketDTO>> getAllSupportTickets() {
+        return ResponseEntity.ok(sts.getAllSupportTickets());
+    }
+
+    //Returns all support tickets assigned to admin
+    @GetMapping("/get/admin")
+    public ResponseEntity<?> getAllSupportTicketsForAdmin( @RequestParam(name = "adminId", required = false) Integer id) {
+
+        if (id == null) {
+            return ResponseEntity.ok(sts.getAlSupportTicketsAdmin());
+        }
+
+        try {
+
+            List<AdminOutgoingSupportTicketDTO> returnList = sts.getAllToAdminId(id);
+            return ResponseEntity.ok(returnList);
+
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+
+        } catch (Exception e) { //TODO::Change Generic Exception into SupportTicketNotFoundException
+            return ResponseEntity.status(400).body(e.getMessage());
+
+        }
+
+    }
 
 }

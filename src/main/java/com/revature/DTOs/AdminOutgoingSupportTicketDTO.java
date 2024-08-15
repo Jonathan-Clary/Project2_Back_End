@@ -1,64 +1,45 @@
 package com.revature.DTOs;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class AdminOutgoingSupportTicketDTO {
 
     //Model Variables
     private int supportTicketId;
     private String description;
     private int userId;
+    private String firstName;
+    private String lastName;
+    private String email;
     private int adminId;
 
     //Constructors
     public AdminOutgoingSupportTicketDTO() {
     }
 
-    public AdminOutgoingSupportTicketDTO(int supportTicketId, String description, int userId, int adminId) {
+    public AdminOutgoingSupportTicketDTO(int supportTicketId, String description, int userId, String firstName, String lastName, String email, int adminId) {
         this.supportTicketId = supportTicketId;
         this.description = description;
         this.userId = userId;
-        this.adminId = adminId;
-    }
-
-    //Getters and Setters
-    public int getSupportTicketId() {
-        return supportTicketId;
-    }
-
-    public void setSupportTicketId(int supportTicketId) {
-        this.supportTicketId = supportTicketId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(int adminId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.adminId = adminId;
     }
 
     //toString
     @Override
     public String toString() {
-        return "UserOutgoingSupportTicketDTO{" +
+        return "AdminOutgoingSupportTicketDTO{" +
                 "supportTicketId=" + supportTicketId +
                 ", description='" + description + '\'' +
                 ", userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", adminId=" + adminId +
                 '}';
     }

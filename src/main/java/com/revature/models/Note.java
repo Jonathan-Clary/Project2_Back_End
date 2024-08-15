@@ -11,7 +11,7 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int note_id;
+    private int noteId;
 
     @Column(nullable = false, name = "text")
     private String text;
@@ -31,7 +31,7 @@ public class Note {
     }
 
     public Note(int note_id, String text, Date date_created, Admin admin, SupportTicket support_ticket) {
-        this.note_id = note_id;
+        this.noteId = note_id;
         this.text = text;
         this.date_created = date_created;
         this.admin = admin;
@@ -39,13 +39,12 @@ public class Note {
     }
 
     // Getters and setters
-
-    public int getNote_id() {
-        return note_id;
+    public int getNoteId() {
+        return noteId;
     }
 
-    public void setNote_id(int note_id) {
-        this.note_id = note_id;
+    public void setNoteId(int noteId) {
+        this.noteId = noteId;
     }
 
     public String getText() {
@@ -83,7 +82,7 @@ public class Note {
     @Override
     public String toString() {
         return "Note{" +
-                "note_id=" + note_id +
+                "note_id=" + noteId +
                 ", text='" + text + '\'' +
                 ", date_created=" + date_created +
                 ", admin=" + admin +
