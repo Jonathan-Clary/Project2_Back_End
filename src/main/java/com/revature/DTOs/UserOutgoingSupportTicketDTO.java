@@ -1,22 +1,23 @@
 package com.revature.DTOs;
 
-public class AdminOutgoingSupportTicketDTO {
+public class UserOutgoingSupportTicketDTO {
 
     //Model Variables
     private int supportTicketId;
     private String description;
     private int userId;
-    private int adminId;
+    private String email;
+
 
     //Constructors
-    public AdminOutgoingSupportTicketDTO() {
+    public UserOutgoingSupportTicketDTO() {
     }
 
-    public AdminOutgoingSupportTicketDTO(int supportTicketId, String description, int userId, int adminId) {
+    public UserOutgoingSupportTicketDTO(int supportTicketId, String description, int userId, String email) {
         this.supportTicketId = supportTicketId;
         this.description = description;
         this.userId = userId;
-        this.adminId = adminId;
+        this.email = email;
     }
 
     //Getters and Setters
@@ -44,12 +45,12 @@ public class AdminOutgoingSupportTicketDTO {
         this.userId = userId;
     }
 
-    public int getAdminId() {
-        return adminId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     //toString
@@ -59,7 +60,7 @@ public class AdminOutgoingSupportTicketDTO {
                 "supportTicketId=" + supportTicketId +
                 ", description='" + description + '\'' +
                 ", userId=" + userId +
-                ", adminId=" + adminId +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

@@ -3,14 +3,17 @@ package com.revature.services;
 import com.revature.DAOs.AdminDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.mappers.AdminOutgoingSupportTicketMapper;
+import com.revature.mappers.UserOutgoingSupportTicketMapper;
 import com.revature.models.SupportTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SupportTicketService {
@@ -20,8 +23,9 @@ public class SupportTicketService {
     private AdminDAO aDao;
     private NoteDAO nDao;  //TODO::Resolve when Note MVC is instantiated
 
-    //Mapper
-    private AdminOutgoingSupportTicketMapper mapper;
+    //Mappers
+    private AdminOutgoingSupportTicketMapper mapperAdmin;
+    private UserOutgoingSupportTicketMapper mapperUser;
 
     //Constructor
     @Autowired
@@ -32,6 +36,23 @@ public class SupportTicketService {
     }
 
     //Methods
+
+    //Method to return a SupportTicket by its id with the associated User using userId and email
+    public UserOutgoingSupportTicketDTO getSupportTicketById(int id) throws UserNotFoundException, Exception{
+
+        Optional<SupportTicket> st = stDao.findById(id);
+
+        if (st.isPresent()) {
+
+            return mapperUser.toDto(st.get());
+
+        } else {
+
+            throw new Exception();  //TODO::Create SupportTicketNotFoundException
+
+        }
+
+    }
 
     //Method to return all tickets assigned to an admin //TODO::How valid is this method?
     public List<AdminOutgoingSupportTicketDTO> getAllToAdminId(int id)  throws UserNotFoundException{
@@ -56,11 +77,11 @@ public class SupportTicketService {
 
         //Create AdminOutgoingSupportTicketDTO List
         for (SupportTicket st: stl) {
-            returnList.add(mapper.toDto(st,total));
+            returnList.add(mapperAdmin.toDto(st,total));
         }
 
         return returnList;
 
-    }//End of getAllToAdminId
+    }
 
 }//End of SupportTicketService
