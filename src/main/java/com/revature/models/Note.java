@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
+// Refactored model class name from 'Notes' to 'Note' to align with naming conventions and industry standards.
 @Entity
 @Table(name = "notes")
 public class Note {
