@@ -7,7 +7,10 @@ import jakarta.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -33,6 +36,28 @@ public class UserService {
         if(user.isEmpty())
             throw new UserNotFoundException(email);
         return user.get();
+    public User createUser(User user) throws EmailAlreadyExistException, InvalidEmailFormatException, InvalidPasswordException {
+        Optional<User> presentUser = userDAO.findByEmail(user.getEmail());
+        String email = user.getEmail();
+        String emailRegexPattern = "^(.+)@(\\S+)$";//Must be in email format
+        String abideUpperCase = "(?=.*[A-Z])";//The string must contain at least 1 uppercase alphabetical character
+        String abideNumericChar = "(?=.*[0-9])"; //The string must contain at least 1 numeric character
+        String abideSpecChar = "(?=.[!@#\\$%\\^&])";//The string must contain at least one special character, but we are escaping reserved RegEx characters to avoid conflict
+
+        if(presentUser.isPresent())//User already exists
+            throw new EmailAlreadyExistException(user.getEmail());
+        if(!user.getEmail().matches(emailRegexPattern))//Email abides to email pattern
+            throw new InvalidEmailFormatException();
+        if(!user.getEmail().matches(abideUpperCase))
+            throw new InvalidPasswordException("Must contain at least 1 uppercase character");
+        if(!user.getEmail().matches(abideNumericChar))
+            throw new InvalidPasswordException("Must contain at least 1 numeric character");
+        if(!user.getEmail().matches(abideSpecChar))
+            throw new InvalidPasswordException("Must contain at least one special character(!@#\\$%\\^&)");
+
+
+
+        return userDAO.save(user);
     }
 
     public User updateUserById(int userId, Map<String,String> newUser) throws CustomException {

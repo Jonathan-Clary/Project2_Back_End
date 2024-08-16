@@ -26,6 +26,11 @@ public class UserController {
     }
 
 
+    public ResponseEntity<User> createUser(@RequestBody User user)throws CustomException{
+        User returningUser =  userService.createUser(user);
+        return ResponseEntity.ok(returningUser);
+
+    }
     @PatchMapping
     public ResponseEntity<Object> updateLoggedInUserProfile(@RequestBody Map<String,String> newUser) throws CustomException {
         var user = userService.updateUserById(loggedInUserId(), newUser);

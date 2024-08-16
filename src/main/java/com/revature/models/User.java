@@ -100,6 +100,7 @@ public class User {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", dateCreated='" + dateCreated + '\'' +
                 '}';
@@ -110,13 +111,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(dateCreated, user.dateCreated);
+        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(dateCreated, user.dateCreated);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, password, dateCreated);
+        return Objects.hash(userId, firstName, lastName, email, password, dateCreated);
     }
-
-
 }
