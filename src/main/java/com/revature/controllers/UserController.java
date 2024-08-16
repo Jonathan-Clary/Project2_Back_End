@@ -15,6 +15,9 @@ import java.util.Map;
 @CrossOrigin
 public class UserController {
 
+    @Autowired
+    UserAuthController authController;
+
     private UserService userService;
 
     @Autowired
@@ -23,6 +26,11 @@ public class UserController {
     }
 
 
+    public ResponseEntity<User> createUser(@RequestBody User user)throws CustomException{
+        User returningUser =  userService.createUser(user);
+        return ResponseEntity.ok(returningUser);
+
+    }
     @PatchMapping
     public ResponseEntity<Object> updateLoggedInUserProfile(@RequestBody Map<String,String> newUser) throws CustomException {
         var user = userService.updateUserById(loggedInUserId(), newUser);
@@ -35,8 +43,13 @@ public class UserController {
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 
-    private int loggedInUserId(){
+    private int loggedInUserId() throws CustomException {
         // later we'll use the ID that's in the Token
-        return 1;
+        User authUser = authController.getAuthenticatedUser();
+        if(authUser != null){
+            return authUser.getUserId();
+        }
+        // TODO: Please check if is that what you want to do
+        return 0;
     }
 }

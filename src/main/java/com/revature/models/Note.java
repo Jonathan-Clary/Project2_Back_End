@@ -20,7 +20,9 @@ public class Note {
     private Date date_created;
 
     @JoinColumn(name = "admin_id")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // This causing an error ('com.revature.models.Note.admin' is not a collection), I have to fix it
+    //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Admin admin;
 
     @JoinColumn(name = "supportTicketId")

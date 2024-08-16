@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.DTOs.IncomingFavoriteDTO;
 import com.revature.models.Favorite;
 import com.revature.services.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class FavoriteController {
     public FavoriteController(FavoriteService favoriteService){this.favoriteService = favoriteService;}
 
     @PostMapping
-    public ResponseEntity<Favorite> addFavorite(@RequestBody Favorite newFavorite){
+    public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite){
         try{
             return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
         }catch(Exception e){
