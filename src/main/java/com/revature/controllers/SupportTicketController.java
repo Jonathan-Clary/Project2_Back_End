@@ -1,7 +1,8 @@
 package com.revature.controllers;
 
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
-import com.revature.exceptions.UserNotFoundException;
+import com.revature.exceptions.AdminNotFoundException;
+import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.models.SupportTicket.Type;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
@@ -36,7 +37,7 @@ public class SupportTicketController {
             UserOutgoingSupportTicketDTO returnSupportTicket = sts.getSupportTicketById(id);
             return ResponseEntity.ok(returnSupportTicket);
 
-        } catch (Exception e) {
+        } catch (SupportTicketNotFoundException e) {
             return ResponseEntity.status(400).body(e.getMessage());
 
         }
@@ -70,10 +71,7 @@ public class SupportTicketController {
             List<AdminOutgoingSupportTicketDTO> returnList = sts.getAllToAdminId(id);
             return ResponseEntity.ok(returnList);
 
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-
-        } catch (Exception e) { //TODO::Change Generic Exception into SupportTicketNotFoundException
+        } catch (AdminNotFoundException | SupportTicketNotFoundException e) {
             return ResponseEntity.status(400).body(e.getMessage());
 
         }

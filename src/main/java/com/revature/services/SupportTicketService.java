@@ -5,12 +5,12 @@ import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
-import com.revature.exceptions.UserNotFoundException;
+import com.revature.exceptions.AdminNotFoundException;
+import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.mappers.UserOutgoingSupportTicketMapper;
 import com.revature.models.Note;
 import com.revature.models.SupportTicket;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +19,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class SupportTicketService {
 
     //Model Variable
-    private final SupportTicketDAO stDao;
-    private final AdminDAO aDao;
-    private final NoteDAO nDao;
+    private SupportTicketDAO stDao;
+    private AdminDAO aDao;
+    private NoteDAO nDao;
 
     //Mappers
-    private final AdminOutgoingSupportTicketMapper mapperAdmin;
-    private final UserOutgoingSupportTicketMapper mapperUser;
+    private AdminOutgoingSupportTicketMapper mapperAdmin;
+    private UserOutgoingSupportTicketMapper mapperUser;
+
+    //Constructor
+    @Autowired
+    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao) {
+        this.stDao = stDao;
+        this.aDao = aDao;
+        this.nDao = nDao;
+    }
 
     //Methods
 
     //Method to return a SupportTicket by its id with the associated User using userId and email
-    public UserOutgoingSupportTicketDTO getSupportTicketById(int id) throws UserNotFoundException, Exception{
+    public UserOutgoingSupportTicketDTO getSupportTicketById(int id) throws SupportTicketNotFoundException {
 
         Optional<SupportTicket> st = stDao.findById(id);
 
@@ -43,7 +50,7 @@ public class SupportTicketService {
              return mapperUser.toDto(st.get());
 
         } else {
-            throw new Exception();  //TODO::Create SupportTicketNotFoundException
+            throw new SupportTicketNotFoundException(id);
 
         }
 
@@ -75,7 +82,7 @@ public class SupportTicketService {
 
         for (Note n: nl) {
 
-            returnList.add(mapperAdmin.toDto(n.getSupportTicket(), n.getAdmin().getAdmin_id()));
+            returnList.add(mapperAdmin.toDto(n.getSupportTicket(), n.getAdmin().getAdminId()));
 
         }
 
@@ -84,11 +91,12 @@ public class SupportTicketService {
     }
 
     //Method to return all tickets assigned to an admin
-    public List<AdminOutgoingSupportTicketDTO> getAllToAdminId(int id)  throws UserNotFoundException, Exception{
+    public List<AdminOutgoingSupportTicketDTO> getAllToAdminId(int id) throws AdminNotFoundException,
+            SupportTicketNotFoundException{
 
         //Check if Admin exists
         if (!(aDao.existsById(id))) {
-            throw new UserNotFoundException(id); //TODO::Create AdminNotFoundException
+            throw new AdminNotFoundException(id);
         }
 
         //Instantiate Lists
@@ -106,8 +114,7 @@ public class SupportTicketService {
                 stl.add(optST.get());
 
             } else {
-
-                throw new Exception(""); //TODO::Create SupportTicketNotFoundException
+                throw new SupportTicketNotFoundException();
 
             }
 
