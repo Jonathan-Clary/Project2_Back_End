@@ -15,6 +15,9 @@ import java.util.Map;
 @CrossOrigin
 public class UserController {
 
+    @Autowired
+    UserAuthController authController;
+
     private UserService userService;
 
     @Autowired
@@ -35,8 +38,13 @@ public class UserController {
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 
-    private int loggedInUserId(){
+    private int loggedInUserId() throws CustomException {
         // later we'll use the ID that's in the Token
-        return 1;
+        User authUser = authController.getAuthenticatedUser();
+        if(authUser != null){
+            return authUser.getUserId();
+        }
+        // TODO: Please check if is that what you want to do
+        return 0;
     }
 }
