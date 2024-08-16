@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.DAOs.UserDAO;
 import com.revature.exceptions.*;
 import com.revature.models.User;
+import com.revature.security.PasswordEncoderProvider;
 import jakarta.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,10 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private UserDAO userDAO;
+
+    // Encodes the password before saving it to the database
+    @Autowired
+    private PasswordEncoderProvider passwordEncoder;
 
     @Autowired
     public UserService(UserDAO userDAO) {
@@ -50,15 +55,22 @@ public class UserService {
 
         if(presentUser.isPresent())//User already exists
             throw new EmailAlreadyExistException(user.getEmail());
+
+        // TODO: Commented for now. To be tested separately
+        /*
         if(!user.getEmail().matches(emailRegexPattern))//Email abides to email pattern
             throw new InvalidEmailFormatException();
-        if(!user.getEmail().matches(abideUpperCase))
+        if(!user.getPassword().matches(abideUpperCase))
             throw new InvalidPasswordException("Must contain at least 1 uppercase character");
-        if(!user.getEmail().matches(abideNumericChar))
+        if(!user.getPassword().matches(abideNumericChar))
             throw new InvalidPasswordException("Must contain at least 1 numeric character");
-        if(!user.getEmail().matches(abideSpecChar))
+        if(!user.getPassword().matches(abideSpecChar))
             throw new InvalidPasswordException("Must contain at least one special character(!@#\\$%\\^&)");
+        */
 
+        // Encodes the password before saving it to the database
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
 
 
         return userDAO.save(user);

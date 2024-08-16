@@ -1,7 +1,7 @@
 package com.revature.services;
 
 import com.revature.DAOs.UserDAO;
-import com.revature.DTOs.IngoingUserDTO;
+import com.revature.DTOs.IncomingUserDTO;
 import com.revature.DTOs.OutgoingJwtUserDTO;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
@@ -24,7 +24,7 @@ public class UserAuthService {
     @Autowired
     JwtTokenProvider jwtProvider;
 
-    public OutgoingJwtUserDTO login(IngoingUserDTO userDTO) throws UserNotFoundException {
+    public OutgoingJwtUserDTO login(IncomingUserDTO userDTO) throws UserNotFoundException {
 
         String email =  userDTO.getEmail();
         String password =  userDTO.getPassword();
@@ -33,9 +33,14 @@ public class UserAuthService {
         Authentication unAuth = new UsernamePasswordAuthenticationToken(email,password);
 
         // authenticated object
-        Authentication auth = authManager.authenticate(unAuth);
-
-        if(auth.isAuthenticated()){
+        Authentication auth = null;
+        try {
+            auth = authManager.authenticate(unAuth);
+        }
+        catch (Exception e){
+            System.out.println("Authentication Exception: "+e.getMessage());
+        }
+        if(auth != null && auth.isAuthenticated()){
             User authuser = userDAO.findByEmail(userDTO.getEmail()).get();
 
             String token = jwtProvider.generateToken(authuser.getUserId());

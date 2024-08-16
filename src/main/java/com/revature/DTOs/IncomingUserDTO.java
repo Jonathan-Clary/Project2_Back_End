@@ -1,9 +1,9 @@
 package com.revature.DTOs;
 
-public class IngoingUserDTO {
+public class IncomingUserDTO {
     private String email, password;
 
-    public IngoingUserDTO(String email, String password) {
+    public IncomingUserDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -22,5 +22,13 @@ public class IngoingUserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "IngoingUserDTO{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

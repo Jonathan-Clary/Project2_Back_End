@@ -29,7 +29,7 @@ public class JwtTokenProvider {
                 .add(claims)
                 .subject(""+userId)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(jwtExpirationInMs)) // 24 hours
+                .expiration(new Date(System.currentTimeMillis()+jwtExpirationInMs)) // 24 hours
                 .and()
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
@@ -37,13 +37,13 @@ public class JwtTokenProvider {
     }
 
     // Extract username from JWT token
-    public String extractUsername(String token) {
+    public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     // Validate JWT token
     public boolean validateToken(String token, String username) {
-        String extractedUsername = extractUsername(token);
+        String extractedUsername = extractUserId(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 
