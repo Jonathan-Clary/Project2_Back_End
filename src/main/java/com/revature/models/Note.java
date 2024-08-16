@@ -32,10 +32,10 @@ public class Note {
     public Note() {
     }
 
-    public Note(int note_id, String text, Date date_created, Admin admin, SupportTicket supportTicket) {
-        this.noteId = note_id;
+    public Note(int noteId, String text, Date dateCreated, Admin admin, SupportTicket supportTicket) {
+        this.noteId = noteId;
         this.text = text;
-        this.dateCreated = date_created;
+        this.dateCreated = dateCreated;
         this.admin = admin;
         this.supportTicket = supportTicket;
     }
@@ -57,12 +57,12 @@ public class Note {
         this.text = text;
     }
 
-    public Date getDate_created() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.dateCreated = date_created;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Admin getAdmin() {
@@ -84,11 +84,11 @@ public class Note {
     @Override
     public String toString() {
         return "Note{" +
-                "note_id=" + noteId +
+                "noteId=" + noteId +
                 ", text='" + text + '\'' +
-                ", date_created=" + dateCreated +
+                ", dateCreated=" + dateCreated +
                 ", admin=" + admin +
-                ", support_ticket=" + supportTicket +
+                ", supportTicket=" + supportTicket +
                 '}';
     }
 
