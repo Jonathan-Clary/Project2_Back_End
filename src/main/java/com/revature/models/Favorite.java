@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.revature.DTOs.IncomingFavoriteDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -30,6 +31,13 @@ public class Favorite {
         this.user = user;
         this.hotel = hotel;
     }
+
+    public Favorite(IncomingFavoriteDTO favorite, User u, Hotel h){
+        this.dateAdded = favorite.getDateAdded();
+        this.user = u;
+        this.hotel = h;
+    }
+
 
     public int getFavoriteId() {
         return favoriteId;

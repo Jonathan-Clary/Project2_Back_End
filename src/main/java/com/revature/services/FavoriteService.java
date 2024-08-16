@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.DAOs.FavoriteDAO;
+import com.revature.DTOs.IncomingFavoriteDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.FavoriteNotFoundException;
 import com.revature.models.Favorite;
@@ -38,11 +39,12 @@ public class FavoriteService {
         return favoriteDAO.findByUserUserId(hotelService.getHotelById(hotelId).getHotelId());
     }
 
-    public Favorite addFavorite(Favorite favorite) throws CustomException{
-        Hotel hotel = hotelService.getHotelById(favorite.getHotel().getHotelId());
-        User user = userService.getUserById(favorite.getUser().getUserId());
+    public Favorite addFavorite(IncomingFavoriteDTO favorite) throws CustomException{
+        Hotel hotel = hotelService.getHotelById(favorite.getHotelId());
+        User user = userService.getUserById(favorite.getUserId());
         if(hotel != null && user != null){
-            return favoriteDAO.save(favorite);
+            Favorite newFavorite = new Favorite(favorite, user, hotel);
+            return favoriteDAO.save(newFavorite);
         }else{
             return null;
         }
