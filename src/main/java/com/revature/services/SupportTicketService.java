@@ -28,10 +28,16 @@ public class SupportTicketService {
     private final NoteDAO nDao;
 
     //Mappers
-    private final AdminOutgoingSupportTicketMapper mapperAdmin;
-    private final UserOutgoingSupportTicketMapper mapperUser;
+    private AdminOutgoingSupportTicketMapper mapperAdmin;
+    private UserOutgoingSupportTicketMapper mapperUser;
 
     //Methods
+    @Autowired
+    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao) {
+        this.stDao = stDao;
+        this.aDao = aDao;
+        this.nDao = nDao;
+    }
 
     //Method to return a SupportTicket by its id with the associated User using userId and email
     public UserOutgoingSupportTicketDTO getSupportTicketById(int id) throws UserNotFoundException, Exception{
@@ -75,7 +81,7 @@ public class SupportTicketService {
 
         for (Note n: nl) {
 
-            returnList.add(mapperAdmin.toDto(n.getSupportTicket(), n.getAdmin().getAdmin_id()));
+            returnList.add(mapperAdmin.toDto(n.getSupportTicket(), n.getAdmin().getAdminId()));
 
         }
 
