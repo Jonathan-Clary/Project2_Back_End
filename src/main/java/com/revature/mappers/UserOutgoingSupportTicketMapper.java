@@ -3,6 +3,7 @@ package com.revature.mappers;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.models.SupportTicket;
 
+
 public class UserOutgoingSupportTicketMapper {
     public UserOutgoingSupportTicketDTO toDto(SupportTicket supportTicket){
         int supportTicketId = supportTicket.getSupportTicketId();

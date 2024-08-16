@@ -4,6 +4,7 @@ import com.revature.models.Admin;
 import com.revature.models.SupportTicket;
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 
+
 public class AdminOutgoingSupportTicketMapper {
     public AdminOutgoingSupportTicketDTO toDto(SupportTicket supportTicket, int adminId) {
         int supportTicketId = supportTicket.getSupportTicketId();
