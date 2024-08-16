@@ -31,13 +31,15 @@ public class UserService {
         return user.get();
     }
 
-<<<<<<< Updated upstream
+
     public User getUserByEmail(String email) throws CustomException {
         var user = userDAO.findByEmail(email);
-        if(user.isEmpty())
+        if (user.isEmpty())
             throw new UserNotFoundException(email);
         return user.get();
-=======
+    }
+
+
     public User createUser(User user) throws EmailAlreadyExistException, InvalidEmailFormatException, InvalidPasswordException {
         Optional<User> presentUser = userDAO.findByEmail(user.getEmail());
         String email = user.getEmail();
@@ -60,7 +62,6 @@ public class UserService {
 
 
         return userDAO.save(user);
->>>>>>> Stashed changes
     }
 
     public User updateUserById(int userId, Map<String,String> newUser) throws CustomException {
