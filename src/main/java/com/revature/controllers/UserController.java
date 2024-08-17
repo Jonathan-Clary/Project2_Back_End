@@ -26,7 +26,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+
+    @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody @Valid User user)throws CustomException{
         User returningUser =  userService.createUser(user);
         return ResponseEntity.ok(returningUser);

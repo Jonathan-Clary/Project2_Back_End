@@ -1,6 +1,6 @@
 package com.revature.controllers;
 
-import com.revature.DTOs.IngoingUserDTO;
+import com.revature.DTOs.IncomingUserDTO;
 import com.revature.DTOs.OutgoingJwtUserDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.UserNotFoundException;
@@ -9,10 +9,8 @@ import com.revature.services.UserAuthService;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +24,7 @@ public class UserAuthController {
     UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<OutgoingJwtUserDTO> auth(@RequestBody IngoingUserDTO loginDTO) throws UserNotFoundException {
+    public ResponseEntity<OutgoingJwtUserDTO> auth(@RequestBody IncomingUserDTO loginDTO) throws UserNotFoundException {
         OutgoingJwtUserDTO jwtUserDTO = userAuthService.login(loginDTO);
         return ResponseEntity.status(201).body(jwtUserDTO);
     }

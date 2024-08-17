@@ -4,6 +4,7 @@ import com.revature.DAOs.AdminDAO;
 import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.mappers.UserOutgoingSupportTicketMapper;
 import com.revature.models.SupportTicket;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -55,10 +57,10 @@ public class SupportTicketServiceTest {
         user.setLastName("Doe");
         user.setEmail("JohnDoe@example.com");
         user.setPassword("password");
-        user.setDateCreated("August");  //TODO::Fix when/if set to long
+        user.setDateCreated(fakeDateCreated.getTime());  //TODO::Fix when/if set to long
 
         SupportTicket supportTicket = new SupportTicket();
-        supportTicket.setSupportTicketId(1);
+        supportTicket.setSupportTicketId(supportTicketId);
         supportTicket.setDescription("Description");
         supportTicket.setType(SupportTicket.Type.GENERAL);
         supportTicket.setCreatedAt(fakeDateCreated.getTime());
@@ -84,6 +86,37 @@ public class SupportTicketServiceTest {
         assertEquals(outgoingSupportTicketDTO, foundSupportTicketDTO);
         verify(sDAO, times(1)).findById(supportTicketId);
         verify(userMapper, times(1)).toDto(supportTicket);
+
+    }
+
+    @Test
+    public void testSupportTicketNotFound() {
+        //given
+        final int supportTicketId = 1;
+
+        when(sDAO.findById(supportTicketId)).thenReturn(Optional.empty());
+
+        //when
+        SupportTicketNotFoundException thrown = assertThrows(
+                SupportTicketNotFoundException.class, () -> supportService.getSupportTicketById(supportTicketId)
+        );
+
+        //then
+        assertTrue(thrown.getMessage().contains("Support Ticket with Id: " + supportTicketId + " Not Found."));
+        verify(sDAO, times(1)).findById(supportTicketId);
+
+    }
+
+    @Test
+    public void getAllSupportTickets() {
+
+    }
+
+
+    @Test
+    public void testFindAllSupportTicketsByAdmin() {
+
+
 
     }
 

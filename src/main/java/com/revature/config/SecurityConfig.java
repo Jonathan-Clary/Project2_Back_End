@@ -1,6 +1,7 @@
 package com.revature.config;
 
 import com.revature.security.PasswordEncoderProvider;
+import com.revature.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +34,9 @@ public class SecurityConfig {
         //all requests should be authenticated
         httpSecurity.authorizeHttpRequests(request -> {
             request
-//                    .requestMatchers(HttpMethod.POST,"/user/signup","/auth/login").permitAll()
-//                    .anyRequest().authenticated();
-                    .anyRequest().permitAll();
+                    .requestMatchers(HttpMethod.POST,"/user/signup","/auth/login").permitAll()
+                    .anyRequest().authenticated();
+//                    .anyRequest().permitAll();
         });
 
         // Sets stateless session
@@ -50,7 +51,7 @@ public class SecurityConfig {
 
 
     @Autowired
-    UserDetailsService userDetailsService;
+    UserDetailsServiceImpl userDetailsService;
 
     // Used to encrypt password
     @Autowired
