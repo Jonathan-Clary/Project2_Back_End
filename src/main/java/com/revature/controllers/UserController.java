@@ -4,6 +4,7 @@ package com.revature.controllers;
 import com.revature.exceptions.CustomException;
 import com.revature.models.User;
 import com.revature.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user)throws CustomException{
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user)throws CustomException{
         User returningUser =  userService.createUser(user);
         return ResponseEntity.status(201).body(returningUser);
 
