@@ -7,9 +7,10 @@ import java.util.Date;
 @Entity
 @Table(name = "support_tickets")
 public class SupportTicket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer supportTicketId;
+    private int supportTicketId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
@@ -20,6 +21,7 @@ public class SupportTicket {
         PENDING,
         RESOLVED,
     }
+
     // Ensures that the enum values are stored as strings
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -43,16 +45,17 @@ public class SupportTicket {
     private Type type;
 
 
-    private Date createdAt;
+    private long createdAt;
 
-    private Date resolvedAt;
+    private long resolvedAt;
 
 
     // This method is executed before persisting the ticket into the database
     @PrePersist
     private void onCreate(){
         // Sets the timestamps for when the ticket is created
-        createdAt = new Date();
+        Date epoch = new Date();
+        createdAt = epoch.getTime();
 
         // Sets PENDING as the default status
         // when the ticket is created for the first time
@@ -88,11 +91,11 @@ public class SupportTicket {
                 '}';
     }
 
-    public Integer getSupportTicketId() {
+    public int getSupportTicketId() {
         return supportTicketId;
     }
 
-    public void setSupportTicketId(Integer supportTicketId) {
+    public void setSupportTicketId(int supportTicketId) {
         this.supportTicketId = supportTicketId;
     }
 
@@ -128,19 +131,19 @@ public class SupportTicket {
         this.type = type;
     }
 
-    public Date getCreatedAt() {
+    public long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getResolvedAt() {
+    public long getResolvedAt() {
         return resolvedAt;
     }
 
-    public void setResolvedAt(Date resolvedAt) {
+    public void setResolvedAt(long resolvedAt) {
         this.resolvedAt = resolvedAt;
     }
 }
