@@ -31,7 +31,7 @@ public class Stay {
     @JoinColumn(name = "hotelId")
     private Hotel hotel;
 
-//    Used for inserts, is not included when responding in json, because json already included entire user obj
+//    Used for inserts, is not included when responding in json, because json already included entire hotel obj
 //    transient stops from being stored in db, bc User obj already does that
    @Transient
    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//Include when deserializing, not serializing
