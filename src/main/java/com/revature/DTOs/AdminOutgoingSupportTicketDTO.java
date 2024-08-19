@@ -1,10 +1,6 @@
 package com.revature.DTOs;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class AdminOutgoingSupportTicketDTO {
 
     //Model Variables

@@ -13,6 +13,7 @@ public class OutgoingJwtUserDTO {
         this.email = email;
     }
 
+    //Getter and Setter
     public String getToken() {
         return token;
     }

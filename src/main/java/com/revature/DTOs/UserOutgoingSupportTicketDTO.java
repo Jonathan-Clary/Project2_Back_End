@@ -1,10 +1,6 @@
 package com.revature.DTOs;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class UserOutgoingSupportTicketDTO {
 
     //Getters and Setters
@@ -27,6 +23,55 @@ public class UserOutgoingSupportTicketDTO {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+    }
+
+    //Getter and Setter
+    public int getSupportTicketId() {
+        return supportTicketId;
+    }
+
+    public void setSupportTicketId(int supportTicketId) {
+        this.supportTicketId = supportTicketId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
