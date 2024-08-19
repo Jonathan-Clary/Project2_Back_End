@@ -1,28 +1,36 @@
 package com.revature.DTOs;
 
 
+import com.revature.enums.TicketStatus;
+import com.revature.enums.TicketType;
+
 public class AdminOutgoingSupportTicketDTO {
 
     //Model Variables
     private int supportTicketId;
-    private String description;
     private int userId;
     private String firstName;
     private String lastName;
     private String email;
+    private String description;
+    private TicketStatus status;
+    private TicketType type;
     private int adminId;
 
     //Constructors
     public AdminOutgoingSupportTicketDTO() {
     }
 
-    public AdminOutgoingSupportTicketDTO(int supportTicketId, String description, int userId, String firstName, String lastName, String email, int adminId) {
+    public AdminOutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName,
+                                         String email, String description, TicketStatus status, TicketType type, int adminId) {
         this.supportTicketId = supportTicketId;
-        this.description = description;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.description = description;
+        this.status = status;
+        this.type = type;
         this.adminId = adminId;
     }
 
@@ -32,14 +40,6 @@ public class AdminOutgoingSupportTicketDTO {
 
     public void setSupportTicketId(int supportTicketId) {
         this.supportTicketId = supportTicketId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getUserId() {
@@ -74,6 +74,30 @@ public class AdminOutgoingSupportTicketDTO {
         this.email = email;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
+    }
+
+    public TicketType getType() {
+        return type;
+    }
+
+    public void setType(TicketType type) {
+        this.type = type;
+    }
+
     public int getAdminId() {
         return adminId;
     }
@@ -82,16 +106,17 @@ public class AdminOutgoingSupportTicketDTO {
         this.adminId = adminId;
     }
 
-    //toString
     @Override
     public String toString() {
         return "AdminOutgoingSupportTicketDTO{" +
                 "supportTicketId=" + supportTicketId +
-                ", description='" + description + '\'' +
                 ", userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", type=" + type +
                 ", adminId=" + adminId +
                 '}';
     }

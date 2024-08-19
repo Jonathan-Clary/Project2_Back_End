@@ -1,8 +1,10 @@
 package com.revature.models;
 
+import com.revature.enums.TicketType;
+import com.revature.enums.TicketStatus;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
 @Table(name = "support_tickets")
@@ -16,37 +18,20 @@ public class SupportTicket {
     @JoinColumn(name = "userId")
     private User user;
 
-    // Ticket Status enum for strong type-checking mechanism
-    public enum Status{
-        PENDING,
-        RESOLVED,
-    }
-
     // Ensures that the enum values are stored as strings
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private TicketStatus status;
 
     @Column(nullable = false)
     private String description;
 
-    // Ticket Type enum for strong type-checking mechanism
-    public enum Type {
-        GENERAL,// For any cases that don't fit the below categories
-        TECHNICAL_ISSUES, // Any Technical issue
-        INFORMATION, // Request information (ex: Hotels)
-        FEEDBACK, // For feedback and suggestions
-        PRIVACY, // For privacy and security concerns
-        // We can add more whenever needed
-    }
     // Ensures that the enum values are stored as strings
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Type type;
-
+    private TicketType type;
 
     private long createdAt;
-
     private long resolvedAt;
 
 
@@ -54,41 +39,28 @@ public class SupportTicket {
     @PrePersist
     private void onCreate(){
         // Sets the timestamps for when the ticket is created
-        Date epoch = new Date();
-        createdAt = epoch.getTime();
+        createdAt = Instant.now().toEpochMilli();
 
-        // Sets PENDING as the default status
-        // when the ticket is created for the first time
+        // Sets PENDING as the default status when the ticket is created for the first time
         if(status == null){
-            status = Status.PENDING;
+            status = TicketStatus.PENDING;
         }
 
         // Sets GENERAL as the default type if none is specified
         if(type == null){
-            type = Type.GENERAL;
+           type = TicketType.GENERAL;
         }
 
     }
 
     public SupportTicket() {}
 
-    public SupportTicket(User user, String description, Type type) {
+    public SupportTicket(int supportTicketId, User user, TicketStatus status, String description, TicketType type) {
+        this.supportTicketId = supportTicketId;
         this.user = user;
+        this.status = status;
         this.description = description;
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "SupportTicket{" +
-                "supportTicketId=" + supportTicketId +
-                ", user=" + user +
-                ", status=" + status +
-                ", description='" + description + '\'' +
-                ", type=" + type +
-                ", createdAt=" + createdAt +
-                ", resolvedAt=" + resolvedAt +
-                '}';
     }
 
     public int getSupportTicketId() {
@@ -107,11 +79,11 @@ public class SupportTicket {
         this.user = user;
     }
 
-    public Status getStatus() {
+    public TicketStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(TicketStatus status) {
         this.status = status;
     }
 
@@ -123,11 +95,11 @@ public class SupportTicket {
         this.description = description;
     }
 
-    public Type getType() {
+    public TicketType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(TicketType type) {
         this.type = type;
     }
 
@@ -146,4 +118,18 @@ public class SupportTicket {
     public void setResolvedAt(long resolvedAt) {
         this.resolvedAt = resolvedAt;
     }
+
+    @Override
+    public String toString() {
+        return "SupportTicket{" +
+                "supportTicketId=" + supportTicketId +
+                ", user=" + user +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                ", resolvedAt=" + resolvedAt +
+                '}';
+    }
+
 }

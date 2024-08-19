@@ -4,6 +4,8 @@ import com.revature.DAOs.AdminDAO;
 import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.enums.TicketStatus;
+import com.revature.enums.TicketType;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.mappers.UserOutgoingSupportTicketMapper;
@@ -18,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -61,12 +62,12 @@ public class SupportTicketServiceTest {
 
         SupportTicket supportTicket = new SupportTicket();
         supportTicket.setSupportTicketId(supportTicketId);
+        supportTicket.setUser(user);
+        supportTicket.setStatus(TicketStatus.PENDING);
+        supportTicket.setType(TicketType.GENERAL);
         supportTicket.setDescription("Description");
-        supportTicket.setType(SupportTicket.Type.GENERAL);
         supportTicket.setCreatedAt(fakeDateCreated.getTime());
         supportTicket.setResolvedAt(0);
-        supportTicket.setStatus(SupportTicket.Status.PENDING);
-        supportTicket.setUser(user);
 
         UserOutgoingSupportTicketDTO outgoingSupportTicketDTO = new UserOutgoingSupportTicketDTO();
         outgoingSupportTicketDTO.setSupportTicketId(supportTicket.getSupportTicketId());
@@ -120,4 +121,53 @@ public class SupportTicketServiceTest {
 
     }
 
+    @Test
+    public void testRegisterSupportTicket() {
+//        //given
+//        final Date fakeDateCreated = new Date(2024,Calendar.AUGUST,26);
+//        final int userId = 1;
+//        final int supportTicketId = 1;
+//
+//        User user = new User();
+//        user.setUserId(userId);
+//        user.setFirstName("John");
+//        user.setLastName("Doe");
+//        user.setEmail("JohnDoe@example.com");
+//        user.setPassword("password");
+//        user.setDateCreated(fakeDateCreated.getTime());
+//
+//        SupportTicket supportTicket = new SupportTicket();
+//        supportTicket.setSupportTicketId(supportTicketId);
+//        supportTicket.setDescription("Description");
+//        supportTicket.setType(Type.GENERAL);
+//        supportTicket.setCreatedAt(fakeDateCreated.getTime());
+//        supportTicket.setResolvedAt(0);
+//        supportTicket.setStatus(Status.PENDING);
+//        supportTicket.setUser(user);
+//
+//        when(sDAO.save(supportTicket)).thenReturn(supportTicket);
+//
+//        //when
+//        SupportTicket savedSupportTicket = null;
+//
+//        //then
+//        assertEquals(supportTicket,savedSupportTicket);
+//        verify(supportService, times(1)).registerSupportTicket(incomingSupportTicket);
+
+    }
+
+    @Test
+    public void testUpdateSupportTicket() {
+
+    }
+
+    @Test
+    public void testApproveSupportTicket() {
+
+    }
+
+    @Test
+    public void testDenySupportTicket() {
+
+    }
 }

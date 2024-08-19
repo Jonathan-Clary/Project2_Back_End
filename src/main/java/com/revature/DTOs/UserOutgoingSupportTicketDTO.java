@@ -1,46 +1,44 @@
 package com.revature.DTOs;
 
 
+import com.revature.enums.TicketStatus;
+import com.revature.enums.TicketType;
+
 public class UserOutgoingSupportTicketDTO {
 
-    //Getters and Setters
     //Model Variables
     private int supportTicketId;
-    private String description;
     private int userId;
     private String firstName;
     private String lastName;
     private String email;
+    private String description;
+    private TicketStatus status;
+    private TicketType type;
 
 
     //Constructors
     public UserOutgoingSupportTicketDTO() {
     }
 
-    public UserOutgoingSupportTicketDTO(int supportTicketId, String description, int userId, String firstName, String lastName, String email) {
+    public UserOutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName,
+                                        String email, String description, TicketStatus status, TicketType type) {
         this.supportTicketId = supportTicketId;
-        this.description = description;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.description = description;
+        this.status = status;
+        this.type = type;
     }
 
-    //Getter and Setter
     public int getSupportTicketId() {
         return supportTicketId;
     }
 
     public void setSupportTicketId(int supportTicketId) {
         this.supportTicketId = supportTicketId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getUserId() {
@@ -75,16 +73,41 @@ public class UserOutgoingSupportTicketDTO {
         this.email = email;
     }
 
-    //toString
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
+    }
+
+    public TicketType getType() {
+        return type;
+    }
+
+    public void setType(TicketType type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "UserOutgoingSupportTicketDTO{" +
                 "supportTicketId=" + supportTicketId +
-                ", description='" + description + '\'' +
                 ", userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", type=" + type +
                 '}';
     }
 }

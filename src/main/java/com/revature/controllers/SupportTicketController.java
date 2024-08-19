@@ -1,9 +1,9 @@
 package com.revature.controllers;
 
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.enums.TicketType;
 import com.revature.exceptions.AdminNotFoundException;
 import com.revature.exceptions.SupportTicketNotFoundException;
-import com.revature.models.SupportTicket.Type;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,10 @@ public class SupportTicketController {
         this.sts = sts;
     }
 
-    //Mappings
+
+    /*
+    *   ==============GET MAPPINGS=================
+    */
 
     //Endpoint ./support?id={supportTicketId}
     @GetMapping
@@ -46,7 +49,7 @@ public class SupportTicketController {
 
     //Case-sensitive. Query in ALL CAPS!
     @GetMapping("/get")
-    public ResponseEntity<?> getSupportTicketsByType( @RequestParam(name = "type", required = false) Type type) {
+    public ResponseEntity<?> getSupportTicketsByType( @RequestParam(name = "type") TicketType type) {
 
         //TODO::Create Service
         return ResponseEntity.ok("TODO");
@@ -77,5 +80,17 @@ public class SupportTicketController {
         }
 
     }
+
+    /*
+    *   ==============POST MAPPINGS=================
+    */
+
+    /*
+    *   ==============PATCH MAPPINGS=================
+    */
+
+    /*
+    *   ==============DELETE MAPPINGS=================
+    */
 
 }
