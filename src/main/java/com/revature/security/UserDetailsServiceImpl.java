@@ -16,10 +16,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userDAO.findById(Integer.parseInt(userId)).orElseThrow(()->{
-            throw new UsernameNotFoundException(userId);
+        //We'll be using the email as a username
+        User user = userDAO.findByEmail(username).orElseThrow(()->{
+            return new UsernameNotFoundException("No user with username "+username);
+        });
+
+        return new UserDetailsImpl(user);
+    }
+
+
+    public UserDetails loadUserByUserId(int userId) throws UsernameNotFoundException {
+
+        User user = userDAO.findById(userId).orElseThrow(()->{
+            return new UsernameNotFoundException("User with user ID: "+userId);
         });
 
         return new UserDetailsImpl(user);

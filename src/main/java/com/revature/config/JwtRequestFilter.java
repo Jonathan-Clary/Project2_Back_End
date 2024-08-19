@@ -1,6 +1,7 @@
 package com.revature.config;
 
 import com.revature.security.JwtTokenProvider;
+import com.revature.security.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     JwtTokenProvider jwtProvider;
 
     @Autowired
-    UserDetailsService userDetailsService;
+    UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,12 +34,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if(authHeader != null && authHeader.startsWith("Bearer ")){
             token = authHeader.substring(7);
-            userId = jwtProvider.extractUsername(token);
+            userId = jwtProvider.extractUserId(token);
         }
 
         if(userId != null && SecurityContextHolder.getContext().getAuthentication() == null){
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+            UserDetails userDetails = userDetailsServiceImpl.loadUserByUserId(Integer.parseInt(userId));
 
             if(jwtProvider.validateToken(token,userId)){
 

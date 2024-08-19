@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -37,11 +38,19 @@ public class User {
     /*TODO::Date() creates Date obj w/ current date and time. Date().getTime() returns a long value of the generated Date.
         Potentially easier to implement then creating a String when an account is created. */
     @Column(nullable = false)
-    private String dateCreated;
+    //private String dateCreated;
+    private long dateCreated;
+    // This method is executed before persisting the user account into the database
+    @PrePersist
+    private void onCreate(){
+        // Sets the timestamps for when the user account is created
+        Date epoch = new Date();
+        dateCreated = epoch.getTime();
+    }
 
     public User() {}
 
-    public User(int userId, String firstName, String lastName, String password, String email, String dateCreated) {
+    public User(int userId, String firstName, String lastName, String password, String email, long dateCreated) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -82,11 +91,11 @@ public class User {
         this.password = password;
     }
 
-    public String getDateCreated() {
+    public long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(long dateCreated) {
         this.dateCreated = dateCreated;
     }
 

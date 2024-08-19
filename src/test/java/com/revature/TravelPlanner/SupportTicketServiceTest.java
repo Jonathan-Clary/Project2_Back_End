@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class SupportTicketServiceTest {
         user.setLastName("Doe");
         user.setEmail("JohnDoe@example.com");
         user.setPassword("password");
-        user.setDateCreated("August");  //TODO::Fix when/if set to long
+        user.setDateCreated(fakeDateCreated.getTime());  //TODO::Fix when/if set to long
 
         SupportTicket supportTicket = new SupportTicket();
         supportTicket.setSupportTicketId(supportTicketId);
