@@ -4,6 +4,7 @@ import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.AdminNotFoundException;
+import com.revature.exceptions.InvalidStatusException;
 import com.revature.exceptions.InvalidTypeException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
@@ -150,6 +151,21 @@ public class SupportTicketController {
                 return ResponseEntity.status(e.getStatus()).body(e.getMessage());
 
             }
+
+        }
+
+    }
+
+    @PatchMapping("/resolve/{id}")
+    public ResponseEntity<?> resolve(@PathVariable int id, @RequestBody String type){
+
+        try {
+
+            UserOutgoingSupportTicketDTO resolvedTicket = sts.updateStatus(id, type);
+            return ResponseEntity.ok(resolvedTicket);
+
+        } catch (SupportTicketNotFoundException | InvalidStatusException e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
 
         }
 
