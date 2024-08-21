@@ -1,19 +1,18 @@
 package com.revature.DTOs;
 
-
-import com.revature.enums.TicketType;
+import java.util.Objects;
 
 public class IncomingSupportTicketDTO {
 
     //Model Variables
     private int userId;
     private String description;
-    private TicketType type;
+    private String type;
 
     public IncomingSupportTicketDTO() {
     }
 
-    public IncomingSupportTicketDTO(int userId, String description, TicketType type) {
+    public IncomingSupportTicketDTO(int userId, String description, String type) {
         this.userId = userId;
         this.description = description;
         this.type = type;
@@ -35,11 +34,11 @@ public class IncomingSupportTicketDTO {
         this.description = description;
     }
 
-    public TicketType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(TicketType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.AdminNotFoundException;
 import com.revature.exceptions.SupportTicketNotFoundException;
@@ -84,6 +85,23 @@ public class SupportTicketController {
     /*
     *   ==============POST MAPPINGS=================
     */
+
+    //Registers a Support Ticket to the DB
+    @PostMapping
+    public ResponseEntity<?> register(IncomingSupportTicketDTO incomingTicket){
+
+        try {
+
+            UserOutgoingSupportTicketDTO outgoingTicket = sts.register(incomingTicket);
+            return ResponseEntity.status(201).body(outgoingTicket);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+
+        }
+
+
+    }
 
     /*
     *   ==============PATCH MAPPINGS=================

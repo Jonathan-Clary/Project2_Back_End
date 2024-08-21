@@ -6,10 +6,7 @@ import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
-import com.revature.exceptions.AdminNotFoundException;
-import com.revature.exceptions.InvalidStatusException;
-import com.revature.exceptions.InvalidTypeException;
-import com.revature.exceptions.SupportTicketNotFoundException;
+import com.revature.exceptions.*;
 import com.revature.mappers.*;
 import com.revature.models.Note;
 import com.revature.models.SupportTicket;
@@ -144,7 +141,15 @@ public class SupportTicketService {
     //
 
     //Method to register a new support ticket
-    public UserOutgoingSupportTicketDTO register(IncomingSupportTicketDTO incomingTicket) {
+    public UserOutgoingSupportTicketDTO register(IncomingSupportTicketDTO incomingTicket) throws InvalidDescriptionException, InvalidTypeException, UserNotFoundException {
+
+        if (incomingTicket.getDescription().equals("") || incomingTicket.getDescription() == null) {
+            throw new InvalidDescriptionException();
+        }
+
+        if (incomingTicket.getUserId() <= 0) {
+            throw new UserNotFoundException(incomingTicket.getUserId());
+        }
 
         SupportTicket toSaveTicket = mapperIncoming.toDto(incomingTicket);
         UserOutgoingSupportTicketDTO outgoingTicket = mapperUser.toDto(toSaveTicket);
