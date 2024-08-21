@@ -4,10 +4,12 @@ import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.AdminNotFoundException;
+import com.revature.exceptions.InvalidTypeException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,7 +89,7 @@ public class SupportTicketController {
     */
 
     //Registers a Support Ticket to the DB
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> register(IncomingSupportTicketDTO incomingTicket){
 
         try {
@@ -106,6 +108,52 @@ public class SupportTicketController {
     /*
     *   ==============PATCH MAPPINGS=================
     */
+
+    //Update a Support Ticket's Type and/or Description
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable int id, @RequestParam(name = "description", required = false) String description,
+                                    @RequestParam(name = "type", required = false) String type){
+
+        if (!(description.isEmpty()) && !(type.isEmpty())) {
+
+            try {
+
+                sts.updateDescription(id, description);
+                UserOutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
+                return ResponseEntity.ok(outgoingTicket);
+
+            } catch (SupportTicketNotFoundException | InvalidTypeException e) {
+                return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+
+            }
+
+        } else if (!(type.isEmpty())) {
+
+            try {
+
+                UserOutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
+                return ResponseEntity.ok(outgoingTicket);
+
+            } catch (SupportTicketNotFoundException | InvalidTypeException e) {
+                return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+
+            }
+
+        } else {
+
+            try {
+
+                UserOutgoingSupportTicketDTO outgoingTicket = sts.updateDescription(id, description);
+                return ResponseEntity.ok(outgoingTicket);
+
+            } catch (SupportTicketNotFoundException e) {
+                return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+
+            }
+
+        }
+
+    }
 
     /*
     *   ==============DELETE MAPPINGS=================
