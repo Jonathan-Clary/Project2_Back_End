@@ -156,6 +156,7 @@ public class SupportTicketController {
 
     }
 
+    //Resolve a Support Ticket
     @PatchMapping("/resolve/{id}")
     public ResponseEntity<?> resolve(@PathVariable int id, @RequestBody String type){
 
@@ -174,5 +175,19 @@ public class SupportTicketController {
     /*
     *   ==============DELETE MAPPINGS=================
     */
+
+    //Delete a Support Ticket from the DB
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(int id){
+
+        try{
+            return ResponseEntity.ok(sts.delete(id));
+
+        } catch (SupportTicketNotFoundException e) {
+            return ResponseEntity.ok(e.getMessage());
+            
+        }
+
+    }
 
 }
