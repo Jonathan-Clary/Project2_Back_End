@@ -6,7 +6,6 @@ import com.revature.models.SupportTicket;
 import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class AdminOutgoingSupportTicketMapper {
     public AdminOutgoingSupportTicketMapper() {
