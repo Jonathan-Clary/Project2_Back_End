@@ -1,14 +1,15 @@
 package com.revature.services;
 
-import com.revature.DAOs.AdminDAO;
-import com.revature.DAOs.NoteDAO;
+import com.revature.admin.DAOs.AdminDAO;
+import com.revature.admin.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
-import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.admin.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.admin.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.exceptions.*;
 import com.revature.mappers.*;
-import com.revature.models.Note;
+import com.revature.admin.models.Note;
 import com.revature.models.SupportTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

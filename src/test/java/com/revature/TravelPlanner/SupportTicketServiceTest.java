@@ -1,10 +1,11 @@
 package com.revature.TravelPlanner;
 
-import com.revature.DAOs.AdminDAO;
-import com.revature.DAOs.NoteDAO;
+import com.revature.admin.DAOs.AdminDAO;
+import com.revature.admin.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.admin.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.SupportTicketNotFoundException;

@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.admin.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

@@ -1,12 +1,12 @@
-package com.revature.services;
+package com.revature.admin.services;
 
-import com.revature.DAOs.AdminDAO;
+import com.revature.admin.DAOs.AdminDAO;
 import com.revature.exceptions.AdminNotFoundException;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.EmailAlreadyExistException;
-import com.revature.mappers.AdminMapper;
-import com.revature.models.Admin;
-import com.revature.DTOs.OutgoingAdminDTO;
+import com.revature.admin.mappers.AdminMapper;
+import com.revature.admin.models.Admin;
+import com.revature.admin.DTOs.OutgoingAdminDTO;
 import com.revature.security.PasswordEncoderProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

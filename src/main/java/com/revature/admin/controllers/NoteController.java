@@ -1,7 +1,6 @@
-package com.revature.controllers;
+package com.revature.admin.controllers;
 
-import com.revature.services.NoteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.revature.admin.services.NoteService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

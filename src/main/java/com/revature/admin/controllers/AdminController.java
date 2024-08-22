@@ -1,9 +1,9 @@
-package com.revature.controllers;
+package com.revature.admin.controllers;
 
-import com.revature.DTOs.OutgoingAdminDTO;
+import com.revature.admin.DTOs.OutgoingAdminDTO;
 import com.revature.exceptions.CustomException;
-import com.revature.models.Admin;
-import com.revature.services.AdminService;
+import com.revature.admin.models.Admin;
+import com.revature.admin.services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

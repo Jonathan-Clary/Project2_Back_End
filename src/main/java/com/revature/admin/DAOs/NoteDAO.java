@@ -1,6 +1,6 @@
-package com.revature.DAOs;
+package com.revature.admin.DAOs;
 
-import com.revature.models.Note;
+import com.revature.admin.models.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

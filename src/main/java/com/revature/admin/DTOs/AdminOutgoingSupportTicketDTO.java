@@ -1,4 +1,4 @@
-package com.revature.DTOs;
+package com.revature.admin.DTOs;
 
 
 import com.revature.enums.TicketStatus;

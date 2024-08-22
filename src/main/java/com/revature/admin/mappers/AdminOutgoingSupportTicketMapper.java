@@ -1,9 +1,9 @@
-package com.revature.mappers;
+package com.revature.admin.mappers;
 
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.models.SupportTicket;
-import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.admin.DTOs.AdminOutgoingSupportTicketDTO;
 import org.springframework.stereotype.Component;
 
 @Component

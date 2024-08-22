@@ -1,8 +1,8 @@
-package com.revature.mappers;
+package com.revature.admin.mappers;
 
-import com.revature.models.Admin;
-import com.revature.models.Note;
-import com.revature.DTOs.OutgoingAdminDTO;
+import com.revature.admin.models.Admin;
+import com.revature.admin.models.Note;
+import com.revature.admin.DTOs.OutgoingAdminDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

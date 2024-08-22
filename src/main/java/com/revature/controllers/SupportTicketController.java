@@ -1,6 +1,6 @@
 package com.revature.controllers;
 
-import com.revature.DTOs.AdminOutgoingSupportTicketDTO;
+import com.revature.admin.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.AdminNotFoundException;
@@ -10,7 +10,6 @@ import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

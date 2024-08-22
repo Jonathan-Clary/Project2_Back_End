@@ -1,11 +1,7 @@
-package com.revature.services;
+package com.revature.admin.services;
 
-import com.revature.DAOs.NoteDAO;
-import com.revature.models.Note;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.revature.admin.DAOs.NoteDAO;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class NoteService {
