@@ -34,7 +34,7 @@ public class SecurityConfig {
         //all requests should be authenticated
         httpSecurity.authorizeHttpRequests(request -> {
             request
-                    .requestMatchers(HttpMethod.POST,"/user/signup","/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/user/register","/auth/login").permitAll()
                     .anyRequest().authenticated();
 //                    .anyRequest().permitAll();
         });
