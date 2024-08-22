@@ -1,11 +1,13 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
 import java.util.Date;
 import java.util.Objects;
 
@@ -48,6 +50,11 @@ public class User {
         dateCreated = epoch.getTime();
     }
 
+    /*STAYS-HISTORY: This list allows for us to keep track of a user's stay history in the DB
+    (potentially unnecessary)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Stay> stays;
+    */
     public User() {}
 
     public User(int userId, String firstName, String lastName, String password, String email, long dateCreated) {
