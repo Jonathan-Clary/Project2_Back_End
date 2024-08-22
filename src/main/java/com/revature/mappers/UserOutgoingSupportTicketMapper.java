@@ -4,8 +4,9 @@ import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.models.SupportTicket;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class UserOutgoingSupportTicketMapper {
     public UserOutgoingSupportTicketDTO toDto(SupportTicket supportTicket){
         int supportTicketId = supportTicket.getSupportTicketId();
