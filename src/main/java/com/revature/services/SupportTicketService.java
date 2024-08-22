@@ -32,6 +32,7 @@ public class SupportTicketService {
     private TypeMapper mapperType;
     private StatusMapper mapperStatus;
 
+    //Mappers need
     //Constructor
     @Autowired
     public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao, AdminOutgoingSupportTicketMapper mapperAdmin,
