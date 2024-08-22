@@ -10,6 +10,7 @@ import com.revature.models.Stay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -55,5 +56,10 @@ public class StayService {
             stay.setBookedDate(stayFieldValues.get("endDate"));
 
         return stayDAO.save(stay);
+    }
+
+    //STAYS-HISTORY: Service for Getting Stay History
+    public List<Stay> getStaysByUserId(int userId) {
+        return stayDAO.findByUserId(userId);
     }
 }
