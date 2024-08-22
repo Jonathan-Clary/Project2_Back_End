@@ -29,5 +29,11 @@ public class HotelService {
         hotelDAO.deleteById(hotelId);
     }
 
+    public Hotel getHotelById(int hotelId) {
+        //hotelDAO.findById(hotelId);
+        //TODO: throw exception if not exists
+        return null;
+    }
+
     // add more methods WIP
 }

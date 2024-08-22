@@ -2,18 +2,18 @@ package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Entity
 @Table(name = "admins")
-@Component
 public class Admin {
 
+    //Getter and Setters
     //Model Variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int admin_id;
+    private int adminId;
 
     @Column(nullable = false)
     private String firstName;
@@ -36,21 +36,21 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(int admin_id, String firstName, String lastName, String email, String password) {
-        this.admin_id = admin_id;
+    public Admin(int adminId, String firstName, String lastName, String email, String password) {
+        this.adminId = adminId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
     }
 
-    //Getter and Setters
-    public int getAdmin_id() {
-        return admin_id;
+    //Getter and Setter
+    public int getAdminId() {
+        return adminId;
     }
 
-    public void setAdmin_id(int admin_id) {
-        this.admin_id = admin_id;
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     public String getFirstName() {
@@ -86,18 +86,18 @@ public class Admin {
     }
 
     public List<Note> getNotes() {
-      return notes;
+        return notes;
     }
 
     public void setNotes(List<Note> notes) {
-      this.notes = notes;
+        this.notes = notes;
     }
 
     //toString
     @Override
     public String toString() {
         return "Admin{" +
-                "admin_id=" + admin_id +
+                "adminId=" + adminId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

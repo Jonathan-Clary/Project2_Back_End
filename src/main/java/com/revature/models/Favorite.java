@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.revature.DTOs.IncomingFavoriteDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,10 +9,10 @@ public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int favorite_id;
+    private int favoriteId;
 
     @Column(nullable = false)
-    private String date_added;
+    private String dateAdded;
 
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // TODO: this could be one to one will decide later
@@ -24,27 +25,34 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(int favorite_id, String date_added, User user, Hotel hotel) {
-        this.favorite_id = favorite_id;
-        this.date_added = date_added;
+    public Favorite(int favoriteId, String dateAdded, User user, Hotel hotel) {
+        this.favoriteId = favoriteId;
+        this.dateAdded = dateAdded;
         this.user = user;
         this.hotel = hotel;
     }
 
-    public int getFavorite_id() {
-        return favorite_id;
+    public Favorite(IncomingFavoriteDTO favorite, User u, Hotel h){
+        this.dateAdded = favorite.getDateAdded();
+        this.user = u;
+        this.hotel = h;
     }
 
-    public void setFavorite_id(int favorite_id) {
-        this.favorite_id = favorite_id;
+
+    public int getFavoriteId() {
+        return favoriteId;
     }
 
-    public String getDate_added() {
-        return date_added;
+    public void setFavoriteId(int favoriteId) {
+        this.favoriteId = favoriteId;
     }
 
-    public void setDate_added(String date_added) {
-        this.date_added = date_added;
+    public String getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(String dateAdded) {
+        this.dateAdded = dateAdded;
     }
 
     public User getUser() {
@@ -66,8 +74,8 @@ public class Favorite {
     @Override
     public String toString() {
         return "Favorite{" +
-                "favorite_id=" + favorite_id +
-                ", date_added='" + date_added + '\'' +
+                "favoriteId=" + favoriteId +
+                ", dateAdded='" + dateAdded + '\'' +
                 ", user=" + user +
                 ", hotel=" + hotel +
                 '}';

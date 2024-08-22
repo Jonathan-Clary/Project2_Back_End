@@ -11,41 +11,42 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int note_id;
+    private int noteId;
 
     @Column(nullable = false, name = "text")
     private String text;
 
     @Column(nullable = false, name = "date_created")
-    private Date date_created;
+    private Date dateCreated;
 
     @JoinColumn(name = "admin_id")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // This causing an error ('com.revature.models.Note.admin' is not a collection), I have to fix it
+    //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Admin admin;
 
     @JoinColumn(name = "supportTicketId")
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private SupportTicket support_ticket;
+    private SupportTicket supportTicket;
 
     public Note() {
     }
 
-    public Note(int note_id, String text, Date date_created, Admin admin, SupportTicket support_ticket) {
-        this.note_id = note_id;
+    public Note(int noteId, String text, Date dateCreated, Admin admin, SupportTicket supportTicket) {
+        this.noteId = noteId;
         this.text = text;
-        this.date_created = date_created;
+        this.dateCreated = dateCreated;
         this.admin = admin;
-        this.support_ticket = support_ticket;
+        this.supportTicket = supportTicket;
     }
 
     // Getters and setters
-
-    public int getNote_id() {
-        return note_id;
+    public int getNoteId() {
+        return noteId;
     }
 
-    public void setNote_id(int note_id) {
-        this.note_id = note_id;
+    public void setNoteId(int noteId) {
+        this.noteId = noteId;
     }
 
     public String getText() {
@@ -56,12 +57,12 @@ public class Note {
         this.text = text;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Admin getAdmin() {
@@ -73,21 +74,21 @@ public class Note {
     }
 
     public SupportTicket getSupportTicket() {
-        return support_ticket;
+        return supportTicket;
     }
 
-    public void setSupportTicket(SupportTicket support_ticket) {
-        this.support_ticket = support_ticket;
+    public void setSupportTicket(SupportTicket supportTicket) {
+        this.supportTicket = supportTicket;
     }
 
     @Override
     public String toString() {
         return "Note{" +
-                "note_id=" + note_id +
+                "noteId=" + noteId +
                 ", text='" + text + '\'' +
-                ", date_created=" + date_created +
+                ", dateCreated=" + dateCreated +
                 ", admin=" + admin +
-                ", support_ticket=" + support_ticket +
+                ", supportTicket=" + supportTicket +
                 '}';
     }
 

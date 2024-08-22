@@ -19,6 +19,7 @@ public class OutgoingAdminDTO {
         this.notes = notes;
     }
 
+    //Getter and Setter
     public String getLastName() {
         return lastName;
     }
