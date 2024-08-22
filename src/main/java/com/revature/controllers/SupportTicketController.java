@@ -185,7 +185,7 @@ public class SupportTicketController {
 
         } catch (SupportTicketNotFoundException e) {
             return ResponseEntity.ok(e.getMessage());
-            
+
         }
 
     }
