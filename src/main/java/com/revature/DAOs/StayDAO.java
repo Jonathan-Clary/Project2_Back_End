@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface StayDAO extends JpaRepository<Stay, Integer> {
     //STAYS-HISTORY: DAO method for getting list of stays by userId
-    List<Stay> findByUserId(int userId);
+    List<Stay> findByUserUserId(int userId);
 }

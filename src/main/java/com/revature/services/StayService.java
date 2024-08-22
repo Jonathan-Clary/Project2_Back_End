@@ -60,6 +60,6 @@ public class StayService {
 
     //STAYS-HISTORY: Service for Getting Stay History
     public List<Stay> getStaysByUserId(int userId) {
-        return stayDAO.findByUserId(userId);
+        return stayDAO.findByUserUserId(userId);
     }
 }
