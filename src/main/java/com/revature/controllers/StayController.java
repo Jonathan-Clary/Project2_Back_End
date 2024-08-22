@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 
+
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidDateRangeException;
 import com.revature.models.Hotel;
@@ -10,10 +11,10 @@ import com.revature.services.HotelService;
 import com.revature.services.StayService;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -76,5 +77,11 @@ public class StayController {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException( CustomException e){
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
+    }
+    //STAYS-HISTORY: Controller Method for
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<List<Stay>> getStaysByUserId(@PathVariable int userId) {
+        List<Stay> stays = stayService.getStaysByUserId(userId);
+        return ResponseEntity.ok(stays);
     }
 }
