@@ -85,8 +85,10 @@ public class UserService {
             user.setLastName(newUser.get("lastName"));
         if(newUser.containsKey("email"))
             user.setEmail(newUser.get("email"));
-        if(newUser.containsKey("password"))
-            user.setFirstName(newUser.get("password"));
+        if(newUser.containsKey("password")){
+            String encodedPassword = passwordEncoder.encode(newUser.get("password"));
+            user.setPassword(encodedPassword);
+        }
 
         // validate all fields
         var exception = validate(user);
