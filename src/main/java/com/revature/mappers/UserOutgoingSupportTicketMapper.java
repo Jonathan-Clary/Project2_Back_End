@@ -2,8 +2,9 @@ package com.revature.mappers;
 
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
 import com.revature.models.SupportTicket;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class UserOutgoingSupportTicketMapper {
     public UserOutgoingSupportTicketDTO toDto(SupportTicket supportTicket){
         int supportTicketId = supportTicket.getSupportTicketId();

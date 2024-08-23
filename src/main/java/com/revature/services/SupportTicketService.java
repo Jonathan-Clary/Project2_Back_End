@@ -32,10 +32,13 @@ public class SupportTicketService {
 
     //Constructor
     @Autowired
-    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao) {
+    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao, AdminOutgoingSupportTicketMapper mapperAdmin,
+                                UserOutgoingSupportTicketMapper mapperUser) {
         this.stDao = stDao;
         this.aDao = aDao;
         this.nDao = nDao;
+        this.mapperAdmin = mapperAdmin;
+        this.mapperUser = mapperUser;
     }
 
     //Methods

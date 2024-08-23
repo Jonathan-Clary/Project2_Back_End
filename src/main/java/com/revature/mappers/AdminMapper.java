@@ -3,11 +3,13 @@ package com.revature.mappers;
 import com.revature.models.Admin;
 import com.revature.models.Note;
 import com.revature.DTOs.OutgoingAdminDTO;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Component
 public class AdminMapper {
     public OutgoingAdminDTO toDto(Admin admin) {
         String lastName = admin.getLastName();

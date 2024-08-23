@@ -107,17 +107,17 @@ public class SupportTicketServiceTest {
 
     }
 
-    @Test
-    public void getAllSupportTickets() {
-
-    }
-
-
-    @Test
-    public void testFindAllSupportTicketsByAdmin() {
-
-
-
-    }
+//    @Test
+//    public void getAllSupportTickets() {
+//
+//    }
+//
+//
+//    @Test
+//    public void testFindAllSupportTicketsByAdmin() {
+//
+//
+//
+//    }
 
 }
