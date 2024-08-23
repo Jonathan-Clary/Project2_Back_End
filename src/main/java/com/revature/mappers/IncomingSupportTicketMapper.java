@@ -6,6 +6,7 @@ import com.revature.enums.TicketType;
 import com.revature.exceptions.InvalidTypeException;
 import com.revature.models.SupportTicket;
 import com.revature.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -16,6 +17,12 @@ public class IncomingSupportTicketMapper {
     private TypeMapper mapperType;
 
     public IncomingSupportTicketMapper() {
+    }
+
+    @Autowired
+    public IncomingSupportTicketMapper(UserDAO uDao, TypeMapper mapperType) {
+        this.uDao = uDao;
+        this.mapperType = mapperType;
     }
 
     public SupportTicket toDto(IncomingSupportTicketDTO incomingSupportTicket) throws InvalidTypeException {
