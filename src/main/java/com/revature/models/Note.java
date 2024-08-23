@@ -1,6 +1,5 @@
-package com.revature.admin.models;
+package com.revature.models;
 
-import com.revature.models.SupportTicket;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -21,7 +20,7 @@ public class Note {
     private Date dateCreated;
 
     @JoinColumn(name = "admin_id")
-    // This causing an error ('com.revature.admin.models.Note.admin' is not a collection), I have to fix it
+    // This causing an error ('com.revature.models.Note.admin' is not a collection), I have to fix it
     //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Admin admin;

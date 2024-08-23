@@ -5,7 +5,7 @@ import com.revature.DTOs.OutgoingJwtUserDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
-import com.revature.services.UserAuthService;
+import com.revature.services.AuthService;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-public class UserAuthController {
+public class AuthController {
 
     @Autowired
-    UserAuthService userAuthService;
+    AuthService userAuthService;
 
     @Autowired
     UserService userService;

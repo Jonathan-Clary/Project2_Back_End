@@ -1,15 +1,13 @@
 package com.revature.services;
 
-import com.revature.admin.DAOs.AdminDAO;
-import com.revature.admin.DAOs.NoteDAO;
+import com.revature.DAOs.AdminDAO;
+import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
-import com.revature.admin.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;
-import com.revature.admin.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.exceptions.*;
 import com.revature.mappers.*;
-import com.revature.admin.models.Note;
+import com.revature.models.Note;
 import com.revature.models.SupportTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +25,7 @@ public class SupportTicketService {
     private NoteDAO nDao;
 
     //Mappers
-    private AdminOutgoingSupportTicketMapper mapperAdmin;
+    //private AdminOutgoingSupportTicketMapper mapperAdmin;
     private UserOutgoingSupportTicketMapper mapperUser;
     private IncomingSupportTicketMapper mapperIncoming;
     private TypeMapper mapperType;
@@ -36,12 +34,11 @@ public class SupportTicketService {
     //Mappers need
     //Constructor
     @Autowired
-    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao, AdminOutgoingSupportTicketMapper mapperAdmin,
+    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, NoteDAO nDao ,
                                 UserOutgoingSupportTicketMapper mapperUser, IncomingSupportTicketMapper mapperIncoming, TypeMapper mapperType, StatusMapper mapperStatus) {
         this.stDao = stDao;
         this.aDao = aDao;
         this.nDao = nDao;
-        this.mapperAdmin = mapperAdmin;
         this.mapperUser = mapperUser;
         this.mapperIncoming = mapperIncoming;
         this.mapperType = mapperType;
@@ -87,62 +84,10 @@ public class SupportTicketService {
     }
 
     //Methods to return all SupportTickets for Admins
-    public List<AdminOutgoingSupportTicketDTO> getAlSupportTicketsAdmin() {
-
-        //Instantiate Lists
-        List<Note> nl = nDao.findAll();
-        List<AdminOutgoingSupportTicketDTO> returnList = new ArrayList<AdminOutgoingSupportTicketDTO>();
-
-        for (Note n: nl) {
-
-            returnList.add(mapperAdmin.toDto(n.getSupportTicket(), n.getAdmin().getAdminId()));
-
-        }
-
-        return returnList;
-
-    }
+    // --- Method has been migrated to Admin microservice ---
 
     //Method to return all tickets assigned to an admin
-    public List<AdminOutgoingSupportTicketDTO> getAllToAdminId(int id) throws AdminNotFoundException,
-            SupportTicketNotFoundException{
-
-        //Check if Admin exists
-        if (!(aDao.existsById(id))) {
-            throw new AdminNotFoundException(id);
-        }
-
-        //Instantiate Lists
-        List<Note> nl = nDao.findAllByAdminAdminId(id);
-        List<SupportTicket> stl = new ArrayList<SupportTicket>();
-        List<AdminOutgoingSupportTicketDTO> returnList = new ArrayList<AdminOutgoingSupportTicketDTO>();
-
-        //Find SupportTickets that are assigned to Admin
-        for (Note n: nl) {
-
-            Optional<SupportTicket> optST = stDao.findById(n.getSupportTicket().getSupportTicketId());
-
-            if (optST.isPresent()) {
-
-                stl.add(optST.get());
-
-            } else {
-                throw new SupportTicketNotFoundException();
-
-            }
-
-        }
-
-        //Add AdminOutgoingSupportTicketDTO to returnList
-        for (SupportTicket st: stl) {
-
-            returnList.add(mapperAdmin.toDto(st,id));
-
-        }
-
-        return returnList;
-
-    }
+    // --- Method has been migrated to Admin microservice ---
 
     //-------------Post Methods------------
     //

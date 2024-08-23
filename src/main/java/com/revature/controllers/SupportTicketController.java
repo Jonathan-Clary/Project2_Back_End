@@ -1,9 +1,7 @@
 package com.revature.controllers;
 
-import com.revature.admin.DTOs.AdminOutgoingSupportTicketDTO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.enums.TicketType;
-import com.revature.exceptions.AdminNotFoundException;
 import com.revature.exceptions.InvalidStatusException;
 import com.revature.exceptions.InvalidTypeException;
 import com.revature.exceptions.SupportTicketNotFoundException;
@@ -65,24 +63,7 @@ public class SupportTicketController {
     }
 
     //Returns all support tickets assigned to admin
-    @GetMapping("/get/admin")
-    public ResponseEntity<?> getAllSupportTicketsForAdmin( @RequestParam(name = "adminId", required = false) Integer id) {
-
-        if (id == null) {
-            return ResponseEntity.ok(sts.getAlSupportTicketsAdmin());
-        }
-
-        try {
-
-            List<AdminOutgoingSupportTicketDTO> returnList = sts.getAllToAdminId(id);
-            return ResponseEntity.ok(returnList);
-
-        } catch (AdminNotFoundException | SupportTicketNotFoundException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-
-        }
-
-    }
+    // --- Method has been migrated to Admin microservice ---
 
     /*
     *   ==============POST MAPPINGS=================

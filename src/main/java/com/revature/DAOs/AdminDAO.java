@@ -1,6 +1,6 @@
-package com.revature.admin.DAOs;
+package com.revature.DAOs;
 
-import com.revature.admin.models.Admin;
+import com.revature.models.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
