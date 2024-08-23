@@ -1,7 +1,7 @@
 package com.revature.TravelPlanner;
 
-import com.revature.admin.DAOs.AdminDAO;
-import com.revature.admin.DAOs.NoteDAO;
+import com.revature.DAOs.AdminDAO;
+import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.UserOutgoingSupportTicketDTO;

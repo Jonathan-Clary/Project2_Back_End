@@ -6,33 +6,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    // Inject the UserDAO to interact with the database
     @Autowired
     public UserDAO userDAO;
 
-
+    // Load user details by username (email in this case)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        //We'll be using the email as a username
-        User user = userDAO.findByEmail(username).orElseThrow(()->{
-            return new UsernameNotFoundException("No user with username "+username);
+        // Find the user by email (username) or throw an exception if not found
+        User user = userDAO.findByEmail(username).orElseThrow(() -> {
+            return new UsernameNotFoundException("No user with username " + username);
         });
 
+        // Return a UserDetailsImpl object containing the user's details
         return new UserDetailsImpl(user);
     }
 
-
+    // Load user details by user ID
     public UserDetails loadUserByUserId(int userId) throws UsernameNotFoundException {
 
-        User user = userDAO.findById(userId).orElseThrow(()->{
-            return new UsernameNotFoundException("User with user ID: "+userId);
+        // Find the user by ID or throw an exception if not found
+        User user = userDAO.findById(userId).orElseThrow(() -> {
+            return new UsernameNotFoundException("User with user ID: " + userId);
         });
 
+        // Return a UserDetailsImpl object containing the user's details
         return new UserDetailsImpl(user);
     }
 }

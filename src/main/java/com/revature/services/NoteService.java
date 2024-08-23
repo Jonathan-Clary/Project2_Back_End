@@ -1,6 +1,6 @@
-package com.revature.admin.services;
+package com.revature.services;
 
-import com.revature.admin.DAOs.NoteDAO;
+import com.revature.DAOs.NoteDAO;
 import org.springframework.stereotype.Service;
 
 @Service
