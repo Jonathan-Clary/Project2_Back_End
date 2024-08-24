@@ -10,9 +10,9 @@ public class StatusMapper {
     public StatusMapper() {
     }
 
-    public TicketStatus tDto(String status) throws InvalidStatusException {
+    public TicketStatus toDto(String status) throws InvalidStatusException {
         try {
-            return TicketStatus.valueOf(status.toUpperCase());
+            return TicketStatus.valueOf(status.toUpperCase().trim());
 
         } catch (IllegalArgumentException e){
             throw new InvalidStatusException(status);

@@ -1,10 +1,9 @@
 package com.revature.TravelPlanner;
 
 import com.revature.DAOs.AdminDAO;
-import com.revature.DAOs.NoteDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
-import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.admin.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
@@ -33,13 +32,7 @@ public class SupportTicketServiceTest {
     private AdminDAO aDAO;
 
     @Mock
-    private NoteDAO nDAO;
-
-    @Mock
     private UserOutgoingSupportTicketMapper userMapper;
-
-    @Mock
-    private AdminOutgoingSupportTicketMapper adminMapper;
 
     @Mock
     private TypeMapper typeMapper;
@@ -77,7 +70,7 @@ public class SupportTicketServiceTest {
         supportTicket.setCreatedAt(fakeDateCreated.getTime());
         supportTicket.setResolvedAt(0);
 
-        UserOutgoingSupportTicketDTO outgoingSupportTicketDTO = new UserOutgoingSupportTicketDTO();
+        OutgoingSupportTicketDTO outgoingSupportTicketDTO = new OutgoingSupportTicketDTO();
         outgoingSupportTicketDTO.setSupportTicketId(supportTicket.getSupportTicketId());
         outgoingSupportTicketDTO.setDescription(supportTicket.getDescription());
         outgoingSupportTicketDTO.setUserId(user.getUserId());
@@ -89,7 +82,7 @@ public class SupportTicketServiceTest {
         when(userMapper.toDto(supportTicket)).thenReturn(outgoingSupportTicketDTO);
 
         //when
-        UserOutgoingSupportTicketDTO foundSupportTicketDTO = supportService.getSupportTicketById(supportTicketId);
+        OutgoingSupportTicketDTO foundSupportTicketDTO = supportService.getSupportTicketById(supportTicketId);
 
         //then
         assertEquals(outgoingSupportTicketDTO, foundSupportTicketDTO);
@@ -149,7 +142,7 @@ public class SupportTicketServiceTest {
         supportTicket2.setCreatedAt(fakeDateCreated.getTime());
         supportTicket2.setResolvedAt(0);
 
-        UserOutgoingSupportTicketDTO outgoingTicket1 = new UserOutgoingSupportTicketDTO();
+        OutgoingSupportTicketDTO outgoingTicket1 = new OutgoingSupportTicketDTO();
         outgoingTicket1.setSupportTicketId(supportTicket1.getSupportTicketId());
         outgoingTicket1.setDescription(supportTicket1.getDescription());
         outgoingTicket1.setUserId(user.getUserId());
@@ -157,7 +150,7 @@ public class SupportTicketServiceTest {
         outgoingTicket1.setLastName(user.getLastName());
         outgoingTicket1.setEmail(user.getEmail());
 
-        UserOutgoingSupportTicketDTO outgoingTicket2 = new UserOutgoingSupportTicketDTO();
+        OutgoingSupportTicketDTO outgoingTicket2 = new OutgoingSupportTicketDTO();
         outgoingTicket2.setSupportTicketId(supportTicket2.getSupportTicketId());
         outgoingTicket2.setDescription(supportTicket2.getDescription());
         outgoingTicket2.setUserId(user.getUserId());
@@ -166,14 +159,14 @@ public class SupportTicketServiceTest {
         outgoingTicket2.setEmail(user.getEmail());
 
         List<SupportTicket> ticketList = Arrays.asList(supportTicket1,supportTicket2);
-        List<UserOutgoingSupportTicketDTO> outTicketList = Arrays.asList(outgoingTicket1, outgoingTicket2);
+        List<OutgoingSupportTicketDTO> outTicketList = Arrays.asList(outgoingTicket1, outgoingTicket2);
 
         when(sDAO.findAll()).thenReturn(ticketList);
         when(userMapper.toDto(supportTicket1)).thenReturn(outgoingTicket1);
         when(userMapper.toDto(supportTicket2)).thenReturn(outgoingTicket2);
 
         //when
-        List<UserOutgoingSupportTicketDTO> supportTickets = supportService.getAllSupportTickets();
+        List<OutgoingSupportTicketDTO> supportTickets = supportService.getAllSupportTickets();
 
         //then
         assertEquals(outTicketList, supportTickets);
@@ -220,7 +213,7 @@ public class SupportTicketServiceTest {
         incomingSupportTicket.setDescription(supportTicket.getDescription());
         incomingSupportTicket.setType("GENERAL");
 
-        UserOutgoingSupportTicketDTO outgoingSupportTicketDTO = new UserOutgoingSupportTicketDTO();
+        OutgoingSupportTicketDTO outgoingSupportTicketDTO = new OutgoingSupportTicketDTO();
         outgoingSupportTicketDTO.setSupportTicketId(supportTicket.getSupportTicketId());
         outgoingSupportTicketDTO.setDescription(supportTicket.getDescription());
         outgoingSupportTicketDTO.setUserId(user.getUserId());
@@ -233,7 +226,7 @@ public class SupportTicketServiceTest {
         when(sDAO.save(supportTicket)).thenReturn(supportTicket);
 
         //when
-        UserOutgoingSupportTicketDTO savedSupportTicket = supportService.register(incomingSupportTicket);
+        OutgoingSupportTicketDTO savedSupportTicket = supportService.register(incomingSupportTicket);
 
         //then
         assertEquals(outgoingSupportTicketDTO,savedSupportTicket);

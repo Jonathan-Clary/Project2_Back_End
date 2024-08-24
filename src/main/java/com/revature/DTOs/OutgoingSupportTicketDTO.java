@@ -4,7 +4,7 @@ package com.revature.DTOs;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 
-public class UserOutgoingSupportTicketDTO {
+public class OutgoingSupportTicketDTO {
 
     //Model Variables
     private int supportTicketId;
@@ -18,11 +18,11 @@ public class UserOutgoingSupportTicketDTO {
 
 
     //Constructors
-    public UserOutgoingSupportTicketDTO() {
+    public OutgoingSupportTicketDTO() {
     }
 
-    public UserOutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName,
-                                        String email, String description, TicketStatus status, TicketType type) {
+    public OutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName,
+                                    String email, String description, TicketStatus status, TicketType type) {
         this.supportTicketId = supportTicketId;
         this.userId = userId;
         this.firstName = firstName;

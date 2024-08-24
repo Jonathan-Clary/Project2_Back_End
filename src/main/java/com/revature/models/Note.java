@@ -13,12 +13,6 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int noteId;
 
-    @Column(nullable = false, name = "text")
-    private String text;
-
-    @Column(nullable = false, name = "date_created")
-    private Date dateCreated;
-
     @JoinColumn(name = "admin_id")
     // This causing an error ('com.revature.models.Note.admin' is not a collection), I have to fix it
     //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -32,10 +26,9 @@ public class Note {
     public Note() {
     }
 
-    public Note(int noteId, String text, Date dateCreated, Admin admin, SupportTicket supportTicket) {
+    public Note(int noteId, Admin admin, SupportTicket supportTicket) {
         this.noteId = noteId;
-        this.text = text;
-        this.dateCreated = dateCreated;
+
         this.admin = admin;
         this.supportTicket = supportTicket;
     }
@@ -47,22 +40,6 @@ public class Note {
 
     public void setNoteId(int noteId) {
         this.noteId = noteId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
     }
 
     public Admin getAdmin() {
@@ -85,8 +62,6 @@ public class Note {
     public String toString() {
         return "Note{" +
                 "noteId=" + noteId +
-                ", text='" + text + '\'' +
-                ", dateCreated=" + dateCreated +
                 ", admin=" + admin +
                 ", supportTicket=" + supportTicket +
                 '}';

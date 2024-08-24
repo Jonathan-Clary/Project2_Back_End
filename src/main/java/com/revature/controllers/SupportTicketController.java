@@ -5,7 +5,7 @@ import com.revature.enums.TicketType;
 import com.revature.exceptions.InvalidStatusException;
 import com.revature.exceptions.InvalidTypeException;
 import com.revature.exceptions.SupportTicketNotFoundException;
-import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +38,7 @@ public class SupportTicketController {
 
         try {
 
-            UserOutgoingSupportTicketDTO returnSupportTicket = sts.getSupportTicketById(id);
+            OutgoingSupportTicketDTO returnSupportTicket = sts.getSupportTicketById(id);
             return ResponseEntity.ok(returnSupportTicket);
 
         } catch (SupportTicketNotFoundException e) {
@@ -58,7 +58,7 @@ public class SupportTicketController {
 
     //Get All SupportTickets
     @GetMapping("/get/all")
-    public ResponseEntity<List<UserOutgoingSupportTicketDTO>> getAllSupportTickets() {
+    public ResponseEntity<List<OutgoingSupportTicketDTO>> getAllSupportTickets() {
         return ResponseEntity.ok(sts.getAllSupportTickets());
     }
 
@@ -75,7 +75,7 @@ public class SupportTicketController {
 
         try {
 
-            UserOutgoingSupportTicketDTO outgoingTicket = sts.register(incomingTicket);
+            OutgoingSupportTicketDTO outgoingTicket = sts.register(incomingTicket);
             return ResponseEntity.status(201).body(outgoingTicket);
 
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class SupportTicketController {
             try {
 
                 sts.updateDescription(id, description);
-                UserOutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
+                OutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
                 return ResponseEntity.ok(outgoingTicket);
 
             } catch (SupportTicketNotFoundException | InvalidTypeException e) {
@@ -112,7 +112,7 @@ public class SupportTicketController {
 
             try {
 
-                UserOutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
+                OutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
                 return ResponseEntity.ok(outgoingTicket);
 
             } catch (SupportTicketNotFoundException | InvalidTypeException e) {
@@ -124,7 +124,7 @@ public class SupportTicketController {
 
             try {
 
-                UserOutgoingSupportTicketDTO outgoingTicket = sts.updateDescription(id, description);
+                OutgoingSupportTicketDTO outgoingTicket = sts.updateDescription(id, description);
                 return ResponseEntity.ok(outgoingTicket);
 
             } catch (SupportTicketNotFoundException e) {
@@ -136,21 +136,22 @@ public class SupportTicketController {
 
     }
 
-    //Resolve a Support Ticket
-    @PatchMapping("/resolve/{id}")
-    public ResponseEntity<?> resolve(@PathVariable int id, @RequestBody String type){
-
-        try {
-
-            UserOutgoingSupportTicketDTO resolvedTicket = sts.updateStatus(id, type);
-            return ResponseEntity.ok(resolvedTicket);
-
-        } catch (SupportTicketNotFoundException | InvalidStatusException e) {
-            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
-
-        }
-
-    }
+    //TODO::Remove once migrated
+//    //Resolve a Support Ticket
+//    @PatchMapping("/resolve/{id}")
+//    public ResponseEntity<?> resolve(@PathVariable int id, @RequestBody String type){
+//
+//        try {
+//
+//            OutgoingSupportTicketDTO resolvedTicket = sts.updateStatus(id, type);
+//            return ResponseEntity.ok(resolvedTicket);
+//
+//        } catch (SupportTicketNotFoundException | InvalidStatusException e) {
+//            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+//
+//        }
+//
+//    }
 
     /*
     *   ==============DELETE MAPPINGS=================

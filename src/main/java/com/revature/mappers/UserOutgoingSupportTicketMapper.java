@@ -1,6 +1,6 @@
 package com.revature.mappers;
 
-import com.revature.DTOs.UserOutgoingSupportTicketDTO;
+import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.models.SupportTicket;
@@ -11,7 +11,7 @@ public class UserOutgoingSupportTicketMapper {
     public UserOutgoingSupportTicketMapper() {
     }
 
-    public UserOutgoingSupportTicketDTO toDto(SupportTicket supportTicket){
+    public OutgoingSupportTicketDTO toDto(SupportTicket supportTicket){
         int supportTicketId = supportTicket.getSupportTicketId();
         int userId = supportTicket.getUser().getUserId();
         String firstName = supportTicket.getUser().getFirstName();
@@ -21,7 +21,7 @@ public class UserOutgoingSupportTicketMapper {
         TicketStatus status = supportTicket.getStatus();
         TicketType type = supportTicket.getType();
 
-        return new UserOutgoingSupportTicketDTO(
+        return new OutgoingSupportTicketDTO(
                 supportTicketId, userId, firstName, lastName, email, description, status, type
         );
     }
