@@ -4,7 +4,6 @@ import com.revature.DAOs.AdminDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
-import com.revature.admin.mappers.AdminOutgoingSupportTicketMapper;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.SupportTicketNotFoundException;
@@ -176,14 +175,6 @@ public class SupportTicketServiceTest {
 
     }
 
-
-//    @Test
-//    public void testFindAllSupportTicketsByAdmin() {
-//
-//
-//
-//    }
-
     @Test
     public void testRegister() throws Exception {
         //given
@@ -236,18 +227,4 @@ public class SupportTicketServiceTest {
 
     }
 
-//    @Test
-//    public void testUpdateSupportTicket() {
-//
-//    }
-//
-//    @Test
-//    public void testApproveSupportTicket() {
-//
-//    }
-//
-//    @Test
-//    public void testDenySupportTicket() {
-//
-//    }
 }
