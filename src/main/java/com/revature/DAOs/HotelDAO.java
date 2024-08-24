@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface HotelDAO extends JpaRepository<Hotel, Long> {
 
 
-    // Optional<Hotel> getHotelById(Long hotelId);
+    Optional<Hotel> findByHotelId(Long hotelId);
 
     List<Hotel> findByHotelNameContainingIgnoreCase(String hotelName);
 

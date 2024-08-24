@@ -16,6 +16,7 @@ public class AmadeusHotelService {
     private final RestTemplate restTemplate;
     private final AmadeusAuthService amadeusAuthService;
 
+
     @Autowired
     public AmadeusHotelService(HotelService hotelService, RestTemplate restTemplate, AmadeusAuthService amadeusAuthService) {
         this.hotelService = hotelService;
