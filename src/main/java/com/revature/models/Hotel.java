@@ -1,7 +1,6 @@
 package com.revature.models;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "hotels")
@@ -17,23 +16,22 @@ public class Hotel {
     @Column(nullable = false)
     private String address;
 
-    @JoinColumn(name = "userId")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Hotel hotel;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Constructors
     public Hotel() {
     }
 
-    public Hotel(Long hotelId, String hotelName, String address) {
+    public Hotel(Long hotelId, String hotelName, String address, User user) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
         this.address = address;
+        this.user = user;
     }
 
     // Getters and Setters
-
-
     public Long getHotelId() {
         return hotelId;
     }
@@ -58,7 +56,13 @@ public class Hotel {
         this.address = address;
     }
 
-    // toString
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
@@ -66,6 +70,7 @@ public class Hotel {
                 "hotelId=" + hotelId +
                 ", hotelName='" + hotelName + '\'' +
                 ", address='" + address + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
