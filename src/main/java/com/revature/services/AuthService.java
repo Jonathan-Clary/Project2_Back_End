@@ -62,7 +62,7 @@ public class AuthService {
 
         } else {
             // If login was unsuccessful, throw a UserNotFoundException with the provided email
-            throw new UserNotFoundException(userDTO.getEmail());
+            throw new UserNotFoundException().withEmail(userDTO.getEmail());
         }
     }
 }

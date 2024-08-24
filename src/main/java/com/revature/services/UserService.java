@@ -40,7 +40,7 @@ public class UserService {
     public User getUserByEmail(String email) throws CustomException {
         var user = userDAO.findByEmail(email);
         if (user.isEmpty())
-            throw new UserNotFoundException(email);
+            throw new UserNotFoundException().withEmail(email);
         return user.get();
     }
 

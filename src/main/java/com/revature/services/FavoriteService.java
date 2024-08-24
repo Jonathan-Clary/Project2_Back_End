@@ -43,7 +43,7 @@ public class FavoriteService {
         Hotel hotel = hotelService.getHotelById(favorite.getHotelId());
         User user = userService.getUserById(favorite.getUserId());
         if(hotel != null && user != null){
-            Favorite newFavorite = new Favorite(favorite, user, hotel);
+            Favorite newFavorite = new Favorite( user, hotel);
             return favoriteDAO.save(newFavorite);
         }else{
             return null;

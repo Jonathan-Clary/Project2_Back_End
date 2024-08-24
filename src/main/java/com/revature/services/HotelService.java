@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
+import com.revature.exceptions.HotelNotFoundException;
 import com.revature.models.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,15 @@ public class HotelService {
         return hotelDAO.save(hotel);
     }
 
-    public void deleteHotel(Long hotelId) {
+    public void deleteHotel(Integer hotelId) {
         hotelDAO.deleteById(hotelId);
     }
 
-    public Hotel getHotelById(int hotelId) {
-        //hotelDAO.findById(hotelId);
-        //TODO: throw exception if not exists
-        return null;
+    public Hotel getHotelById(int hotelId) throws HotelNotFoundException {
+        return hotelDAO.findById(hotelId)
+                .orElseThrow(()-> {
+                    return new HotelNotFoundException(hotelId);
+                });
     }
 
     // add more methods WIP

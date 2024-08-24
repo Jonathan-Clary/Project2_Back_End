@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.DTOs.IncomingFavoriteDTO;
+import com.revature.exceptions.CustomException;
 import com.revature.models.Favorite;
 import com.revature.services.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,8 @@ public class FavoriteController {
     public FavoriteController(FavoriteService favoriteService){this.favoriteService = favoriteService;}
 
     @PostMapping
-    public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite){
-        try{
-            return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
-        }catch(Exception e){
-            return ResponseEntity.status(400).body(null);
-        }
+    public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite) throws CustomException {
+        return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
     }
 
     @GetMapping
@@ -63,6 +60,12 @@ public class FavoriteController {
         }catch(Exception e) {
             return ResponseEntity.status(404).body(null);
         }
+    }
+
+    // handles all the custom exceptions
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<Object> handleCustomException( CustomException e){
+        return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 
 }

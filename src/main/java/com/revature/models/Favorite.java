@@ -3,6 +3,8 @@ package com.revature.models;
 import com.revature.DTOs.IncomingFavoriteDTO;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "favorites")
 public class Favorite {
@@ -12,7 +14,7 @@ public class Favorite {
     private int favoriteId;
 
     @Column(nullable = false)
-    private String dateAdded;
+    private Date dateAdded;
 
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // TODO: this could be one to one will decide later
@@ -22,18 +24,24 @@ public class Favorite {
     @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Hotel hotel;
 
+    @PrePersist
+    void onCreate(){
+        //Set date of creation
+        dateAdded = new Date();
+    }
+
     public Favorite() {
     }
 
-    public Favorite(int favoriteId, String dateAdded, User user, Hotel hotel) {
+    public Favorite(int favoriteId, User user, Hotel hotel) {
         this.favoriteId = favoriteId;
-        this.dateAdded = dateAdded;
+        //this.dateAdded = dateAdded;
         this.user = user;
         this.hotel = hotel;
     }
 
-    public Favorite(IncomingFavoriteDTO favorite, User u, Hotel h){
-        this.dateAdded = favorite.getDateAdded();
+    public Favorite(User u, Hotel h){
+        //this.dateAdded = favorite.getDateAdded();
         this.user = u;
         this.hotel = h;
     }
@@ -47,13 +55,11 @@ public class Favorite {
         this.favoriteId = favoriteId;
     }
 
-    public String getDateAdded() {
+    public Date getDateAdded() {
         return dateAdded;
     }
 
-    public void setDateAdded(String dateAdded) {
-        this.dateAdded = dateAdded;
-    }
+    //public void setDateAdded(String dateAdded) {this.dateAdded = dateAdded;}
 
     public User getUser() {
         return user;
