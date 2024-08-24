@@ -1,9 +1,6 @@
 package com.revature.controllers;
 
 import com.revature.DTOs.IncomingSupportTicketDTO;
-import com.revature.enums.TicketType;
-import com.revature.exceptions.InvalidStatusException;
-import com.revature.exceptions.InvalidTypeException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
@@ -32,8 +29,8 @@ public class SupportTicketController {
     *   ==============GET MAPPINGS=================
     */
 
-    //Endpoint ./support?id={supportTicketId}
-    @GetMapping
+    //Return Support Ticket with Given Id
+    @GetMapping("/get")
     public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id") int id ) {
 
         try {
@@ -48,22 +45,11 @@ public class SupportTicketController {
 
     }
 
-    //Case-sensitive. Query in ALL CAPS!
-    @GetMapping("/get")
-    public ResponseEntity<?> getSupportTicketsByType( @RequestParam(name = "type") TicketType type) {
-
-        //TODO::Create Service
-        return ResponseEntity.ok("TODO");
-    }
-
     //Get All SupportTickets
     @GetMapping("/get/all")
     public ResponseEntity<List<OutgoingSupportTicketDTO>> getAllSupportTickets() {
         return ResponseEntity.ok(sts.getAllSupportTickets());
     }
-
-    //Returns all support tickets assigned to admin
-    // --- Method has been migrated to Admin microservice ---
 
     /*
     *   ==============POST MAPPINGS=================
@@ -85,73 +71,6 @@ public class SupportTicketController {
 
 
     }
-
-    /*
-    *   ==============PATCH MAPPINGS=================
-    */
-
-    //Update a Support Ticket's Type and/or Description
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestParam(name = "description", required = false) String description,
-                                    @RequestParam(name = "type", required = false) String type){
-
-        if (!(description.isEmpty()) && !(type.isEmpty())) {
-
-            try {
-
-                sts.updateDescription(id, description);
-                OutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
-                return ResponseEntity.ok(outgoingTicket);
-
-            } catch (SupportTicketNotFoundException | InvalidTypeException e) {
-                return ResponseEntity.status(e.getStatus()).body(e.getMessage());
-
-            }
-
-        } else if (!(type.isEmpty())) {
-
-            try {
-
-                OutgoingSupportTicketDTO outgoingTicket = sts.updateType(id, type);
-                return ResponseEntity.ok(outgoingTicket);
-
-            } catch (SupportTicketNotFoundException | InvalidTypeException e) {
-                return ResponseEntity.status(e.getStatus()).body(e.getMessage());
-
-            }
-
-        } else {
-
-            try {
-
-                OutgoingSupportTicketDTO outgoingTicket = sts.updateDescription(id, description);
-                return ResponseEntity.ok(outgoingTicket);
-
-            } catch (SupportTicketNotFoundException e) {
-                return ResponseEntity.status(e.getStatus()).body(e.getMessage());
-
-            }
-
-        }
-
-    }
-
-    //TODO::Remove once migrated
-//    //Resolve a Support Ticket
-//    @PatchMapping("/resolve/{id}")
-//    public ResponseEntity<?> resolve(@PathVariable int id, @RequestBody String type){
-//
-//        try {
-//
-//            OutgoingSupportTicketDTO resolvedTicket = sts.updateStatus(id, type);
-//            return ResponseEntity.ok(resolvedTicket);
-//
-//        } catch (SupportTicketNotFoundException | InvalidStatusException e) {
-//            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
-//
-//        }
-//
-//    }
 
     /*
     *   ==============DELETE MAPPINGS=================

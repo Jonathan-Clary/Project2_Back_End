@@ -32,7 +32,7 @@ public class SupportTicketServiceTest {
     private AdminDAO aDAO;
 
     @Mock
-    private UserOutgoingSupportTicketMapper userMapper;
+    private OutgoingSupportTicketMapper userMapper;
 
     @Mock
     private TypeMapper typeMapper;

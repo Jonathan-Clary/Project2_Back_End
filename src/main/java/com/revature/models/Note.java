@@ -28,7 +28,6 @@ public class Note {
 
     public Note(int noteId, Admin admin, SupportTicket supportTicket) {
         this.noteId = noteId;
-
         this.admin = admin;
         this.supportTicket = supportTicket;
     }

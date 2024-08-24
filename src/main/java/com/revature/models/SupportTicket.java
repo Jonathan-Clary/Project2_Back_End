@@ -31,7 +31,10 @@ public class SupportTicket {
     @Column(nullable = false)
     private TicketType type;
 
+    @Column
     private long createdAt;
+
+    @Column
     private long resolvedAt;
 
 

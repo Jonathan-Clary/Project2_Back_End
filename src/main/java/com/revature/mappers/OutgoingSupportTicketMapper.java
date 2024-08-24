@@ -7,8 +7,9 @@ import com.revature.models.SupportTicket;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserOutgoingSupportTicketMapper {
-    public UserOutgoingSupportTicketMapper() {
+public class OutgoingSupportTicketMapper {
+
+    public OutgoingSupportTicketMapper() {
     }
 
     public OutgoingSupportTicketDTO toDto(SupportTicket supportTicket){

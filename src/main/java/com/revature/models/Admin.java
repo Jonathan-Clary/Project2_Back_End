@@ -9,7 +9,6 @@ import java.util.List;
 @Table(name = "admins")
 public class Admin {
 
-    //Getter and Setters
     //Model Variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

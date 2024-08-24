@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import com.revature.DAOs.AdminDAO;
 import com.revature.DAOs.SupportTicketDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
@@ -19,25 +18,17 @@ public class SupportTicketService {
 
     //Model Variable
     private SupportTicketDAO stDao;
-    private AdminDAO aDao;
 
     //Mappers
-    //private AdminOutgoingSupportTicketMapper mapperAdmin;
-    private UserOutgoingSupportTicketMapper mapperUser;
+    private OutgoingSupportTicketMapper mapperUser;
     private IncomingSupportTicketMapper mapperIncoming;
-    private TypeMapper mapperType;
-    private StatusMapper mapperStatus;
 
     //Constructor
     @Autowired
-    public SupportTicketService(SupportTicketDAO stDao, AdminDAO aDao, UserOutgoingSupportTicketMapper mapperUser,
-                                IncomingSupportTicketMapper mapperIncoming, TypeMapper mapperType, StatusMapper mapperStatus) {
+    public SupportTicketService(SupportTicketDAO stDao, OutgoingSupportTicketMapper mapperUser, IncomingSupportTicketMapper mapperIncoming) {
         this.stDao = stDao;
-        this.aDao = aDao;
         this.mapperUser = mapperUser;
         this.mapperIncoming = mapperIncoming;
-        this.mapperType = mapperType;
-        this.mapperStatus = mapperStatus;
     }
 
 
@@ -45,7 +36,7 @@ public class SupportTicketService {
     //
     //
 
-    //Return a SupportTicket by its Id
+    //Return a SupportTicket using its Id
     public OutgoingSupportTicketDTO getSupportTicketById(int id) throws SupportTicketNotFoundException {
 
         Optional<SupportTicket> st = stDao.findById(id);
@@ -99,68 +90,6 @@ public class SupportTicketService {
         stDao.save(toSaveTicket);
 
         return outgoingTicket;
-
-    }
-
-    //-------------Patch Methods------------
-    //
-    //
-
-    //Method to update the Support Ticket's description
-    public OutgoingSupportTicketDTO updateDescription(int id, String description) throws SupportTicketNotFoundException {
-
-        Optional<SupportTicket> foundTicket = stDao.findById(id);
-
-        if (foundTicket.isPresent()) {
-
-            SupportTicket updatedTicket = foundTicket.get();
-            updatedTicket.setDescription(description);
-            stDao.save(updatedTicket);
-            return mapperUser.toDto(updatedTicket);
-
-        } else {
-            throw new SupportTicketNotFoundException(id);
-
-        }
-
-    }
-
-    //TODO::Remove once Admin is migrated
-//    //Method to update the Support Ticket Status
-//    public OutgoingSupportTicketDTO updateStatus(int id, String status) throws SupportTicketNotFoundException, InvalidStatusException {
-//
-//        Optional<SupportTicket> foundTicket = stDao.findById(id);
-//
-//        if (foundTicket.isPresent()) {
-//
-//            SupportTicket updatedTicket = foundTicket.get();
-//            updatedTicket.setStatus(mapperStatus.toDto(status));
-//            stDao.save(updatedTicket);
-//            return mapperUser.toDto(updatedTicket);
-//
-//        } else {
-//            throw new SupportTicketNotFoundException(id);
-//
-//        }
-//
-//    }
-
-    //Method to update the Support Ticket Type
-    public OutgoingSupportTicketDTO updateType(int id, String type) throws SupportTicketNotFoundException, InvalidTypeException {
-
-        Optional<SupportTicket> foundTicket = stDao.findById(id);
-
-        if (foundTicket.isPresent()) {
-
-            SupportTicket updatedTicket = foundTicket.get();
-            updatedTicket.setType(mapperType.tDto(type));
-            stDao.save(updatedTicket);
-            return mapperUser.toDto(updatedTicket);
-
-        } else {
-            throw new SupportTicketNotFoundException(id);
-
-        }
 
     }
 
