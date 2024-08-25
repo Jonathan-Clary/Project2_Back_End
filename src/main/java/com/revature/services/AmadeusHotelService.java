@@ -8,7 +8,8 @@ import com.revature.models.LocalHotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.amadeus.exceptions.ResponseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,9 +29,10 @@ public class AmadeusHotelService {
     }
 
 // WORK IN PROGRESS
-public void fetchAndSaveHotelsByCity(String cityCode) {
+public List<LocalHotel> fetchAndSaveHotelsByCity(String cityCode) {
+    List<LocalHotel> savedHotels = new ArrayList<>();
     try {
-        // Fetch hotel data from Amadeus API
+        // Direct API call to get hotel data (adjust as per the actual SDK or HTTP library you are using)
         Hotel[] hotels = amadeus.referenceData.locations.hotels.byCity.get(Params.with("cityCode", cityCode));
 
         // Process each hotel
@@ -43,24 +45,23 @@ public void fetchAndSaveHotelsByCity(String cityCode) {
             localHotel.setApiHotelId(amadeusHotel.getHotelId());
 
             // Handle hotel address
-            if (amadeusHotel.getAddress() != null) {
-                String address = amadeusHotel.getAddress().getLines() != null
-                        ? String.join(", ", amadeusHotel.getAddress().getLines())
-                        : "Unknown Address";
+            if (amadeusHotel.getAddress() != null && amadeusHotel.getAddress().getLines() != null) {
+                String address = String.join(", ", amadeusHotel.getAddress().getLines());
                 localHotel.setAddress(address);
             } else {
                 localHotel.setAddress("Unknown Address");
             }
 
-            // Save or update the LocalHotel entity
+            // Save or update the LocalHotel entity and add to the list
             hotelService.saveOrUpdateHotel(localHotel);
+            savedHotels.add(localHotel);
         }
 
     } catch (ResponseException e) {
         System.err.println("Failed to fetch hotels: " + e.getMessage());
         e.printStackTrace();
     }
+    return savedHotels;
 }
-
 
 }
