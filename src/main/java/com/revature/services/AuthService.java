@@ -3,13 +3,16 @@ package com.revature.services;
 import com.revature.DAOs.UserDAO;
 import com.revature.DTOs.IncomingUserDTO;
 import com.revature.DTOs.OutgoingJwtUserDTO;
+import com.revature.exceptions.UserNotAuthenticatedException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 import com.revature.security.JwtTokenProvider;
+import com.revature.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +29,9 @@ public class AuthService {
     // Inject the JWT provider for generating tokens
     @Autowired
     JwtTokenProvider jwtProvider;
+
+    @Autowired
+    UserService userService;
 
     // Method to handle login for users
     public OutgoingJwtUserDTO login(IncomingUserDTO userDTO) throws UserNotFoundException {
@@ -65,4 +71,25 @@ public class AuthService {
             throw new UserNotFoundException().withEmail(userDTO.getEmail());
         }
     }
+
+    public User getLoggedInUser() throws UserNotFoundException, UserNotAuthenticatedException{
+        // Get the authentication object
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Check if authentication is not null and if the user is authenticated
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            // Since it's a JWT token-based auth
+            // the principal(user/username) will be a string
+            // Get the username(email) of the authenticated user
+            UserDetailsImpl userDetails =  (UserDetailsImpl) authentication.getPrincipal();
+            String email = userDetails.getUsername();
+
+            return userService.getUserByEmail(email);
+        }
+        else{
+            throw new UserNotAuthenticatedException();
+        }
+    }
+
 }
