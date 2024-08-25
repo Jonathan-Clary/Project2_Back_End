@@ -23,12 +23,12 @@ public class Saved {
 
     @JoinColumn(name = "hotelId")
     @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Hotel hotel;
+    private LocalHotel hotel;
 
     public Saved() {
     }
 
-    public Saved(int saved_id, String date_added, User user, Hotel hotel) {
+    public Saved(int saved_id, String date_added, User user, LocalHotel hotel) {
         this.saved_id = saved_id;
         this.date_added = date_added;
         this.user = user;
@@ -59,11 +59,11 @@ public class Saved {
         this.user = user;
     }
 
-    public Hotel getHotel() {
+    public LocalHotel getHotel() {
         return hotel;
     }
 
-    public void setHotel(Hotel hotel) {
+    public void setHotel(LocalHotel hotel) {
         this.hotel = hotel;
     }
 

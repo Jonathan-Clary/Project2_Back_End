@@ -1,13 +1,14 @@
 package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
-import com.revature.models.Hotel;
-import com.revature.exceptions.HotelNotFoundException; // Custom exception for not found hotels
+import com.revature.models.LocalHotel;
+import com.revature.exceptions.HotelNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class HotelService {
@@ -19,28 +20,29 @@ public class HotelService {
         this.hotelDAO = hotelDAO;
     }
 
-    public List<Hotel> findAllHotels() {
+    public List<LocalHotel> findAllHotels() {
         return hotelDAO.findAll();
     }
 
-    public Hotel findHotelById(Long hotelId) {
+    public LocalHotel findHotelById(UUID hotelId) {
         return hotelDAO.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException("Hotel with ID " + hotelId + " not found"));
     }
 
-    public Hotel saveHotel(Hotel hotel) {
+    public Optional<LocalHotel> findHotelByApiHotelId(String apiHotelId) {
+        return hotelDAO.findByApiHotelId(apiHotelId);
+    }
+
+    public LocalHotel saveHotel(LocalHotel hotel) {
         return hotelDAO.save(hotel);
     }
 
-    public void deleteHotel(Long hotelId) {
-        if (!hotelDAO.existsById(hotelId)) {
-            throw new HotelNotFoundException("Hotel with ID " + hotelId + " not found");
-        }
-        hotelDAO.deleteById(hotelId);
+    public void deleteHotel(UUID hotelId) {
+        LocalHotel hotel = findHotelById(hotelId); // This will throw an exception if the hotel does not exist
+        hotelDAO.delete(hotel);
     }
 
-    public void saveOrUpdateHotel(Hotel hotel) {
-        // Check if the hotel already exists by hotelId and save or update
+    public void saveOrUpdateHotel(LocalHotel hotel) {
         hotelDAO.save(hotel);
     }
 }

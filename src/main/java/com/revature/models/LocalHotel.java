@@ -1,14 +1,16 @@
 package com.revature.models;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "hotels")
-public class Hotel {
+public class LocalHotel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hotelId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "hotel_id")
+    private UUID hotelId;
 
     @Column(nullable = false)
     private String hotelName;
@@ -16,27 +18,30 @@ public class Hotel {
     @Column(nullable = false)
     private String address;
 
+    @Column(name = "api_hotel_id", nullable = false) // Ensure this field exists
+    private String apiHotelId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
     // Constructors
-    public Hotel() {
+    public LocalHotel() {
+        // Default constructor
     }
 
-    public Hotel(Long hotelId, String hotelName, String address, User user) {
-        this.hotelId = hotelId;
+    public LocalHotel(String hotelName, String address, User user) {
         this.hotelName = hotelName;
         this.address = address;
         this.user = user;
     }
 
     // Getters and Setters
-    public Long getHotelId() {
+    public UUID getHotelId() {
         return hotelId;
     }
 
-    public void setHotelId(Long hotelId) {
+    public void setHotelId(UUID hotelId) {
         this.hotelId = hotelId;
     }
 
@@ -63,10 +68,17 @@ public class Hotel {
     public void setUser(User user) {
         this.user = user;
     }
+    public String getApiHotelId() {
+        return apiHotelId;
+    }
+
+    public void setApiHotelId(String apiHotelId) {
+        this.apiHotelId = apiHotelId;
+    }
 
     @Override
     public String toString() {
-        return "Hotel{" +
+        return "LocalHotel{" +
                 "hotelId=" + hotelId +
                 ", hotelName='" + hotelName + '\'' +
                 ", address='" + address + '\'' +

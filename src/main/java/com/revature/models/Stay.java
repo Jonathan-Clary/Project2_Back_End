@@ -29,7 +29,7 @@ public class Stay {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotelId")
-    private Hotel hotel;
+    private LocalHotel hotel;
 
 //    Used for inserts, is not included when responding in json, because json already included entire user obj
 //    transient stops from being stored in db, bc User obj already does that
@@ -47,7 +47,7 @@ public class Stay {
     public Stay() {}
 
 
-    public Stay(int stayId, User user, Hotel hotel, String bookedDate, String endDate) {
+    public Stay(int stayId, User user, LocalHotel hotel, String bookedDate, String endDate) {
         this.stayId = stayId;
         this.user = user;
         this.hotel = hotel;
@@ -58,11 +58,11 @@ public class Stay {
 
 
 
-    public Hotel getHotel() {
+    public LocalHotel getHotel() {
         return hotel;
     }
 
-    public void setHotel(Hotel hotel) {
+    public void setHotel(LocalHotel hotel) {
         this.hotel = hotel;
     }
 

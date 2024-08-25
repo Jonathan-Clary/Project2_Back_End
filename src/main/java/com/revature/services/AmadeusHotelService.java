@@ -1,60 +1,66 @@
 package com.revature.services;
 
-import com.revature.models.Hotel;
-import com.revature.services.DTOs.AmadeusHotelResponse;
+import com.amadeus.Amadeus;
+import com.amadeus.Params;
+import com.amadeus.exceptions.ResponseException;
+import com.amadeus.resources.Hotel;
+import com.revature.models.LocalHotel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
+import com.amadeus.exceptions.ResponseException;
+import java.util.UUID;
 
 @Service
 public class AmadeusHotelService {
 
     private final HotelService hotelService;
-    private final RestTemplate restTemplate;
-    private final AmadeusAuthService amadeusAuthService;
-
+    private final Amadeus amadeus;
 
     @Autowired
-    public AmadeusHotelService(HotelService hotelService, RestTemplate restTemplate, AmadeusAuthService amadeusAuthService) {
+    public AmadeusHotelService(HotelService hotelService,
+                               @Value("${amadeus.apiKey}") String apiKey,
+                               @Value("${amadeus.apiSecret}") String apiSecret) {
         this.hotelService = hotelService;
-        this.restTemplate = restTemplate;
-        this.amadeusAuthService = amadeusAuthService;
+        this.amadeus = Amadeus
+                .builder(apiKey, apiSecret)
+                .build();
     }
 
-    public void fetchAndSaveHotelsByCity(String cityCode) {
-        String amadeusApiUrl = buildAmadeusApiUrl(cityCode);
-        String accessToken = amadeusAuthService.getAccessToken();
+// WORK IN PROGRESS
+public void fetchAndSaveHotelsByCity(String cityCode) {
+    try {
+        // Fetch hotel data from Amadeus API
+        Hotel[] hotels = amadeus.referenceData.locations.hotels.byCity.get(Params.with("cityCode", cityCode));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken);
+        // Process each hotel
+        for (Hotel amadeusHotel : hotels) {
+            LocalHotel localHotel = new LocalHotel();
+            localHotel.setHotelId(UUID.randomUUID());
+            localHotel.setHotelName(amadeusHotel.getName());
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+            // Set the apiHotelId from the Amadeus API
+            localHotel.setApiHotelId(amadeusHotel.getHotelId());
 
-        ResponseEntity<AmadeusHotelResponse[]> response = restTemplate.exchange(amadeusApiUrl, HttpMethod.GET, entity, AmadeusHotelResponse[].class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            AmadeusHotelResponse[] hotels = response.getBody();
-            if (hotels != null) {
-                for (AmadeusHotelResponse apiHotel : hotels) {
-                    Hotel hotel = mapToHotelEntity(apiHotel);
-                    hotelService.saveOrUpdateHotel(hotel);
-                }
+            // Handle hotel address
+            if (amadeusHotel.getAddress() != null) {
+                String address = amadeusHotel.getAddress().getLines() != null
+                        ? String.join(", ", amadeusHotel.getAddress().getLines())
+                        : "Unknown Address";
+                localHotel.setAddress(address);
+            } else {
+                localHotel.setAddress("Unknown Address");
             }
+
+            // Save or update the LocalHotel entity
+            hotelService.saveOrUpdateHotel(localHotel);
         }
-    }
 
-    private String buildAmadeusApiUrl(String cityCode) {
-        return "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=" + cityCode;
+    } catch (ResponseException e) {
+        System.err.println("Failed to fetch hotels: " + e.getMessage());
+        e.printStackTrace();
     }
+}
 
-    private Hotel mapToHotelEntity(AmadeusHotelResponse apiHotel) {
-        Hotel hotel = new Hotel();
-        hotel.setHotelId(apiHotel.getId());
-        hotel.setHotelName(apiHotel.getName());
-        hotel.setAddress(apiHotel.getAddress().getLines().get(0));
-        return hotel;
-    }
+
 }
