@@ -13,8 +13,11 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int noteId;
 
+    @Column(nullable = true)
+    private String text;
+
     @JoinColumn(name = "admin_id")
-    // This causing an error ('com.revature.models.Note.admin' is not a collection), I have to fix it
+    // This causing an error ('com.revature.admin.models.Note.admin' is not a collection), I have to fix it
     //@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Admin admin;
@@ -23,13 +26,29 @@ public class Note {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private SupportTicket supportTicket;
 
+    private Date createdAt;
+
+    @PrePersist
+    private void onCreate(){
+        createdAt = new Date();
+    }
+
     public Note() {
     }
 
-    public Note(int noteId, Admin admin, SupportTicket supportTicket) {
+    public Note(int noteId, String text, Admin admin, SupportTicket supportTicket) {
         this.noteId = noteId;
         this.admin = admin;
         this.supportTicket = supportTicket;
+        this.text =text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     // Getters and setters
@@ -57,13 +76,18 @@ public class Note {
         this.supportTicket = supportTicket;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
                 "noteId=" + noteId +
+                ", text='" + text + '\'' +
                 ", admin=" + admin +
                 ", supportTicket=" + supportTicket +
+                ", createdAt=" + createdAt +
                 '}';
     }
-
 }
