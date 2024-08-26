@@ -8,11 +8,13 @@ import com.revature.exceptions.StayNotFoundException;
 import com.revature.models.Favorite;
 import com.revature.models.Hotel;
 import com.revature.models.Stay;
+import com.revature.utils.DateUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,10 +63,13 @@ public class StayService {
             Hotel hotel = hotelService.getHotelById(id);
             stay.setHotel(hotel);
         }
+
         if(stayFieldValues.containsKey("bookedDate"))
-            stay.setBookedDate(stayFieldValues.get("bookedDate"));
+            //stay.setBookedDate(stayFieldValues.get("bookedDate"));
+            stay.setBookedDate(DateUtility.parse(stayFieldValues.get("bookedDate")));
         if(stayFieldValues.containsKey("endDate"))
-            stay.setBookedDate(stayFieldValues.get("endDate"));
+            //stay.setBookedDate(stayFieldValues.get("endDate"));
+            stay.setBookedDate(DateUtility.parse(stayFieldValues.get("endDate")));
 
 
         Stay returningStay = stayDAO.save(stay);

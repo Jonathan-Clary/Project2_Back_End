@@ -3,6 +3,7 @@ package com.revature.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -30,6 +31,18 @@ public class Admin {
     @JsonIgnore
     @OneToMany(mappedBy = "admin", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private List<Note> notes;
+
+    @Column(nullable = false)
+    private Date createdAt;
+
+    @PrePersist
+    private void onCreate(){
+        createdAt = new Date();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
     //Constructors
     public Admin() {
@@ -92,7 +105,6 @@ public class Admin {
         this.notes = notes;
     }
 
-    //toString
     @Override
     public String toString() {
         return "Admin{" +
@@ -101,6 +113,8 @@ public class Admin {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", notes=" + notes +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

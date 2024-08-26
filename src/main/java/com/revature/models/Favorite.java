@@ -1,6 +1,5 @@
 package com.revature.models;
 
-import com.revature.DTOs.IncomingFavoriteDTO;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -14,7 +13,7 @@ public class Favorite {
     private int favoriteId;
 
     @Column(nullable = false)
-    private Date dateAdded;
+    private Date createdAt;
 
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // TODO: this could be one to one will decide later
@@ -27,7 +26,7 @@ public class Favorite {
     @PrePersist
     void onCreate(){
         //Set date of creation
-        dateAdded = new Date();
+        createdAt = new Date();
     }
 
     public Favorite() {
@@ -55,8 +54,8 @@ public class Favorite {
         this.favoriteId = favoriteId;
     }
 
-    public Date getDateAdded() {
-        return dateAdded;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     //public void setDateAdded(String dateAdded) {this.dateAdded = dateAdded;}
@@ -81,7 +80,7 @@ public class Favorite {
     public String toString() {
         return "Favorite{" +
                 "favoriteId=" + favoriteId +
-                ", dateAdded='" + dateAdded + '\'' +
+                ", createdAt=" + createdAt +
                 ", user=" + user +
                 ", hotel=" + hotel +
                 '}';

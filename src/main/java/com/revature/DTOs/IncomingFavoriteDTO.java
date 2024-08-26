@@ -9,14 +9,9 @@ public class IncomingFavoriteDTO {
     }
 
     public IncomingFavoriteDTO(int userId, int hotelId) {
-        //this.dateAdded = dateAdded;
         this.userId = userId;
         this.hotelId = hotelId;
     }
-
-    //public String getDateAdded() {return dateAdded;}
-
-    //public void setDateAdded(String dateAdded) {this.dateAdded = dateAdded;}
 
     public int getUserId() {
         return userId;
@@ -37,8 +32,7 @@ public class IncomingFavoriteDTO {
     @Override
     public String toString() {
         return "IncomingFavoriteDTO{" +
-                //"dateAdded='" + dateAdded + '\'' +
-                ", userId=" + userId +
+                "userId=" + userId +
                 ", hotelId=" + hotelId +
                 '}';
     }

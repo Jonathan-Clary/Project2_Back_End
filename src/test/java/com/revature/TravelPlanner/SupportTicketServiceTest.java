@@ -58,7 +58,7 @@ public class SupportTicketServiceTest {
         user.setLastName("Doe");
         user.setEmail("JohnDoe@example.com");
         user.setPassword("password");
-        user.setDateCreated(fakeDateCreated.getTime());  //TODO::Fix when/if set to long
+        user.setCreatedAt(fakeDateCreated.getTime());  //TODO::Fix when/if set to long
 
         SupportTicket supportTicket = new SupportTicket();
         supportTicket.setSupportTicketId(supportTicketId);
@@ -122,7 +122,7 @@ public class SupportTicketServiceTest {
         user.setLastName("Doe");
         user.setEmail("JohnDoe@example.com");
         user.setPassword("password");
-        user.setDateCreated(fakeDateCreated.getTime());
+        user.setCreatedAt(fakeDateCreated.getTime());
 
         SupportTicket supportTicket1 = new SupportTicket();
         supportTicket1.setSupportTicketId(id1);
@@ -188,7 +188,7 @@ public class SupportTicketServiceTest {
         user.setLastName("Doe");
         user.setEmail("JohnDoe@example.com");
         user.setPassword("password");
-        user.setDateCreated(fakeDateCreated.getTime());
+        user.setCreatedAt(fakeDateCreated.getTime());
 
         SupportTicket supportTicket = new SupportTicket();
         supportTicket.setSupportTicketId(supportTicketId);

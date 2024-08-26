@@ -4,6 +4,8 @@ package com.revature.DTOs;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 
+import java.util.Date;
+
 public class OutgoingSupportTicketDTO {
 
     //Model Variables
@@ -15,14 +17,14 @@ public class OutgoingSupportTicketDTO {
     private String description;
     private TicketStatus status;
     private TicketType type;
+    private Date createdAt;
 
 
     //Constructors
     public OutgoingSupportTicketDTO() {
     }
 
-    public OutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName,
-                                    String email, String description, TicketStatus status, TicketType type) {
+    public OutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName, String email, String description, TicketStatus status, TicketType type, Date createdAt) {
         this.supportTicketId = supportTicketId;
         this.userId = userId;
         this.firstName = firstName;
@@ -31,6 +33,7 @@ public class OutgoingSupportTicketDTO {
         this.description = description;
         this.status = status;
         this.type = type;
+        this.createdAt = createdAt;
     }
 
     public int getSupportTicketId() {
@@ -97,9 +100,17 @@ public class OutgoingSupportTicketDTO {
         this.type = type;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
-        return "UserOutgoingSupportTicketDTO{" +
+        return "OutgoingSupportTicketDTO{" +
                 "supportTicketId=" + supportTicketId +
                 ", userId=" + userId +
                 ", firstName='" + firstName + '\'' +
@@ -108,6 +119,7 @@ public class OutgoingSupportTicketDTO {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", type=" + type +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

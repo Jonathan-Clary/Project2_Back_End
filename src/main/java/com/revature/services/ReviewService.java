@@ -4,15 +4,13 @@ import com.revature.DAOs.ReviewDAO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidStarsException;
 import com.revature.models.Review;
-import com.revature.services.UserService;
-import com.revature.services.HotelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.time.*;
@@ -50,10 +48,6 @@ public class ReviewService {
         if (review.getStars() < 1 || review.getStars() > 5) {
             throw new InvalidStarsException();
         }
-
-        LocalDate currentDate = LocalDate.now();
-        String dateString = currentDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
-        review.setDateAdded(dateString);
 
         Review returningReview = reviewDAO.save(review);
         log.debug("Method 'submitReview' returning: {}",returningReview);

@@ -11,6 +11,8 @@ import com.revature.services.HotelService;
 import com.revature.services.StayService;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Date;
 import java.util.List;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
@@ -45,11 +47,21 @@ public class StayController {
         User user = userService.getUserById(stay.getUserId());//Will throw if user doesn't exist
         Hotel hotel =  hotelService.getHotelById(stay.getHotelId());//Will throw if hotel doesn't exist
 
+        /*
         LocalDate bookedDate = LocalDate.parse(stay.getBookedDate());
         LocalDate endDate = LocalDate.parse(stay.getEndDate());
 
         if(endDate.isBefore(bookedDate) || endDate.equals(bookedDate))
             throw new InvalidDateRangeException(bookedDate,endDate);
+
+       */
+
+        Date bookedDate = stay.getBookedDate();
+        Date endDate = stay.getEndDate();
+
+        if(endDate.before(bookedDate) || endDate.equals(bookedDate))
+            throw new InvalidDateRangeException(bookedDate,endDate);
+
 
 
         //Can use Stay object instead of DTO because of @JsonProperty and @Transient annotations in Stay model

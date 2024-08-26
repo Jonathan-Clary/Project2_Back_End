@@ -1,13 +1,11 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
 import java.util.Date;
 import java.util.Objects;
 
@@ -39,15 +37,13 @@ public class User {
 
     /*TODO::Date() creates Date obj w/ current date and time. Date().getTime() returns a long value of the generated Date.
         Potentially easier to implement then creating a String when an account is created. */
+
     @Column(nullable = false)
-    //private String dateCreated;
-    private long dateCreated;
+    private Date createdAt;
     // This method is executed before persisting the user account into the database
     @PrePersist
     private void onCreate(){
-        // Sets the timestamps for when the user account is created
-        Date epoch = new Date();
-        dateCreated = epoch.getTime();
+        createdAt = new Date();
     }
 
     /*STAYS-HISTORY: This list allows for us to keep track of a user's stay history in the DB
@@ -57,13 +53,12 @@ public class User {
     */
     public User() {}
 
-    public User(int userId, String firstName, String lastName, String password, String email, long dateCreated) {
+    public User(int userId, String firstName, String lastName, String password, String email) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.dateCreated = dateCreated;
     }
 
     public int getUserId() {
@@ -98,12 +93,8 @@ public class User {
         this.password = password;
     }
 
-    public long getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(long dateCreated) {
-        this.dateCreated = dateCreated;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public String getEmail() { return email; }
@@ -118,7 +109,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", dateCreated='" + dateCreated + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 
@@ -127,11 +118,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(dateCreated, user.dateCreated);
+        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(createdAt, user.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, email, password, dateCreated);
+        return Objects.hash(userId, firstName, lastName, email, password, createdAt);
     }
 }

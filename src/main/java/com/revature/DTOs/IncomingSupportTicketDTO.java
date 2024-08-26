@@ -1,7 +1,5 @@
 package com.revature.DTOs;
 
-import java.util.Objects;
-
 public class IncomingSupportTicketDTO {
 
     //Model Variables
@@ -42,12 +40,13 @@ public class IncomingSupportTicketDTO {
         this.type = type;
     }
 
+
     @Override
     public String toString() {
         return "IncomingSupportTicketDTO{" +
                 "userId=" + userId +
                 ", description='" + description + '\'' +
-                ", type=" + type +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

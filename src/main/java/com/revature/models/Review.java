@@ -2,6 +2,8 @@ package com.revature.models;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "reviews")
 public class Review {
@@ -11,7 +13,12 @@ public class Review {
     private int reviewId;
 
     @Column(nullable = false)
-    private String dateAdded;
+    private Date createdAt;
+
+    @PrePersist
+    private void onCreate(){
+        createdAt = new Date();
+    }
 
     @Column(nullable = false)
     private int stars;
@@ -30,9 +37,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(int reviewId, String dateAdded, int stars, String reviewText, User user, Hotel hotel) {
-        this.reviewId = reviewId;
-        this.dateAdded = dateAdded;
+    public Review(int stars, String reviewText, User user, Hotel hotel) {
         this.stars = stars;
         this.reviewText = reviewText;
         this.user = user;
@@ -47,13 +52,10 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public String getDateAdded() {
-        return dateAdded;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDateAdded(String dateAdded) {
-        this.dateAdded = dateAdded;
-    }
 
     public int getStars() {
         return stars;
@@ -89,9 +91,9 @@ public class Review {
 
     @Override
     public String toString() {
-        return "Reviews{" +
+        return "Review{" +
                 "reviewId=" + reviewId +
-                ", dateAdded='" + dateAdded + '\'' +
+                ", createdAt=" + createdAt +
                 ", stars=" + stars +
                 ", reviewText='" + reviewText + '\'' +
                 ", user=" + user +

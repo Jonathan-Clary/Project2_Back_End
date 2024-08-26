@@ -6,6 +6,8 @@ import com.revature.enums.TicketType;
 import com.revature.models.SupportTicket;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class OutgoingSupportTicketMapper {
 
@@ -21,9 +23,10 @@ public class OutgoingSupportTicketMapper {
         String description = supportTicket.getDescription();
         TicketStatus status = supportTicket.getStatus();
         TicketType type = supportTicket.getType();
+        Date createdAt = supportTicket.getCreatedAt();
 
         return new OutgoingSupportTicketDTO(
-                supportTicketId, userId, firstName, lastName, email, description, status, type
+                supportTicketId, userId, firstName, lastName, email, description, status, type, createdAt
         );
     }
 }

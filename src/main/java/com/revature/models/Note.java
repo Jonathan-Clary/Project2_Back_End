@@ -26,6 +26,7 @@ public class Note {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private SupportTicket supportTicket;
 
+    @Column(nullable = false)
     private Date createdAt;
 
     @PrePersist

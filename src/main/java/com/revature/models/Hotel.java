@@ -3,6 +3,8 @@ package com.revature.models;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "hotels")
 public class Hotel {
@@ -16,6 +18,18 @@ public class Hotel {
 
     @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
+    private Date createdAt;
+
+    @PrePersist
+    private void onCreate(){
+        createdAt = new Date();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
     // Constructors
     public Hotel() {
@@ -62,6 +76,7 @@ public class Hotel {
                 "hotelId=" + hotelId +
                 ", hotelName='" + hotelName + '\'' +
                 ", address='" + address + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
