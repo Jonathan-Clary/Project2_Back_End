@@ -29,7 +29,7 @@ public class HotelService {
         return hotelDAO.findAll();
     }
 
-    public LocalHotel findHotelById(UUID hotelId) {
+    public LocalHotel findHotelById(UUID hotelId) throws HotelNotFoundException {
         return hotelDAO.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException("Hotel with ID " + hotelId + " not found"));
     }
@@ -42,7 +42,7 @@ public class HotelService {
         return hotelDAO.save(hotel);
     }
 
-    public void deleteHotel(UUID hotelId) {
+    public void deleteHotel(UUID hotelId) throws CustomException {
         LocalHotel hotel = findHotelById(hotelId); // This will throw an exception if the hotel does not exist
         hotelDAO.delete(hotel);
     }
