@@ -1,11 +1,14 @@
 package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
+import com.revature.DAOs.StayDAO;
+import com.revature.exceptions.CustomException;
 import com.revature.models.LocalHotel;
 import com.revature.exceptions.HotelNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,10 +17,12 @@ import java.util.UUID;
 public class HotelService {
 
     private final HotelDAO hotelDAO;
+    private final StayDAO stayDAO;
 
     @Autowired
-    public HotelService(HotelDAO hotelDAO) {
+    public HotelService(HotelDAO hotelDAO, StayDAO stayDAO) {
         this.hotelDAO = hotelDAO;
+        this.stayDAO = stayDAO;
     }
 
     public List<LocalHotel> findAllHotels() {
@@ -45,4 +50,23 @@ public class HotelService {
     public void saveOrUpdateHotel(LocalHotel hotel) {
         hotelDAO.save(hotel);
     }
+
+
+    public List<LocalHotel> getHotelsByDuration(String from, String to) throws CustomException {
+        Date from_date = valueOf(from);
+        Date to_date = valueOf(to);
+        if(to_date.before(from_date))
+            throw new CustomException("Date1 cannot be after Date2.");
+
+        return stayDAO.findByDuration(from_date, to_date);
+    }
+
+    private Date valueOf(String date) throws CustomException {
+        try{
+            return Date.valueOf(date);
+        }catch (Exception q){
+            throw new CustomException("Invalid Date: Please use the format [yyyy-mm-dd]");
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ package com.revature.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -39,15 +40,15 @@ public class Stay {
 
 
     @Column(nullable = false)
-    private String bookedDate;
+    private Date bookedDate;
 
     @Column(nullable = false)
-    private String endDate;
+    private Date endDate;
 
     public Stay() {}
 
 
-    public Stay(int stayId, User user, LocalHotel hotel, String bookedDate, String endDate) {
+    public Stay(int stayId, User user, LocalHotel hotel, Date bookedDate, Date endDate) {
         this.stayId = stayId;
         this.user = user;
         this.hotel = hotel;
@@ -90,19 +91,19 @@ public class Stay {
         this.user = user;
     }
 
-    public String getBookedDate() {
+    public Date getBookedDate() {
         return bookedDate;
     }
 
-    public void setBookedDate(String bookedDate) {
+    public void setBookedDate(Date bookedDate) {
         this.bookedDate = bookedDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
