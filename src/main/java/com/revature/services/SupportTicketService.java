@@ -5,7 +5,10 @@ import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.exceptions.*;
 import com.revature.mappers.*;
+import com.revature.models.Stay;
 import com.revature.models.SupportTicket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ import java.util.Optional;
 
 @Service
 public class SupportTicketService {
+
+    Logger log = LoggerFactory.getLogger(SupportTicketService.class);
 
     //Model Variable
     private SupportTicketDAO stDao;
@@ -38,12 +43,13 @@ public class SupportTicketService {
 
     //Return a SupportTicket using its Id
     public OutgoingSupportTicketDTO getSupportTicketById(int id) throws SupportTicketNotFoundException {
-
+        log.debug("Method 'getSupportTicketById' invoked with id: {}",id);
         Optional<SupportTicket> st = stDao.findById(id);
-
         if (st.isPresent()) {
 
-             return mapperUser.toDto(st.get());
+            OutgoingSupportTicketDTO outgoingSupportTicketDTO = mapperUser.toDto(st.get());
+            log.debug("Method 'getSupportTicketById' returning: {}",outgoingSupportTicketDTO.toString());
+            return outgoingSupportTicketDTO;
 
         } else {
             throw new SupportTicketNotFoundException(id);
@@ -54,6 +60,7 @@ public class SupportTicketService {
 
     //Return all SupportTickets
     public List<OutgoingSupportTicketDTO> getAllSupportTickets() {
+        log.debug("Method 'getAllSupportTickets' invoked");
 
         //Instantiate Lists
         List<SupportTicket> stl = stDao.findAll();
@@ -65,6 +72,13 @@ public class SupportTicketService {
 
         }
 
+        //Append id's to string for logging, because printing every object is excessive
+        StringBuilder sb = new StringBuilder();
+        for(OutgoingSupportTicketDTO o: returnList){
+            sb.append(o.getSupportTicketId()).append(", ");
+        }
+        log.debug("Method 'getAllSupportTickets' returning OutgoingSupportTicketDTO list with supportTicket_ids: {}", sb.toString());
+
         return returnList;
 
     }
@@ -75,6 +89,7 @@ public class SupportTicketService {
 
     //Method to register a new support ticket
     public OutgoingSupportTicketDTO register(IncomingSupportTicketDTO incomingTicket) throws InvalidDescriptionException, InvalidTypeException, UserNotFoundException {
+        log.debug("Method 'register' invoked with incomingTicket: {}",incomingTicket.toString());
 
         if (incomingTicket.getDescription().equals("") || incomingTicket.getDescription() == null) {
             throw new InvalidDescriptionException();
@@ -89,6 +104,7 @@ public class SupportTicketService {
 
         stDao.save(toSaveTicket);
 
+        log.debug("Method 'register' returning: {}",outgoingTicket.toString());
         return outgoingTicket;
 
     }
@@ -99,12 +115,14 @@ public class SupportTicketService {
 
     //Method to delete a Support Ticket from the Database
     public OutgoingSupportTicketDTO delete(int id) throws SupportTicketNotFoundException {
-
+        log.debug("Method 'delete' invoked with id: {}",id);
         Optional<SupportTicket> toDeleteTicket = stDao.findById(id);
 
         if (toDeleteTicket.isPresent()) {
 
             stDao.delete(toDeleteTicket.get());
+            OutgoingSupportTicketDTO outgoingSupportTicketDTO = mapperUser.toDto(toDeleteTicket.get());
+            log.debug("Method 'delete' returning: {}",outgoingSupportTicketDTO.toString());
             return mapperUser.toDto(toDeleteTicket.get());
 
         } else {

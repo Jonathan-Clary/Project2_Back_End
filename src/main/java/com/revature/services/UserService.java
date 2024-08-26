@@ -5,6 +5,8 @@ import com.revature.exceptions.*;
 import com.revature.models.User;
 import com.revature.security.PasswordEncoderProvider;
 import jakarta.validation.Validation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.regex.Pattern;
 
 @Service
 public class UserService {
+
+    Logger log = LoggerFactory.getLogger(UserService.class);
 
     private UserDAO userDAO;
 
@@ -28,24 +32,31 @@ public class UserService {
     }
 
     public User getUserById(int userId) throws CustomException {
+        log.debug("Method 'getUserById' invoked with userId: {}", userId);
         if(userId <= 0)
             throw new InvalidIDException();
         var user = userDAO.findById(userId);
         if(user.isEmpty())
             throw new UserNotFoundException(userId);
+        log.debug("Method 'getUserById' returning: {}", user.get().toString());
         return user.get();
     }
 
 
     public User getUserByEmail(String email) throws UserNotFoundException {
+        log.debug("Method 'getUserByEmail' invoked with email: {}", email);
         var user = userDAO.findByEmail(email);
         if (user.isEmpty())
             throw new UserNotFoundException().withEmail(email);
+
+        log.debug("Method 'getUserByEmail' returning: {}", user.get().toString());
         return user.get();
     }
 
 
-    public User createUser(User user) throws EmailAlreadyExistException, InvalidEmailFormatException, InvalidPasswordException {
+    public User createUser(User user) throws CustomException {
+        log.debug("Method 'createUser' invoked with user: {}", user.toString());
+
         Optional<User> presentUser = userDAO.findByEmail(user.getEmail());
         String email = user.getEmail();
         String emailRegexPattern = "^(.+)@(\\S+)$";//Must be in email format
@@ -73,10 +84,14 @@ public class UserService {
         user.setPassword(encodedPassword);
 
 
-        return userDAO.save(user);
+        User returningUser = userDAO.save(user);
+        log.debug("Method 'createUser' returning: {}", returningUser);
+
+        return returningUser;
     }
 
     public User updateUserById(int userId, Map<String,String> newUser) throws CustomException {
+        log.debug("Method 'updateUserById' invoked with userId: {}, newUser: {}", userId,newUser.toString());
         User user = getUserById(userId);
 
         if(newUser.containsKey("firstName"))
@@ -101,7 +116,9 @@ public class UserService {
             if(user2.get().getUserId() != userId)
                 throw new EmailAlreadyExistException(user.getEmail());
 
-        return userDAO.save(user);
+        User returningUser = userDAO.save(user);
+        log.debug("Method 'updateUserById' returning: {}", returningUser.toString());
+        return returningUser;
     }
 
     private CustomException validate(User user){
