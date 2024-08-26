@@ -17,10 +17,6 @@ public class Hotel {
     @Column(nullable = false)
     private String address;
 
-    @JoinColumn(name = "userId")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Hotel hotel;
-
     // Constructors
     public Hotel() {
     }
