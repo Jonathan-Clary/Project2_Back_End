@@ -98,6 +98,10 @@ public class User {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getEmail() { return email; }
 
     public void setEmail(String email) { this.email = email; }
