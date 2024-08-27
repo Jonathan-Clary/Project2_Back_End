@@ -10,6 +10,8 @@ import com.revature.models.User;
 import com.revature.services.HotelService;
 import com.revature.services.StayService;
 import com.revature.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -26,6 +28,7 @@ import java.util.UUID;
 @CrossOrigin
 public class StayController {
 
+    Logger log = LoggerFactory.getLogger(StayController.class);
     private StayService stayService;
     private UserService userService;
     private HotelService hotelService;
@@ -89,6 +92,7 @@ public class StayController {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException( CustomException e){
+        log.warn("Exception was thrown: {}", e.getMsg());
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
     //STAYS-HISTORY: Controller Method for

@@ -1,9 +1,12 @@
 package com.revature.controllers;
 
 import com.revature.DTOs.IncomingSupportTicketDTO;
+import com.revature.exceptions.CustomException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.services.SupportTicketService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @CrossOrigin                    //TODO::Create extra security safety
 public class SupportTicketController {
 
+    Logger log = LoggerFactory.getLogger(SupportTicketController.class);
     //Model Variables
     private SupportTicketService sts;
 
@@ -40,6 +44,7 @@ public class SupportTicketController {
             return ResponseEntity.ok(returnSupportTicket);
 
         } catch (SupportTicketNotFoundException e) {
+            log.warn("Exception was thrown: {}", e.getMsg());
             return ResponseEntity.status(400).body(e.getMessage());
 
         }
@@ -65,7 +70,8 @@ public class SupportTicketController {
             OutgoingSupportTicketDTO outgoingTicket = sts.register(incomingTicket);
             return ResponseEntity.status(201).body(outgoingTicket);
 
-        } catch (Exception e) {
+        } catch (CustomException e) {
+            log.warn("Exception was thrown: {}", e.getMsg());
             return ResponseEntity.status(400).body(e.getMessage());
 
         }
@@ -85,6 +91,7 @@ public class SupportTicketController {
             return ResponseEntity.ok(sts.delete(id));
 
         } catch (SupportTicketNotFoundException e) {
+            log.warn("Exception was thrown: {}", e.getMsg());
             return ResponseEntity.ok(e.getMessage());
 
         }

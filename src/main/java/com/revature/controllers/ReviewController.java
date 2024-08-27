@@ -3,6 +3,8 @@ package com.revature.controllers;
 import com.revature.exceptions.CustomException;
 import com.revature.models.Review;
 import com.revature.services.ReviewService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/reviews")
 @CrossOrigin
 public class ReviewController {
-
+    Logger log = LoggerFactory.getLogger(ReviewController.class);
     private ReviewService reviewService;
 
     @Autowired
@@ -27,7 +29,8 @@ public class ReviewController {
         try {
             Review review = reviewService.submitReview(requestReview);
             return ResponseEntity.status(200).body(review);
-        } catch (Exception e) {
+        } catch (CustomException e) {
+            log.warn("Exception was thrown: {}", e.getMsg());
             return ResponseEntity.status(400).body(null);
         }
     }
