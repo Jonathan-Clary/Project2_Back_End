@@ -58,7 +58,7 @@ public class SupportTicketController {
 
     //Registers a Support Ticket to the DB
     @PostMapping("/register")
-    public ResponseEntity<?> register(IncomingSupportTicketDTO incomingTicket){
+    public ResponseEntity<?> register(@RequestBody IncomingSupportTicketDTO incomingTicket){
 
         try {
 
