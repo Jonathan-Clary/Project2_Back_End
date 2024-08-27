@@ -6,14 +6,15 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "support_tickets")
 public class SupportTicket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int supportTicketId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID supportTicketId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
@@ -59,7 +60,7 @@ public class SupportTicket {
 
     public SupportTicket() {}
 
-    public SupportTicket(int supportTicketId, User user, TicketStatus status, String description, TicketType type) {
+    public SupportTicket(UUID supportTicketId, User user, TicketStatus status, String description, TicketType type) {
         this.supportTicketId = supportTicketId;
         this.user = user;
         this.status = status;
@@ -67,11 +68,11 @@ public class SupportTicket {
         this.type = type;
     }
 
-    public int getSupportTicketId() {
+    public UUID getSupportTicketId() {
         return supportTicketId;
     }
 
-    public void setSupportTicketId(int supportTicketId) {
+    public void setSupportTicketId(UUID supportTicketId) {
         this.supportTicketId = supportTicketId;
     }
 

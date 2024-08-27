@@ -1,26 +1,28 @@
 package com.revature.DTOs;
 
+import java.util.UUID;
+
 public class IncomingSupportTicketDTO {
 
     //Model Variables
-    private int userId;
+    private UUID userId;
     private String description;
     private String type;
 
     public IncomingSupportTicketDTO() {
     }
 
-    public IncomingSupportTicketDTO(int userId, String description, String type) {
+    public IncomingSupportTicketDTO(UUID userId, String description, String type) {
         this.userId = userId;
         this.description = description;
         this.type = type;
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -45,13 +46,13 @@ public class UserController {
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 
-    private int loggedInUserId() throws CustomException {
+    private UUID loggedInUserId() throws CustomException {
         // later we'll use the ID that's in the Token
         User authUser = authController.getAuthenticatedUser();
         if(authUser != null){
             return authUser.getUserId();
         }
         // TODO: Please check if is that what you want to do
-        return 0;
+        return null;
     }
 }

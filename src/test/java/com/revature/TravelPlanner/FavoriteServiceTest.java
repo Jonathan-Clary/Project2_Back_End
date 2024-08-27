@@ -11,6 +11,7 @@ import com.revature.models.User;
 import com.revature.services.FavoriteService;
 import com.revature.services.HotelService;
 import com.revature.services.UserService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -46,6 +48,15 @@ public class FavoriteServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    private static UUID UUID_TEST_1;
+    private static UUID UUID_TEST_2;
+
+    @BeforeAll
+    static void setupIds(){
+        UUID_TEST_1 = UUID.randomUUID();
+        UUID_TEST_2 = UUID.randomUUID();
+    }
+
     @Test
     void testFindAllFavorite() {
         // Arrange
@@ -66,54 +77,54 @@ public class FavoriteServiceTest {
     void testFindAllFavoriteByUser() throws CustomException {
         // Arrange
         User user = new User();
-        user.setUserId(1);
+        user.setUserId(UUID_TEST_1);
         Favorite favorite1 = new Favorite();
         Favorite favorite2 = new Favorite();
         Favorite favorite3 = new Favorite();
         List<Favorite> favorites = Arrays.asList(favorite1, favorite2, favorite3);
-        when(userService.getUserById(1)).thenReturn(user);
-        when(favoriteDAO.findByUserUserId(1)).thenReturn(favorites);
+        when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
+        when(favoriteDAO.findByUserUserId(UUID_TEST_1)).thenReturn(favorites);
 
         // Act
-        List<Favorite> result = favoriteService.findAllFavoriteByUser(1);
+        List<Favorite> result = favoriteService.findAllFavoriteByUser(UUID_TEST_1);
 
         // Assert
         assertEquals(3, result.size());
-        verify(userService, times(1)).getUserById(1);
-        verify(favoriteDAO, times(1)).findByUserUserId(1);
+        verify(userService, times(1)).getUserById(UUID_TEST_1);
+        verify(favoriteDAO, times(1)).findByUserUserId(UUID_TEST_1);
     }
 
     @Test
     void testFindAllFavoriteByHotel() throws CustomException {
         // Arrange
         Hotel hotel = new Hotel();
-        hotel.setHotelId(1);
+        hotel.setHotelId(UUID_TEST_1);
         Favorite favorite1 = new Favorite();
         Favorite favorite2 = new Favorite();
         List<Favorite> favorites = Arrays.asList(favorite1, favorite2);
-        when(hotelService.getHotelById(1)).thenReturn(hotel);
-        when(favoriteDAO.findByUserUserId(1)).thenReturn(favorites);
+        when(hotelService.getHotelById(UUID_TEST_1)).thenReturn(hotel);
+        when(favoriteDAO.findByUserUserId(UUID_TEST_1)).thenReturn(favorites);
 
         // Act
-        List<Favorite> result = favoriteService.findAllFavoriteByHotel(1);
+        List<Favorite> result = favoriteService.findAllFavoriteByHotel(UUID_TEST_1);
 
         // Assert
         assertEquals(2, result.size());
-        verify(hotelService, times(1)).getHotelById(1);
-        verify(favoriteDAO, times(1)).findByUserUserId(1);
+        verify(hotelService, times(1)).getHotelById(UUID_TEST_1);
+        verify(favoriteDAO, times(1)).findByUserUserId(UUID_TEST_1);
     }
 
     @Test
     void testAddFavoriteSave() throws CustomException {
         // Arrange
         IncomingFavoriteDTO favoriteDTO = new IncomingFavoriteDTO();
-        favoriteDTO.setHotelId(1);
-        favoriteDTO.setUserId(1);
+        favoriteDTO.setHotelId(UUID_TEST_1);
+        favoriteDTO.setUserId(UUID_TEST_1);
         Hotel hotel = new Hotel();
         User user = new User();
         Favorite favorite = new Favorite(user, hotel);
-        when(hotelService.getHotelById(1)).thenReturn(hotel);
-        when(userService.getUserById(1)).thenReturn(user);
+        when(hotelService.getHotelById(UUID_TEST_1)).thenReturn(hotel);
+        when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
         when(favoriteDAO.save(any(Favorite.class))).thenReturn(favorite);
 
         // Act
@@ -121,8 +132,8 @@ public class FavoriteServiceTest {
 
         // Assert
         assertNotNull(result);
-        verify(hotelService, times(1)).getHotelById(1);
-        verify(userService, times(1)).getUserById(1);
+        verify(hotelService, times(1)).getHotelById(UUID_TEST_1);
+        verify(userService, times(1)).getUserById(UUID_TEST_1);
         verify(favoriteDAO, times(1)).save(any(Favorite.class));
     }
 
@@ -130,16 +141,16 @@ public class FavoriteServiceTest {
     void testAddFavoriteNull() throws CustomException {
         // Arrange
         IncomingFavoriteDTO favoriteDTO = new IncomingFavoriteDTO();
-        favoriteDTO.setHotelId(1);
-        favoriteDTO.setUserId(1);
-        when(hotelService.getHotelById(1)).thenReturn(new Hotel());
-        when(userService.getUserById(1)).thenThrow(UserNotFoundException.class);
+        favoriteDTO.setHotelId(UUID_TEST_1);
+        favoriteDTO.setUserId(UUID_TEST_1);
+        when(hotelService.getHotelById(UUID_TEST_1)).thenReturn(new Hotel());
+        when(userService.getUserById(UUID_TEST_1)).thenThrow(UserNotFoundException.class);
 
 
         // Assert + Act
         assertThrows(UserNotFoundException.class, () -> favoriteService.addFavorite(favoriteDTO));
-        verify(hotelService, times(1)).getHotelById(1);
-        verify(userService, times(1)).getUserById(1);
+        verify(hotelService, times(1)).getHotelById(UUID_TEST_1);
+        verify(userService, times(1)).getUserById(UUID_TEST_1);
         verify(favoriteDAO, never()).save(any(Favorite.class));
     }
 
@@ -147,50 +158,50 @@ public class FavoriteServiceTest {
     void testDeleteFavoriteExists() throws CustomException {
         // Arrange
         Favorite favorite = new Favorite();
-        favorite.setFavoriteId(1);
-        when(favoriteDAO.findById(1)).thenReturn(Optional.of(favorite));
+        favorite.setFavoriteId(UUID_TEST_1);
+        when(favoriteDAO.findById(UUID_TEST_1)).thenReturn(Optional.of(favorite));
 
         // Act
-        favoriteService.deleteFavorite(1);
+        favoriteService.deleteFavorite(UUID_TEST_1);
 
         // Assert
-        verify(favoriteDAO, times(1)).deleteById(1);
+        verify(favoriteDAO, times(1)).deleteById(UUID_TEST_1);
     }
 
     @Test
     void testDeleteFavoriteNull() {
         // Arrange
-        when(favoriteDAO.findById(1)).thenReturn(Optional.empty());
+        when(favoriteDAO.findById(UUID_TEST_1)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(FavoriteNotFoundException.class, () -> favoriteService.deleteFavorite(1));
-        verify(favoriteDAO, never()).deleteById(anyInt());
+        assertThrows(FavoriteNotFoundException.class, () -> favoriteService.deleteFavorite(UUID_TEST_1));
+        verify(favoriteDAO, never()).deleteById(any());
     }
 
     @Test
     void testGetFavoriteByIdExists() throws CustomException {
         // Arrange
         Favorite favorite = new Favorite();
-        favorite.setFavoriteId(1);
-        when(favoriteDAO.findById(1)).thenReturn(Optional.of(favorite));
+        favorite.setFavoriteId(UUID_TEST_1);
+        when(favoriteDAO.findById(UUID_TEST_1)).thenReturn(Optional.of(favorite));
 
         // Act
-        Favorite result = favoriteService.getFavoriteById(1);
+        Favorite result = favoriteService.getFavoriteById(UUID_TEST_1);
 
         // Assert
         assertNotNull(result);
-        assertEquals(1, result.getFavoriteId());
-        verify(favoriteDAO, times(1)).findById(1);
+        assertEquals(UUID_TEST_1, result.getFavoriteId());
+        verify(favoriteDAO, times(1)).findById(UUID_TEST_1);
     }
 
     @Test
     void testGetFavoriteByIdNull() {
         // Arrange
-        when(favoriteDAO.findById(1)).thenReturn(Optional.empty());
+        when(favoriteDAO.findById(UUID_TEST_1)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(FavoriteNotFoundException.class, () -> favoriteService.getFavoriteById(1));
-        verify(favoriteDAO, times(1)).findById(1);
+        assertThrows(FavoriteNotFoundException.class, () -> favoriteService.getFavoriteById(UUID_TEST_1));
+        verify(favoriteDAO, times(1)).findById(UUID_TEST_1);
     }
 
 

@@ -5,12 +5,13 @@ import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class OutgoingSupportTicketDTO {
 
     //Model Variables
-    private int supportTicketId;
-    private int userId;
+    private UUID supportTicketId;
+    private UUID userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -24,7 +25,7 @@ public class OutgoingSupportTicketDTO {
     public OutgoingSupportTicketDTO() {
     }
 
-    public OutgoingSupportTicketDTO(int supportTicketId, int userId, String firstName, String lastName, String email, String description, TicketStatus status, TicketType type, Date createdAt) {
+    public OutgoingSupportTicketDTO(UUID supportTicketId, UUID userId, String firstName, String lastName, String email, String description, TicketStatus status, TicketType type, Date createdAt) {
         this.supportTicketId = supportTicketId;
         this.userId = userId;
         this.firstName = firstName;
@@ -36,19 +37,19 @@ public class OutgoingSupportTicketDTO {
         this.createdAt = createdAt;
     }
 
-    public int getSupportTicketId() {
+    public UUID getSupportTicketId() {
         return supportTicketId;
     }
 
-    public void setSupportTicketId(int supportTicketId) {
+    public void setSupportTicketId(UUID supportTicketId) {
         this.supportTicketId = supportTicketId;
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

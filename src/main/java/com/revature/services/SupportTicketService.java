@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SupportTicketService {
@@ -42,7 +43,7 @@ public class SupportTicketService {
     //
 
     //Return a SupportTicket using its Id
-    public OutgoingSupportTicketDTO getSupportTicketById(int id) throws SupportTicketNotFoundException {
+    public OutgoingSupportTicketDTO getSupportTicketById(UUID id) throws SupportTicketNotFoundException {
         log.debug("Method 'getSupportTicketById' invoked with id: {}",id);
         Optional<SupportTicket> st = stDao.findById(id);
         if (st.isPresent()) {
@@ -95,7 +96,7 @@ public class SupportTicketService {
             throw new InvalidDescriptionException();
         }
 
-        if (incomingTicket.getUserId() <= 0) {
+        if (incomingTicket.getUserId() == null) {
             throw new UserNotFoundException(incomingTicket.getUserId());
         }
 
@@ -114,7 +115,7 @@ public class SupportTicketService {
     //
 
     //Method to delete a Support Ticket from the Database
-    public OutgoingSupportTicketDTO delete(int id) throws SupportTicketNotFoundException {
+    public OutgoingSupportTicketDTO delete(UUID id) throws SupportTicketNotFoundException {
         log.debug("Method 'delete' invoked with id: {}",id);
         Optional<SupportTicket> toDeleteTicket = stDao.findById(id);
 

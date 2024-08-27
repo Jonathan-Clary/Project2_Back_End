@@ -7,6 +7,7 @@ import com.revature.models.SupportTicket;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class OutgoingSupportTicketMapper {
@@ -15,8 +16,8 @@ public class OutgoingSupportTicketMapper {
     }
 
     public OutgoingSupportTicketDTO toDto(SupportTicket supportTicket){
-        int supportTicketId = supportTicket.getSupportTicketId();
-        int userId = supportTicket.getUser().getUserId();
+        UUID supportTicketId = supportTicket.getSupportTicketId();
+        UUID userId = supportTicket.getUser().getUserId();
         String firstName = supportTicket.getUser().getFirstName();
         String lastName = supportTicket.getUser().getLastName();
         String email = supportTicket.getUser().getEmail();

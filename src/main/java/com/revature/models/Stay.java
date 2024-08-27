@@ -7,14 +7,15 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "stays")
 public class Stay {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int stayId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID stayId;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -25,7 +26,7 @@ public class Stay {
     //transient stops from being stored in db, bc User obj already does that
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//Include when deserializing, not serializing
-    private int userId;
+    private UUID userId;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,7 +37,7 @@ public class Stay {
 //    transient stops from being stored in db, bc User obj already does that
    @Transient
    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//Include when deserializing, not serializing
-   private int hotelId;
+   private UUID hotelId;
 
 
     @Column(nullable = false)
@@ -59,7 +60,7 @@ public class Stay {
     public Stay() {}
 
 
-    public Stay(int stayId, User user, Hotel hotel, Date bookedDate, Date endDate) {
+    public Stay(UUID stayId, User user, Hotel hotel, Date bookedDate, Date endDate) {
         this.stayId = stayId;
         this.user = user;
         this.hotel = hotel;
@@ -78,19 +79,19 @@ public class Stay {
         this.hotel = hotel;
     }
 
-    public int getHotelId() {
+    public UUID getHotelId() {
         return hotelId;
     }
 
-    public void setHotelId(int hotelId) {
+    public void setHotelId(UUID hotelId) {
         this.hotelId = hotelId;
     }
 
-    public int getStayId() {
+    public UUID getStayId() {
         return stayId;
     }
 
-    public void setStayId(int stayId) {
+    public void setStayId(UUID stayId) {
         this.stayId = stayId;
     }
 
@@ -118,11 +119,11 @@ public class Stay {
         this.endDate = endDate;
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

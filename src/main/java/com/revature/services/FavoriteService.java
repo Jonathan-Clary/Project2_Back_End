@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FavoriteService {
@@ -45,7 +46,7 @@ public class FavoriteService {
         return favoriteList;
     }
 
-    public List<Favorite> findAllFavoriteByUser(int userId) throws CustomException {
+    public List<Favorite> findAllFavoriteByUser(UUID userId) throws CustomException {
         log.debug("Method 'findAllFavoriteByUser' invoked with userId: {}",userId);
         List<Favorite> userFavorites = favoriteDAO.findByUserUserId(userService.getUserById(userId).getUserId());
 
@@ -59,7 +60,7 @@ public class FavoriteService {
         return userFavorites;
     }
 
-    public List<Favorite> findAllFavoriteByHotel(int hotelId) throws CustomException{
+    public List<Favorite> findAllFavoriteByHotel(UUID hotelId) throws CustomException{
         log.debug("Method 'findAllFavoriteByHotel' invoked with hotelId: {}",hotelId);
         List<Favorite> hotelFavorites =  favoriteDAO.findByUserUserId(hotelService.getHotelById(hotelId).getHotelId());
 
@@ -87,14 +88,14 @@ public class FavoriteService {
         }
     }
 
-    public void deleteFavorite(int favoriteId) throws CustomException{
+    public void deleteFavorite(UUID favoriteId) throws CustomException{
         log.debug("Method 'deleteFavorite' invoked with favoriteId: {}", favoriteId);
         favoriteDAO.deleteById(getFavoriteById(favoriteId).getFavoriteId());
         log.debug("Method 'deleteFavorite' completed");
 
     }
 
-    public Favorite getFavoriteById(int favoriteId) throws CustomException{
+    public Favorite getFavoriteById(UUID favoriteId) throws CustomException{
         log.debug("Method 'getFavoriteById' invoked with favoriteID: {}", favoriteId);
         Optional<Favorite> favorite = favoriteDAO.findById(favoriteId);
         if(favorite.isPresent()){

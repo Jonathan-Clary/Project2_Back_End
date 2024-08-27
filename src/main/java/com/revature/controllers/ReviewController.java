@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/reviews")
@@ -32,7 +33,7 @@ public class ReviewController {
     }
 
     @PatchMapping("/{reviewId}")
-    public ResponseEntity<Object> updateReview(@RequestBody Map<String, String> updateFields, @PathVariable int reviewId) throws CustomException {
+    public ResponseEntity<Object> updateReview(@RequestBody Map<String, String> updateFields, @PathVariable UUID reviewId) throws CustomException {
         Review review = reviewService.updateReview(updateFields, reviewId);
         if (review == null) {
             return ResponseEntity.status(400).body("Review not found with ID: " + reviewId);
@@ -43,7 +44,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Integer> deleteReview(@PathVariable int reviewId) {
+    public ResponseEntity<Integer> deleteReview(@PathVariable UUID reviewId) {
         int result = reviewService.deleteReview(reviewId);
         if (result == 0) {
             return ResponseEntity.status(200).body(null);

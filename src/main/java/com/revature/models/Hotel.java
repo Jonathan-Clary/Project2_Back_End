@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "hotels")
 public class Hotel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int hotelId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID hotelId;
 
     @Column(nullable = false)
     private String hotelName;
@@ -35,7 +36,7 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(int hotelId, String hotelName, String address) {
+    public Hotel(UUID hotelId, String hotelName, String address) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
         this.address = address;
@@ -44,11 +45,11 @@ public class Hotel {
     // Getters and Setters
 
 
-    public int getHotelId() {
+    public UUID getHotelId() {
         return hotelId;
     }
 
-    public void setHotelId(int hotelId) {
+    public void setHotelId(UUID hotelId) {
         this.hotelId = hotelId;
     }
 

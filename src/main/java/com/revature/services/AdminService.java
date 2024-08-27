@@ -5,13 +5,13 @@ import com.revature.exceptions.AdminNotFoundException;
 import com.revature.exceptions.CustomException;
 import com.revature.models.Admin;
 import com.revature.security.PasswordEncoderProvider;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -38,7 +38,7 @@ public class AdminService {
 
     //Service Methods
 
-    public Admin getAdminById(int adminId) throws CustomException {
+    public Admin getAdminById(UUID adminId) throws CustomException {
         log.debug("Method 'getAdminById' invoked with adminId: {}", adminId);
         Optional<Admin> admin = aDao.findById(adminId);
         if(admin.isPresent()){

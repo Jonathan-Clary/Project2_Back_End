@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/favorite")
@@ -35,7 +36,7 @@ public class FavoriteController {
     }
 
     @GetMapping("/user={userId}")
-    public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable int userId){
+    public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable UUID userId){
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(userId));
         }catch(Exception e){
@@ -44,7 +45,7 @@ public class FavoriteController {
     }
 
     @GetMapping("/hotel={hotelId}")
-    public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable int hotelId){
+    public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable UUID hotelId){
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByHotel(hotelId));
         }catch(Exception e){
@@ -53,7 +54,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/favorite={favoriteId}")
-    public ResponseEntity<Object> deleteReview(@PathVariable int favoriteId){
+    public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
         try{
             favoriteService.deleteFavorite(favoriteId);
             return ResponseEntity.status(200).body("deleted");

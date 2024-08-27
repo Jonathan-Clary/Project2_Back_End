@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/support")
@@ -31,7 +32,7 @@ public class SupportTicketController {
 
     //Return Support Ticket with Given Id
     @GetMapping("/get")
-    public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id") int id ) {
+    public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id") UUID id ) {
 
         try {
 
@@ -78,7 +79,7 @@ public class SupportTicketController {
 
     //Delete a Support Ticket from the DB
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(int id){
+    public ResponseEntity<?> delete(UUID id){
 
         try{
             return ResponseEntity.ok(sts.delete(id));

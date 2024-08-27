@@ -49,8 +49,8 @@ public class SupportTicketServiceTest {
     public void testGetSupportTicketByID() throws Exception{
         //given
         final Date fakeDateCreated = new Date(2024, Calendar.AUGUST,15);
-        final int supportTicketId = 1;
-        final int userId = 1;
+        final UUID supportTicketId = 1;
+        final UUID userId = 1;
 
         User user = new User();
         user.setUserId(userId);
@@ -93,7 +93,7 @@ public class SupportTicketServiceTest {
     @Test
     public void testSupportTicketNotFound() {
         //given
-        final int supportTicketId = 1;
+        final UUID supportTicketId = 1;
 
         when(sDAO.findById(supportTicketId)).thenReturn(Optional.empty());
 
@@ -112,9 +112,9 @@ public class SupportTicketServiceTest {
     public void getAllSupportTickets() {
         //given
         final Date fakeDateCreated = new Date(2024, Calendar.AUGUST,15);
-        final int id1 = 1;
-        final int id2 = 2;
-        final int userId = 1;
+        final UUID id1 = 1;
+        final UUID id2 = 2;
+        final UUID userId = 1;
 
         User user = new User();
         user.setUserId(userId);
@@ -179,8 +179,8 @@ public class SupportTicketServiceTest {
     public void testRegister() throws Exception {
         //given
         final Date fakeDateCreated = new Date(2024,Calendar.AUGUST,26);
-        final int userId = 1;
-        final int supportTicketId = 1;
+        final UUID userId = 1;
+        final UUID supportTicketId = 1;
 
         User user = new User();
         user.setUserId(userId);

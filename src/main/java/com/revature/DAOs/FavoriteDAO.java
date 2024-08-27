@@ -5,11 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface FavoriteDAO extends JpaRepository<Favorite, Integer> {
-    public List<Favorite> findByUserUserId(int userId);
+public interface FavoriteDAO extends JpaRepository<Favorite, UUID> {
+    public List<Favorite> findByUserUserId(UUID userId);
 
-    public List<Favorite> findByHotelHotelId(int hotelId);
+    public List<Favorite> findByHotelHotelId(UUID hotelId);
 
 }

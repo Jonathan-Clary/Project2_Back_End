@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
-import org.springframework.cglib.core.Local;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
+
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/stays")
@@ -73,7 +74,7 @@ public class StayController {
 
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteStay(@PathVariable int id) throws CustomException {
+    public ResponseEntity<Object> deleteStay(@PathVariable UUID id) throws CustomException {
         userService.getUserById(id);//make sure user exists, will throw if not
         stayService.deleteStayById(id);
         return ResponseEntity.ok("Stay Deleted");
@@ -81,7 +82,7 @@ public class StayController {
 
     //Mapping to update hotel, bookedDate, and endDate. All at once, in pairs, or individually
     @PatchMapping("/{id}")
-    public ResponseEntity<Stay> updateStay(@PathVariable int id, @RequestBody Map<String,String> stayFieldValues) throws CustomException {
+    public ResponseEntity<Stay> updateStay(@PathVariable UUID id, @RequestBody Map<String,String> stayFieldValues) throws CustomException {
         Stay stay = stayService.updateStay(id,stayFieldValues);
         return ResponseEntity.ok(stay);
     }
@@ -92,7 +93,7 @@ public class StayController {
     }
     //STAYS-HISTORY: Controller Method for
     @GetMapping("/user/{userID}")
-    public ResponseEntity<List<Stay>> getStaysByUserId(@PathVariable int userId) {
+    public ResponseEntity<List<Stay>> getStaysByUserId(@PathVariable UUID userId) {
         List<Stay> stays = stayService.getStaysByUserId(userId);
         return ResponseEntity.ok(stays);
     }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Service
@@ -31,9 +32,9 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public User getUserById(int userId) throws CustomException {
+    public User getUserById(UUID userId) throws CustomException {
         log.debug("Method 'getUserById' invoked with userId: {}", userId);
-        if(userId <= 0)
+        if(userId == null)
             throw new InvalidIDException();
         var user = userDAO.findById(userId);
         if(user.isEmpty())
@@ -90,7 +91,7 @@ public class UserService {
         return returningUser;
     }
 
-    public User updateUserById(int userId, Map<String,String> newUser) throws CustomException {
+    public User updateUserById(UUID userId, Map<String,String> newUser) throws CustomException {
         log.debug("Method 'updateUserById' invoked with userId: {}, newUser: {}", userId,newUser.toString());
         User user = getUserById(userId);
 

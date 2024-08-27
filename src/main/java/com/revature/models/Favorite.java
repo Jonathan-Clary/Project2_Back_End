@@ -3,14 +3,15 @@ package com.revature.models;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "favorites")
 public class Favorite {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int favoriteId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID favoriteId;
 
     @Column(nullable = false)
     private Date createdAt;
@@ -32,7 +33,7 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(int favoriteId, User user, Hotel hotel) {
+    public Favorite(UUID favoriteId, User user, Hotel hotel) {
         this.favoriteId = favoriteId;
         //this.dateAdded = dateAdded;
         this.user = user;
@@ -46,11 +47,11 @@ public class Favorite {
     }
 
 
-    public int getFavoriteId() {
+    public UUID getFavoriteId() {
         return favoriteId;
     }
 
-    public void setFavoriteId(int favoriteId) {
+    public void setFavoriteId(UUID favoriteId) {
         this.favoriteId = favoriteId;
     }
 

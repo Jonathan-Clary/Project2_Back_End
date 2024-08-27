@@ -8,14 +8,15 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID userId;
 
     @Column(nullable = false)
     @Size(min = 3, message = "please enter at least 3 characters")
@@ -53,7 +54,7 @@ public class User {
     */
     public User() {}
 
-    public User(int userId, String firstName, String lastName, String password, String email) {
+    public User(UUID userId, String firstName, String lastName, String password, String email) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,11 +62,11 @@ public class User {
         this.email = email;
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

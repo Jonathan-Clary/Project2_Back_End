@@ -3,14 +3,15 @@ package com.revature.models;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "reviews")
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reviewId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID reviewId;
 
     @Column(nullable = false)
     private Date createdAt;
@@ -44,11 +45,11 @@ public class Review {
         this.hotel = hotel;
     }
 
-    public int getReviewId() {
+    public UUID getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(int reviewId) {
+    public void setReviewId(UUID reviewId) {
         this.reviewId = reviewId;
     }
 

@@ -3,6 +3,7 @@ package com.revature.models;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 // Refactored model class name from 'Notes' to 'Note' to align with naming conventions and industry standards.
 @Entity
@@ -10,8 +11,8 @@ import java.util.Date;
 public class Note {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int noteId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID noteId;
 
     @Column(nullable = true)
     private String text;
@@ -37,7 +38,7 @@ public class Note {
     public Note() {
     }
 
-    public Note(int noteId, String text, Admin admin, SupportTicket supportTicket) {
+    public Note(UUID noteId, String text, Admin admin, SupportTicket supportTicket) {
         this.noteId = noteId;
         this.admin = admin;
         this.supportTicket = supportTicket;
@@ -53,11 +54,11 @@ public class Note {
     }
 
     // Getters and setters
-    public int getNoteId() {
+    public UUID getNoteId() {
         return noteId;
     }
 
-    public void setNoteId(int noteId) {
+    public void setNoteId(UUID noteId) {
         this.noteId = noteId;
     }
 

@@ -9,11 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-import java.time.*;
+import java.util.UUID;
 
 @Service
 public class ReviewService {
@@ -33,8 +31,8 @@ public class ReviewService {
     public Review submitReview(Review review) throws CustomException {
         log.debug("Method 'submitReview' invoked with review: {}",review);
 
-        int userId = review.getUser().getUserId();
-        int hotelId = review.getHotel().getHotelId();
+        UUID userId = review.getUser().getUserId();
+        UUID hotelId = review.getHotel().getHotelId();
 
         if (userService.getUserById(userId) == null) {
             log.warn("Method 'submitReview' returning null");
@@ -55,7 +53,7 @@ public class ReviewService {
     }
 
     // Update a Review, returns null if review doesn't exist
-    public Review updateReview(Map<String, String> updateFields, int reviewId) throws CustomException {
+    public Review updateReview(Map<String, String> updateFields, UUID reviewId) throws CustomException {
 
         log.debug("Method 'updateReview' invoked with updateFields: {}, reviewId: {}",updateFields.toString(),reviewId);
 
@@ -89,7 +87,7 @@ public class ReviewService {
     }
 
     // Delete a Review, return 1 if it exists and was successfully deleted
-    public int deleteReview(int reviewId) {
+    public int deleteReview(UUID reviewId) {
         log.debug("Method 'deleteReview' invoked with reviewId: {}",reviewId);
 
         if (reviewDAO.existsById(reviewId)) {

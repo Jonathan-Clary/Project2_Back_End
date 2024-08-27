@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "admins")
@@ -12,8 +13,8 @@ public class Admin {
 
     //Model Variables
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int adminId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID adminId;
 
     @Column(nullable = false)
     private String firstName;
@@ -48,7 +49,7 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(int adminId, String firstName, String lastName, String email, String password) {
+    public Admin(UUID adminId, String firstName, String lastName, String email, String password) {
         this.adminId = adminId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,11 +58,11 @@ public class Admin {
     }
 
     //Getter and Setter
-    public int getAdminId() {
+    public UUID getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(int adminId) {
+    public void setAdminId(UUID adminId) {
         this.adminId = adminId;
     }
 

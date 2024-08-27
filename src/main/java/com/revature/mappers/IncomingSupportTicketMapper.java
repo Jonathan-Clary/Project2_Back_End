@@ -30,7 +30,7 @@ public class IncomingSupportTicketMapper {
         TicketType incomingType = mapperType.tDto(incomingSupportTicket.getType());
 
         SupportTicket returnedSupportTicket = new SupportTicket(
-                0,
+                null,
                 null,
                 null,
                 incomingSupportTicket.getDescription(),
