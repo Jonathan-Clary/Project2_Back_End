@@ -1,73 +1,76 @@
 package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
+import com.revature.DAOs.StayDAO;
+import com.revature.exceptions.CustomException;
+import com.revature.models.LocalHotel;
 import com.revature.exceptions.HotelNotFoundException;
-import com.revature.models.Favorite;
-import com.revature.models.Hotel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.UUID;
 
 @Service
 public class HotelService {
 
-    Logger log = LoggerFactory.getLogger(HotelService.class);
-
     private final HotelDAO hotelDAO;
+    private final StayDAO stayDAO;
 
     @Autowired
-    public HotelService(HotelDAO hotelDAO) {
-
+    public HotelService(HotelDAO hotelDAO, StayDAO stayDAO) {
         this.hotelDAO = hotelDAO;
+        this.stayDAO = stayDAO;
     }
 
-    public List<Hotel> findAllHotels() {
-        log.debug("Method 'findAllHotels' invoked");
-        List<Hotel>  hotelList = hotelDAO.findAll();
+    public List<LocalHotel> findAllHotels() {
+        return hotelDAO.findAll();
+    }
 
-        //Append id's to string for logging, because printing every object is excessive
-        StringBuilder sb = new StringBuilder();
-        for(Hotel f: hotelList){
-            sb.append(f.getHotelId()).append(", ");
+    public LocalHotel findHotelById(UUID hotelId) throws HotelNotFoundException {
+        return hotelDAO.findById(hotelId)
+                .orElseThrow(() -> new HotelNotFoundException("Hotel with ID " + hotelId + " not found"));
+    }
+
+    public Optional<LocalHotel> findHotelByApiHotelId(String apiHotelId) {
+        return hotelDAO.findByApiHotelId(apiHotelId);
+    }
+
+    public LocalHotel saveHotel(LocalHotel hotel) {
+        return hotelDAO.save(hotel);
+    }
+
+    public void deleteHotel(UUID hotelId) throws CustomException {
+        LocalHotel hotel = findHotelById(hotelId); // This will throw an exception if the hotel does not exist
+        hotelDAO.delete(hotel);
+    }
+
+    public void saveOrUpdateHotel(LocalHotel hotel) {
+        hotelDAO.save(hotel);
+    }
+
+
+    public List<LocalHotel> getHotelsByDuration(String from, String to) throws CustomException {
+        Date from_date = valueOf(from);
+        Date to_date = valueOf(to);
+        if(to_date.before(from_date))
+            throw new CustomException("Date1 cannot be after Date2.");
+
+        return stayDAO.findByDuration(from_date, to_date);
+    }
+
+    private Date valueOf(String date) throws CustomException {
+        try{
+            return Date.valueOf(date);
+        }catch (Exception q){
+            throw new CustomException("Invalid Date: Please use the format [yyyy-mm-dd]");
         }
-
-        log.debug("Method 'findAllHotels' returning hotel list with hotel_ids: {}", sb.toString());
-        return hotelList;
     }
-
-    public Hotel saveHotel(Hotel hotel) {
-        log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
-        Hotel returningHotel = hotelDAO.save(hotel);
-        log.debug("Method 'saveHotel' returning: {}", returningHotel);
-        return returningHotel;
+    public LocalHotel getHotelById(int hotelId) {
+        //hotelDAO.findById(hotelId);
+        //TODO: throw exception if not exists
+        return null;
     }
-
-    public void deleteHotel(Integer hotelId) {
-        log.debug("Method 'deleteHotel' invoked with hotelId: {}", hotelId);
-        hotelDAO.deleteById(hotelId);
-        log.debug("Method 'deleteHotel' completed");
-    }
-
-    public Hotel getHotelById(int hotelId) throws HotelNotFoundException {
-        log.debug("Method 'getHotelById' invoked with hotelId: {}", hotelId);
-        Optional<Hotel> hotel = hotelDAO.findById(hotelId);
-        if(hotel.isPresent()) {
-            log.debug("Method 'getHotelById' returning: {}", hotel.get());
-            return hotel.get();
-        }
-        else
-            throw new HotelNotFoundException(hotelId);
-
-        //While this is clean, re-writing to assist with logging the process
-//        return hotelDAO.findById(hotelId)
-//                .orElseThrow(()-> {
-//                    return new HotelNotFoundException(hotelId);
-//                });
-    }
-
-    // add more methods WIP
 }

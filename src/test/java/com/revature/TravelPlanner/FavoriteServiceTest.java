@@ -6,7 +6,7 @@ import com.revature.exceptions.CustomException;
 import com.revature.exceptions.FavoriteNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Favorite;
-import com.revature.models.Hotel;
+import com.revature.models.LocalHotel;
 import com.revature.models.User;
 import com.revature.services.FavoriteService;
 import com.revature.services.HotelService;
@@ -86,7 +86,7 @@ public class FavoriteServiceTest {
     @Test
     void testFindAllFavoriteByHotel() throws CustomException {
         // Arrange
-        Hotel hotel = new Hotel();
+        LocalHotel hotel = new LocalHotel();
         hotel.setHotelId(1);
         Favorite favorite1 = new Favorite();
         Favorite favorite2 = new Favorite();
@@ -109,7 +109,7 @@ public class FavoriteServiceTest {
         IncomingFavoriteDTO favoriteDTO = new IncomingFavoriteDTO();
         favoriteDTO.setHotelId(1);
         favoriteDTO.setUserId(1);
-        Hotel hotel = new Hotel();
+        LocalHotel hotel = new LocalHotel();
         User user = new User();
         Favorite favorite = new Favorite(user, hotel);
         when(hotelService.getHotelById(1)).thenReturn(hotel);
@@ -132,7 +132,7 @@ public class FavoriteServiceTest {
         IncomingFavoriteDTO favoriteDTO = new IncomingFavoriteDTO();
         favoriteDTO.setHotelId(1);
         favoriteDTO.setUserId(1);
-        when(hotelService.getHotelById(1)).thenReturn(new Hotel());
+        when(hotelService.getHotelById(1)).thenReturn(new LocalHotel());
         when(userService.getUserById(1)).thenThrow(UserNotFoundException.class);
 
 

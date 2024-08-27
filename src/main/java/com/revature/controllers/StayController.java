@@ -4,7 +4,7 @@ package com.revature.controllers;
 
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidDateRangeException;
-import com.revature.models.Hotel;
+import com.revature.models.LocalHotel;
 import com.revature.models.Stay;
 import com.revature.models.User;
 import com.revature.services.HotelService;
@@ -40,10 +40,11 @@ public class StayController {
 
 
 
+
     @PostMapping
     public ResponseEntity<Stay> createStay(@RequestBody Stay stay) throws CustomException {
         User user = userService.getUserById(stay.getUserId());//Will throw if user doesn't exist
-        Hotel hotel =  hotelService.getHotelById(stay.getHotelId());//Will throw if hotel doesn't exist
+        LocalHotel hotel =  hotelService.getHotelById(stay.getHotelId());//Will throw if hotel doesn't exist
 
         LocalDate bookedDate = LocalDate.parse(stay.getBookedDate());
         LocalDate endDate = LocalDate.parse(stay.getEndDate());
@@ -79,7 +80,7 @@ public class StayController {
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
     //STAYS-HISTORY: Controller Method for
-    @GetMapping("/user/{userID}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Stay>> getStaysByUserId(@PathVariable int userId) {
         List<Stay> stays = stayService.getStaysByUserId(userId);
         return ResponseEntity.ok(stays);

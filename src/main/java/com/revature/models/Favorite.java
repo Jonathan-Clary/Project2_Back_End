@@ -22,7 +22,7 @@ public class Favorite {
 
     @JoinColumn(name = "hotelId")
     @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Hotel hotel;
+    private LocalHotel hotel;
 
     @PrePersist
     void onCreate(){
@@ -33,14 +33,14 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(int favoriteId, User user, Hotel hotel) {
+    public Favorite(int favoriteId, User user, LocalHotel hotel) {
         this.favoriteId = favoriteId;
         //this.dateAdded = dateAdded;
         this.user = user;
         this.hotel = hotel;
     }
 
-    public Favorite(User u, Hotel h){
+    public Favorite(User u, LocalHotel h){
         //this.dateAdded = favorite.getDateAdded();
         this.user = u;
         this.hotel = h;
@@ -69,11 +69,11 @@ public class Favorite {
         this.user = user;
     }
 
-    public Hotel getHotel() {
+    public LocalHotel getHotel() {
         return hotel;
     }
 
-    public void setHotel(Hotel hotel) {
+    public void setHotel(LocalHotel hotel) {
         this.hotel = hotel;
     }
 

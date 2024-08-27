@@ -5,7 +5,7 @@ import com.revature.DTOs.IncomingFavoriteDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.FavoriteNotFoundException;
 import com.revature.models.Favorite;
-import com.revature.models.Hotel;
+import com.revature.models.LocalHotel;
 import com.revature.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ public class FavoriteService {
 
     public Favorite addFavorite(IncomingFavoriteDTO favorite) throws CustomException{
         log.debug("Method 'addFavorite' invoked with favorite: {}", favorite.toString());
-        Hotel hotel = hotelService.getHotelById(favorite.getHotelId());
+        LocalHotel hotel = hotelService.getHotelById(favorite.getHotelId());
         User user = userService.getUserById(favorite.getUserId());
         if(hotel != null && user != null){
             Favorite newFavorite = new Favorite( user, hotel);

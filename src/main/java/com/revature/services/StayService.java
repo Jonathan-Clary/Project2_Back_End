@@ -6,7 +6,7 @@ import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidIDException;
 import com.revature.exceptions.StayNotFoundException;
 import com.revature.models.Favorite;
-import com.revature.models.Hotel;
+import com.revature.models.LocalHotel;
 import com.revature.models.Stay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public class StayService {
 
         if(stayFieldValues.containsKey("hotelId")){
             int id = Integer.parseInt(stayFieldValues.get("hotelId"));
-            Hotel hotel = hotelService.getHotelById(id);
+            LocalHotel hotel = hotelService.getHotelById(id);
             stay.setHotel(hotel);
         }
         if(stayFieldValues.containsKey("bookedDate"))

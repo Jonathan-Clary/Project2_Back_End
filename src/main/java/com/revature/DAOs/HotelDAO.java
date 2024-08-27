@@ -1,15 +1,17 @@
 package com.revature.DAOs;
 
-import com.revature.models.Hotel;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.revature.models.LocalHotel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Repository
-public interface HotelDAO extends JpaRepository<Hotel, Integer> {
+public interface HotelDAO extends JpaRepository<LocalHotel, UUID> {
 
-    // add custom methods WIP
-
-
+    Optional<LocalHotel> findByHotelId(int hotelId);
+    Optional<LocalHotel> findByApiHotelId(String apiHotelId);
 
 }
