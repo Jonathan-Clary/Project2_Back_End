@@ -45,6 +45,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable UUID userId){
+        log.debug("Endpoint GET ./user reached");
+        try{
+            return ResponseEntity.ok(userService.getUserById(userId));
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
     // handles all the custom exceptions
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException( CustomException e){

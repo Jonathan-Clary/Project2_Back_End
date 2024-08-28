@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -98,7 +99,11 @@ public class HotelAPIService {
 
                 String placeId = hotelObj.get("place_id").getAsString();
 
-                UUID uuid = UUID.fromString(placeId);
+                //UUID uuid2 = UUID.fromString(placeId); // this DOES NOT WORK
+                UUID uuid = UUID.nameUUIDFromBytes(placeId.getBytes(StandardCharsets.UTF_8));
+
+
+
 
                 String address = hotelObj.get("formatted_address").getAsString();
                 double rating = hotelObj.has("rating") ? hotelObj.get("rating").getAsDouble() : 0.0;
@@ -134,9 +139,7 @@ public class HotelAPIService {
             conn.setInstanceFollowRedirects(false); // Disable automatic redirection handling
             conn.connect();
 
-            String connString = conn.toString();
-
-            finalUrl = connString.substring(connString.indexOf("https://"));
+            finalUrl = conn.getHeaderField("Location");
 
 
             conn.disconnect();
