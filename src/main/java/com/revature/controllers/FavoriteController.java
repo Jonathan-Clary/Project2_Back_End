@@ -4,6 +4,8 @@ import com.revature.DTOs.IncomingFavoriteDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.models.Favorite;
 import com.revature.services.FavoriteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @RequestMapping("/favorite")
 @CrossOrigin
 public class FavoriteController {
+    Logger log = LoggerFactory.getLogger(FavoriteController.class);
 
     private final FavoriteService favoriteService;
 
@@ -31,6 +34,7 @@ public class FavoriteController {
         try{
             return ResponseEntity.ok(favoriteService.findAllFavorite());
         }catch(Exception e){
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
@@ -40,6 +44,7 @@ public class FavoriteController {
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(userId));
         }catch(Exception e){
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
@@ -49,6 +54,7 @@ public class FavoriteController {
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByHotel(hotelId));
         }catch(Exception e){
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
@@ -59,6 +65,7 @@ public class FavoriteController {
             favoriteService.deleteFavorite(favoriteId);
             return ResponseEntity.status(200).body("deleted");
         }catch(Exception e) {
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
@@ -66,6 +73,7 @@ public class FavoriteController {
     // handles all the custom exceptions
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException( CustomException e){
+        log.warn("Exception was thrown: {}", e.getMsg());
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 

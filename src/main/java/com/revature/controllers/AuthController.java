@@ -6,15 +6,22 @@ import com.revature.exceptions.CustomException;
 import com.revature.exceptions.UserNotAuthenticatedException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
+import com.revature.services.AdminService;
 import com.revature.services.AuthService;
 import com.revature.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+//TODO: !!!!!!
+//TODO: !!!Need to change to url of s3!!!
+@CrossOrigin(origins="http://localhost:3000", allowCredentials = "true")
 public class AuthController {
+    Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     AuthService authService;
@@ -24,6 +31,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<OutgoingJwtUserDTO> auth(@RequestBody IncomingUserDTO loginDTO) throws UserNotFoundException {
+        log.info("User: {} logged in successfully",loginDTO.getEmail());
         OutgoingJwtUserDTO jwtUserDTO = authService.login(loginDTO);
         return ResponseEntity.status(201).body(jwtUserDTO);
     }
@@ -36,6 +44,7 @@ public class AuthController {
     // handles all the custom exceptions
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException( CustomException e){
+        log.warn("Exception was thrown: {}", e.getMsg());
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 
