@@ -26,46 +26,45 @@ public class FavoriteController {
 
     @PostMapping
     public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite) throws CustomException {
-        log.debug("Endpoint POST ./favorites reached");
+        log.debug("Endpoint POST ./favorite reached");
         return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
     }
 
     @GetMapping
     public ResponseEntity<List<Favorite>> getAllFavorite(){
-        log.debug("Endpoint GET ./favorites reached");
+        log.debug("Endpoint GET ./favorite reached");
         try{
             return ResponseEntity.ok(favoriteService.findAllFavorite());
         }catch(Exception e){
-            log.warn("Exception was thrown: {}", e.getMessage());
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable UUID userId){
-        log.debug("Endpoint GET ./favorites/user/{} reached",userId);
+        log.debug("Endpoint GET ./favorite/user={}",userId);
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(userId));
         }catch(Exception e){
-            log.warn("Exception was thrown: {}", e.getMessage());
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
 
     @GetMapping("/hotel/{hotelId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable UUID hotelId){
-        log.debug("Endpoint GET ./favorites/hotel/{} reached",hotelId);
+        log.debug("Endpoint GET ./favorite/hotel={}",hotelId);
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByHotel(hotelId));
         }catch(Exception e){
-            log.warn("Exception was thrown: {}", e.getMessage());
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
 
     @GetMapping("/hotel/{hotelId}/user/{userId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByHotelAndUser(@PathVariable UUID hotelId, @PathVariable UUID userId) {
-        log.debug("Endpoint GET ./favorites/hotel/{}/user/{} reached",hotelId,userId);
 
         try {
             List<Favorite> favorites= favoriteService.findFavoritesByHotelAndUser(hotelId, userId);
@@ -74,20 +73,20 @@ public class FavoriteController {
             }
             return ResponseEntity.ok(favorites);
         } catch (Exception e) {
-            log.warn("Exception was thrown: {}", e.getMessage());
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
 
 
     }
-    @DeleteMapping("/{favoriteId} ")
+    @DeleteMapping("/{favoriteId}")
     public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
-        log.debug("Endpoint DELETE ./favorites/{} reached",favoriteId);
+        log.debug("Endpoint DELETE ./favorite/favorite={}",favoriteId);
         try{
             favoriteService.deleteFavorite(favoriteId);
             return ResponseEntity.status(200).body("deleted");
         }catch(Exception e) {
-            log.warn("Exception was thrown: {}", e.getMessage());
+            log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);
         }
     }
