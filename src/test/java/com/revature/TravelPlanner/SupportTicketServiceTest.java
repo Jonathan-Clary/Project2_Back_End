@@ -8,6 +8,7 @@ import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.InvalidDescriptionException;
 import com.revature.exceptions.SupportTicketNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.mappers.*;
 import com.revature.models.SupportTicket;
 import com.revature.models.User;
@@ -254,6 +255,21 @@ public class SupportTicketServiceTest {
 
         //then
         assertTrue(thrown.getMessage().contains("Please Input an Nonempty Description"));
+
+    }
+
+    @Test
+    public void testUserNotFound() {
+        //given
+        IncomingSupportTicketDTO incomingTicket = new IncomingSupportTicketDTO(null, "Description", "General");
+
+        //when
+        UserNotFoundException thrown = assertThrows(
+                UserNotFoundException.class, () -> supportService.register(incomingTicket)
+        );
+
+        //then
+        assertTrue(thrown.getMessage().contains("User with ID:"+ null +" Not Found."));
 
     }
 
