@@ -45,12 +45,10 @@ public class ReviewServiceTest {
     }
 
     private static UUID UUID_TEST_1;
-    private static UUID UUID_TEST_2;
 
     @BeforeAll
     static void setupIds() {
         UUID_TEST_1 = UUID.randomUUID();
-        UUID_TEST_2 = UUID.randomUUID();
     }
 
     @Test
