@@ -1,11 +1,16 @@
 package com.revature.services;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -19,43 +24,40 @@ public class AmadeusAuthService {
 
     private final RestTemplate restTemplate;
 
-    private String accessToken;
-
     public AmadeusAuthService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public String getAccessToken() {
-        if (accessToken == null || isTokenExpired()) {
-            authenticate();
-        }
-        return accessToken;
+        return authenticate();
     }
 
-    private void authenticate() {
+    private String authenticate() {
         String url = "https://test.api.amadeus.com/v1/security/oauth2/token";
 
+        // Create headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        Map<String, String> bodyParams = new HashMap<>();
-        bodyParams.put("grant_type", "client_credentials");
-        bodyParams.put("client_id", apiKey);
-        bodyParams.put("client_secret", apiSecret);
+        // Create the body with the form data
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("client_id", apiKey);
+        body.add("client_secret", apiSecret);
+        body.add("grant_type", "client_credentials");
 
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(bodyParams, headers);
+        // Create the HttpEntity with the headers and body
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 
+        // Make the request
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, request, Map.class);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            Map<String, Object> responseBody = response.getBody();
-            this.accessToken = (String) responseBody.get("access_token");
-            // Optionally, you can store the token expiration time and refresh it when necessary
+        if (response.getStatusCode().is2xxSuccessful()) {
+            Map<String, String> responseBody = response.getBody();
+            if (responseBody != null) {
+                return responseBody.get("access_token");
+            }
         }
-    }
 
-    private boolean isTokenExpired() {
-        // Implement token expiration logic if needed, or always refresh the token for simplicity
-        return false;
+        throw new RuntimeException("Failed to authenticate with Amadeus API");
     }
 }
