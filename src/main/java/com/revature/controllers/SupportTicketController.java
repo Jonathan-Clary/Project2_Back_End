@@ -39,6 +39,7 @@ public class SupportTicketController {
     //Return Support Ticket with Given Id
     @GetMapping("/get")
     public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id") UUID id ) {
+        log.debug("Endpoint GET ./support/get reached, id={}",id);
 
         try {
 
@@ -55,6 +56,7 @@ public class SupportTicketController {
 
     @GetMapping("/get/all/{id}")
     public ResponseEntity<?> getAllSupportTicketsByUserId( @PathVariable UUID id) {
+        log.debug("Endpoint GET ./support/get/all/{} reached",id);
 
         try {
 
@@ -75,7 +77,7 @@ public class SupportTicketController {
     //Registers a Support Ticket to the DB
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody IncomingSupportTicketDTO incomingTicket){
-
+        log.debug("Endpoint POST ./support/register reached");
         try {
 
             OutgoingSupportTicketDTO outgoingTicket = sts.register(incomingTicket);
@@ -97,6 +99,7 @@ public class SupportTicketController {
     //Delete a Support Ticket from the DB
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id){
+        log.debug("Endpoint DELETE ./support/{} reached",id);
 
         try{
             return ResponseEntity.ok(sts.delete(id));

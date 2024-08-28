@@ -46,6 +46,7 @@ public class StayController {
 
     @PostMapping
     public ResponseEntity<Stay> createStay(@RequestBody Stay stay) throws CustomException {
+        log.debug("Endpoint POST ./stays reached");
         User user = userService.getUserById(stay.getUserId());//Will throw if user doesn't exist
         Hotel hotel =  hotelService.getHotelById(stay.getHotelId());//Will throw if hotel doesn't exist
 
@@ -67,6 +68,7 @@ public class StayController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteStay(@PathVariable UUID id) throws CustomException {
+        log.debug("Endpoint DELETE ./stays/{} reached",id);
         userService.getUserById(id);//make sure user exists, will throw if not
         stayService.deleteStayById(id);
         return ResponseEntity.ok("Stay Deleted");
@@ -75,6 +77,7 @@ public class StayController {
     //Mapping to update hotel, bookedDate, and endDate. All at once, in pairs, or individually
     @PatchMapping("/{id}")
     public ResponseEntity<Stay> updateStay(@PathVariable UUID id, @RequestBody Map<String,String> stayFieldValues) throws CustomException {
+        log.debug("Endpoint PATCH ./stays/{} reached",id);
         Stay stay = stayService.updateStay(id,stayFieldValues);
         return ResponseEntity.ok(stay);
     }
@@ -87,6 +90,7 @@ public class StayController {
     //STAYS-HISTORY: Controller Method for
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Stay>> getStaysByUserId(@PathVariable UUID userId) {
+        log.debug("Endpoint GET ./user/{} reached",userId);
         List<Stay> stays = stayService.getStaysByUserId(userId);
         return ResponseEntity.ok(stays);
     }

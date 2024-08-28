@@ -26,11 +26,13 @@ public class FavoriteController {
 
     @PostMapping
     public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite) throws CustomException {
+        log.debug("Endpoint POST ./favorite reached");
         return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
     }
 
     @GetMapping
     public ResponseEntity<List<Favorite>> getAllFavorite(){
+        log.debug("Endpoint GET ./favorite reached");
         try{
             return ResponseEntity.ok(favoriteService.findAllFavorite());
         }catch(Exception e){
@@ -41,6 +43,7 @@ public class FavoriteController {
 
     @GetMapping("/user={userId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable UUID userId){
+        log.debug("Endpoint GET ./favorite/user={}",userId);
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(userId));
         }catch(Exception e){
@@ -51,6 +54,7 @@ public class FavoriteController {
 
     @GetMapping("/hotel={hotelId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable UUID hotelId){
+        log.debug("Endpoint GET ./favorite/hotel={}",hotelId);
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByHotel(hotelId));
         }catch(Exception e){
@@ -77,6 +81,7 @@ public class FavoriteController {
     }
     @DeleteMapping("/favorite={favoriteId}")
     public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
+        log.debug("Endpoint DELETE ./favorite/favorite={}",favoriteId);
         try{
             favoriteService.deleteFavorite(favoriteId);
             return ResponseEntity.status(200).body("deleted");

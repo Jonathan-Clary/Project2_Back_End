@@ -56,6 +56,7 @@ public class SupportTicketService {
             return outgoingSupportTicketDTO;
 
         } else {
+            log.error("Method 'getSupportTicketById' throwing: {}",SupportTicketNotFoundException.class);
             throw new SupportTicketNotFoundException(id);
 
         }
@@ -77,9 +78,11 @@ public class SupportTicketService {
 
             }
 
+            log.debug("Method 'getAllSupportTicketsByUserId' returning: {}",outgoingTicketList.toString());
             return outgoingTicketList;
 
         } else {
+            log.error("Method 'getAllSupportTicketsByUserId' throwing: {}", UserNotFoundException.class);
             throw new UserNotFoundException(id);
 
         }
@@ -96,10 +99,12 @@ public class SupportTicketService {
         log.debug("Method 'register' invoked with incomingTicket: {}",incomingTicket.toString());
 
         if (incomingTicket.getDescription().equals("") || incomingTicket.getDescription() == null) {
+            log.error("Method 'register' throwing: {}", InvalidDescriptionException.class);
             throw new InvalidDescriptionException();
         }
 
         if (incomingTicket.getUserId() == null) {
+            log.error("Method 'register' throwing: {}", UserNotFoundException.class);
             throw new UserNotFoundException(incomingTicket.getUserId());
         }
 
@@ -130,6 +135,7 @@ public class SupportTicketService {
             return mapperUser.toDto(toDeleteTicket.get());
 
         } else {
+            log.error("Method 'delete' throwing: {}", SupportTicketNotFoundException.class);
             throw new SupportTicketNotFoundException(id);
 
         }

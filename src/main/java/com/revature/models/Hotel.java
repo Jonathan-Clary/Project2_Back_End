@@ -1,9 +1,10 @@
 package com.revature.models;
 
-import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
-import java.util.Date;
+
+import com.revature.DTOs.HotelDTO;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
 @Entity
@@ -15,35 +16,41 @@ public class Hotel {
     private UUID hotelId;
 
     @Column(nullable = false)
-    private String hotelName;
+    private String name;
 
     @Column(nullable = false)
-    private String address;
+    private  String address;
 
     @Column(nullable = false)
-    private Date createdAt;
+    private String image;
 
-    @PrePersist
-    private void onCreate(){
-        createdAt = new Date();
+    @Column(nullable = false)
+    private double rating;
+
+    @Column(nullable = false, unique = true)
+    private String placeId;
+
+
+
+
+
+    public Hotel() {}
+
+    public Hotel(HotelDTO hotelDTO) {
+        this.placeId = hotelDTO.getHotelID();
+        this.name = hotelDTO.getName();
+        this.address = hotelDTO.getAddress();
+        this.image = hotelDTO.getImage();
+        this.rating = hotelDTO.getRating();
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    // Constructors
-    public Hotel() {
-    }
-
-    public Hotel(UUID hotelId, String hotelName, String address) {
+    public Hotel(UUID hotelId, String name, String address, String image, double rating) {
         this.hotelId = hotelId;
-        this.hotelName = hotelName;
+        this.name = name;
         this.address = address;
+        this.image = image;
+        this.rating = rating;
     }
-
-    // Getters and Setters
-
 
     public UUID getHotelId() {
         return hotelId;
@@ -53,12 +60,20 @@ public class Hotel {
         this.hotelId = hotelId;
     }
 
-    public String getHotelName() {
-        return hotelName;
+    public String getPlaceId() {
+        return placeId;
     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -69,15 +84,31 @@ public class Hotel {
         this.address = address;
     }
 
-    // toString
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 
     @Override
     public String toString() {
-        return "Hotel{" +
+        return "LocalHotel{" +
                 "hotelId=" + hotelId +
-                ", hotelName='" + hotelName + '\'' +
+                ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", createdAt=" + createdAt +
+                ", image='" + image + '\'' +
+                ", rating=" + rating +
+                ", placeId='" + placeId + '\'' +
                 '}';
     }
 }

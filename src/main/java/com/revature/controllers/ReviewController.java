@@ -26,6 +26,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Review> submitReview(@RequestBody Review requestReview) {
+        log.debug("Endpoint POST ./reviews reached");
         try {
             Review review = reviewService.submitReview(requestReview);
             return ResponseEntity.status(200).body(review);
@@ -37,6 +38,7 @@ public class ReviewController {
 
     @PatchMapping("/{reviewId}")
     public ResponseEntity<Object> updateReview(@RequestBody Map<String, String> updateFields, @PathVariable UUID reviewId) throws CustomException {
+        log.debug("Endpoint PATCH ./reviews/{} reached",reviewId);
         Review review = reviewService.updateReview(updateFields, reviewId);
         if (review == null) {
             return ResponseEntity.status(400).body("Review not found with ID: " + reviewId);
@@ -48,6 +50,7 @@ public class ReviewController {
 
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Integer> deleteReview(@PathVariable UUID reviewId) {
+        log.debug("Endpoint DELETE ./reviews/{} reached",reviewId);
         int result = reviewService.deleteReview(reviewId);
         if (result == 0) {
             return ResponseEntity.status(200).body(null);
