@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class HotelAPIService {
 
@@ -83,7 +84,12 @@ public class HotelAPIService {
 
             if(hotelObj.get("business_status").getAsString().equals("OPERATIONAL")) {
                 String name = hotelObj.get("name").getAsString();
+
+
                 String placeId = hotelObj.get("place_id").getAsString();
+
+                UUID uuid = UUID.fromString(placeId);
+
                 String address = hotelObj.get("formatted_address").getAsString();
                 double rating = hotelObj.has("rating") ? hotelObj.get("rating").getAsDouble() : 0.0;
                 String photoReference = "";
@@ -94,7 +100,7 @@ public class HotelAPIService {
                             + photoObj.get("photo_reference").getAsString() + "&key=AIzaSyBxUK3IJcgz1dffYlPGonw5P0uLBten9rU");
                 }
 
-                HotelDTO hotel = new HotelDTO(name, rating, photoReference, address, placeId);
+                HotelDTO hotel = new HotelDTO(name, rating, photoReference, address, uuid);
                 hotels.add(hotel);
             }
         }

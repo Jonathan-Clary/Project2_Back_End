@@ -42,34 +42,35 @@ public class HotelService {
         return hotelList;
     }
 
+    public Hotel saveHotel(Hotel hotel) {
+        log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
+
+        Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
+        if(existingHotel.isPresent()){
+            return existingHotel.get();
+        }
+        Hotel returningHotel = hotelDAO.save(hotel);
+        log.debug("Method 'saveHotel' returning: {}", returningHotel);
+        return returningHotel;
+    }
+
     public Hotel saveHotel(HotelDTO hotel) {
         log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
-        try {
-            Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
-            log.debug("Method 'saveHotel' returning: {}", returningHotel);
-            return returningHotel;
-        }catch(Exception e){
-            log.debug("Method 'saveHotel' invoked with hotel: {} already existed", hotel.toString());
-            return null;
+
+        Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelID());
+        if(existingHotel.isPresent()){
+            return existingHotel.get();
         }
+        Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
+        log.debug("Method 'saveHotel' returning: {}", returningHotel);
+        return returningHotel;
+
     }
 
     public void deleteHotel(UUID hotelId) {
         log.debug("Method 'deleteHotel' invoked with hotelId: {}", hotelId);
         hotelDAO.deleteById(hotelId);
         log.debug("Method 'deleteHotel' completed");
-    }
-
-    public Hotel getHotelById(String hotelId) throws HotelNotFoundException {
-        log.debug("Method 'getHotelById' invoked with placeId: {}", hotelId);
-        Optional<Hotel> hotel = hotelDAO.findByPlaceId(hotelId);
-        if(hotel.isPresent()) {
-            log.debug("Method 'getHotelById' returning: {}", hotel.get());
-            return hotel.get();
-        }
-        else {
-            throw new HotelNotFoundException(hotelId);
-        }
     }
 
     public Hotel getHotelById(UUID hotelId) throws HotelNotFoundException {

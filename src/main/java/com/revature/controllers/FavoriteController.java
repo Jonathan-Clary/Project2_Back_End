@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/favorite")
+@RequestMapping("/favorites")
 @CrossOrigin
 public class FavoriteController {
     Logger log = LoggerFactory.getLogger(FavoriteController.class);
@@ -41,7 +41,7 @@ public class FavoriteController {
         }
     }
 
-    @GetMapping("/user={userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByUser(@PathVariable UUID userId){
         log.debug("Endpoint GET ./favorite/user={}",userId);
         try{
@@ -52,7 +52,7 @@ public class FavoriteController {
         }
     }
 
-    @GetMapping("/hotel={hotelId}")
+    @GetMapping("/hotel/{hotelId}")
     public ResponseEntity<List<Favorite>> getAllFavoriteByHotel(@PathVariable UUID hotelId){
         log.debug("Endpoint GET ./favorite/hotel={}",hotelId);
         try{
@@ -79,7 +79,7 @@ public class FavoriteController {
 
 
     }
-    @DeleteMapping("/favorite={favoriteId}")
+    @DeleteMapping("/favorite/{favoriteId}")
     public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
         log.debug("Endpoint DELETE ./favorite/favorite={}",favoriteId);
         try{

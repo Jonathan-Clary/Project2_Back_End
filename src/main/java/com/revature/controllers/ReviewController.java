@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.DTOs.IncomingReviewDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.models.Review;
 import com.revature.services.ReviewService;
@@ -25,7 +26,7 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<Review> submitReview(@RequestBody Review requestReview) {
+    public ResponseEntity<Review> submitReview(@RequestBody IncomingReviewDTO requestReview) {
         log.debug("Endpoint POST ./reviews reached");
         try {
             Review review = reviewService.submitReview(requestReview);

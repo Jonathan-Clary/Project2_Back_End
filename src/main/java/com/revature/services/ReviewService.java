@@ -1,9 +1,12 @@
 package com.revature.services;
 
 import com.revature.DAOs.ReviewDAO;
+import com.revature.DTOs.IncomingReviewDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidStarsException;
+import com.revature.models.Hotel;
 import com.revature.models.Review;
+import com.revature.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +31,17 @@ public class ReviewService {
     }
 
     // Creates a Review
-    public Review submitReview(Review review) throws CustomException {
+    public Review submitReview(IncomingReviewDTO review) throws CustomException {
         log.debug("Method 'submitReview' invoked with review: {}",review);
 
-        UUID userId = review.getUser().getUserId();
-        UUID hotelId = review.getHotel().getHotelId();
+        User user = userService.getUserById(review.getUserId());
+        Hotel hotel = hotelService.saveHotel(review.getHotel());
 
-        if (userService.getUserById(userId) == null) {
+        if (user == null) {
             log.warn("Method 'submitReview' returning null");
             return null;
         }
-        if (hotelService.getHotelById(hotelId) == null) {
+        if (hotel == null) {
             log.warn("Method 'submitReview' returning null");
             return null;
         }
@@ -47,7 +50,7 @@ public class ReviewService {
             throw new InvalidStarsException();
         }
 
-        Review returningReview = reviewDAO.save(review);
+        Review returningReview = reviewDAO.save(new Review(review, user, hotel));
         log.debug("Method 'submitReview' returning: {}",returningReview);
         return returningReview;
     }

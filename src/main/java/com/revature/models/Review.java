@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.revature.DTOs.IncomingReviewDTO;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -37,6 +38,13 @@ public class Review {
 
     public Review() {
     }
+    public Review(IncomingReviewDTO reviewDTO, User u, Hotel h) {
+        this.stars = reviewDTO.getStars();
+        this.reviewText = reviewDTO.getReviewText();
+        this.user = u;
+        this.hotel = h;
+    }
+
 
     public Review(int stars, String reviewText, User user, Hotel hotel) {
         this.stars = stars;

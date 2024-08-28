@@ -13,9 +13,5 @@ import java.util.UUID;
 @Repository
 public interface HotelDAO extends JpaRepository<Hotel, UUID> {
 
-    public Optional<Hotel> findByPlaceId(String placeId);
-    // add custom methods WIP
-
-
 
 }

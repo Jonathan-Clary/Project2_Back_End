@@ -12,7 +12,6 @@ import java.util.UUID;
 public class Hotel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID hotelId;
 
     @Column(nullable = false)
@@ -27,17 +26,12 @@ public class Hotel {
     @Column(nullable = false)
     private double rating;
 
-    @Column(nullable = false, unique = true)
-    private String placeId;
-
-
-
 
 
     public Hotel() {}
 
     public Hotel(HotelDTO hotelDTO) {
-        this.placeId = hotelDTO.getHotelID();
+        this.hotelId = hotelDTO.getHotelID();
         this.name = hotelDTO.getName();
         this.address = hotelDTO.getAddress();
         this.image = hotelDTO.getImage();
@@ -60,13 +54,6 @@ public class Hotel {
         this.hotelId = hotelId;
     }
 
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
 
     public String getName() {
         return name;
@@ -108,7 +95,6 @@ public class Hotel {
                 ", address='" + address + '\'' +
                 ", image='" + image + '\'' +
                 ", rating=" + rating +
-                ", placeId='" + placeId + '\'' +
                 '}';
     }
 }

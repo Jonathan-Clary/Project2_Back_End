@@ -2,13 +2,15 @@ package com.revature.DTOs;
 
 import com.revature.models.Hotel;
 
+import java.util.UUID;
+
 public class HotelDTO {
 
     private String name;
     private double rating;
     private String image;
     private String address;
-    private String hotelID;
+    private UUID hotelID;
 
     public HotelDTO() {
     }
@@ -18,10 +20,10 @@ public class HotelDTO {
         this.rating = hotel.getRating();
         this.image = hotel.getImage();
         this.address = hotel.getAddress();
-        this.hotelID = hotel.getPlaceId();
+        this.hotelID = hotel.getHotelId();
     }
 
-    public HotelDTO(String name, double rating, String image, String address, String hotelID) {
+    public HotelDTO(String name, double rating, String image, String address, UUID hotelID) {
         this.name = name;
         this.rating = rating;
         this.image = image;
@@ -61,12 +63,12 @@ public class HotelDTO {
         this.address = address;
     }
 
-    public String getHotelID() {
+    public UUID getHotelID() {
         return hotelID;
     }
 
-    public void setHotelID(String placeID) {
-        this.hotelID = placeID;
+    public void setHotelID(UUID hotelID) {
+        this.hotelID = hotelID;
     }
 
     @Override
