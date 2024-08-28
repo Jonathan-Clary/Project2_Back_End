@@ -7,6 +7,7 @@ import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
 import com.revature.exceptions.InvalidDescriptionException;
+import com.revature.exceptions.InvalidTypeException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.mappers.*;
@@ -271,6 +272,25 @@ public class SupportTicketServiceTest {
         //then
         assertTrue(thrown.getMessage().contains("User with ID:"+ null +" Not Found."));
 
+    }
+
+    @Test
+    public void testInvalidType() throws Exception{
+        //given
+        final UUID userId = UUID.randomUUID();
+        final String type = "invalid";
+
+        IncomingSupportTicketDTO incomingTicket = new IncomingSupportTicketDTO(userId, "Description", type);
+
+        when(incomingMapper.toDto(incomingTicket)).thenThrow(new InvalidTypeException(type));
+
+        //when
+        InvalidTypeException thrown = assertThrows(
+                InvalidTypeException.class, () -> supportService.register(incomingTicket)
+        );
+
+        //then
+        assertTrue(thrown.getMessage().contains(type + " is an Invalid Type."));
     }
 
 }//End of SupportServiceTest

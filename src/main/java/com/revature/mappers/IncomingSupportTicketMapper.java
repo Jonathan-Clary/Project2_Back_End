@@ -27,7 +27,7 @@ public class IncomingSupportTicketMapper {
 
     public SupportTicket toDto(IncomingSupportTicketDTO incomingSupportTicket) throws InvalidTypeException {
 
-        TicketType incomingType = mapperType.tDto(incomingSupportTicket.getType());
+        TicketType incomingType = mapperType.toEnum(incomingSupportTicket.getType());
 
         SupportTicket returnedSupportTicket = new SupportTicket(
                 null,
