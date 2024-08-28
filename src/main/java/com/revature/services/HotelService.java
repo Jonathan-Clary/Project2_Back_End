@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
+import com.revature.DTOs.HotelDTO;
 import com.revature.exceptions.HotelNotFoundException;
 import com.revature.models.Hotel;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ public class HotelService {
         this.hotelDAO = hotelDAO;
     }
 
+
+
     public List<Hotel> findAllHotels() {
         log.debug("Method 'findAllHotels' invoked");
         List<Hotel>  hotelList = hotelDAO.findAll();
@@ -39,17 +42,34 @@ public class HotelService {
         return hotelList;
     }
 
-    public Hotel saveHotel(Hotel hotel) {
+    public Hotel saveHotel(HotelDTO hotel) {
         log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
-        Hotel returningHotel = hotelDAO.save(hotel);
-        log.debug("Method 'saveHotel' returning: {}", returningHotel);
-        return returningHotel;
+        try {
+            Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
+            log.debug("Method 'saveHotel' returning: {}", returningHotel);
+            return returningHotel;
+        }catch(Exception e){
+            log.debug("Method 'saveHotel' invoked with hotel: {} already existed", hotel.toString());
+            return null;
+        }
     }
 
     public void deleteHotel(UUID hotelId) {
         log.debug("Method 'deleteHotel' invoked with hotelId: {}", hotelId);
         hotelDAO.deleteById(hotelId);
         log.debug("Method 'deleteHotel' completed");
+    }
+
+    public Hotel getHotelById(String hotelId) throws HotelNotFoundException {
+        log.debug("Method 'getHotelById' invoked with placeId: {}", hotelId);
+        Optional<Hotel> hotel = hotelDAO.findByPlaceId(hotelId);
+        if(hotel.isPresent()) {
+            log.debug("Method 'getHotelById' returning: {}", hotel.get());
+            return hotel.get();
+        }
+        else {
+            throw new HotelNotFoundException(hotelId);
+        }
     }
 
     public Hotel getHotelById(UUID hotelId) throws HotelNotFoundException {
@@ -59,14 +79,9 @@ public class HotelService {
             log.debug("Method 'getHotelById' returning: {}", hotel.get());
             return hotel.get();
         }
-        else
+        else {
             throw new HotelNotFoundException(hotelId);
-
-        //While this is clean, re-writing to assist with logging the process
-//        return hotelDAO.findById(hotelId)
-//                .orElseThrow(()-> {
-//                    return new HotelNotFoundException(hotelId);
-//                });
+        }
     }
 
     // add more methods WIP
