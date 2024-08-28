@@ -193,7 +193,25 @@ public class SupportTicketServiceTest {
         verify(sDAO, times(1)).findAllByUserUserId(userId);
         verify(userMapper, times(1)).toDto(supportTicket1);
         verify(userMapper, times(1)).toDto(supportTicket2);
-        
+
+    }
+
+    @Test
+    public void testUserNotFoundGetByUserId(){
+        //given
+        final UUID id = UUID.randomUUID();
+
+        when(uDao.findById(id)).thenReturn(Optional.empty());
+
+        //when
+        UserNotFoundException thrown = assertThrows(
+                UserNotFoundException.class, () -> supportService.getAllSupportTicketsByUserId(id)
+        );
+
+        //then
+        assertTrue(thrown.getMessage().contains("User with ID:"+id+" Not Found."));
+        verify(uDao, times(1)).findById(id);
+
     }
 
     @Test
