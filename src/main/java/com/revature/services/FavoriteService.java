@@ -62,7 +62,7 @@ public class FavoriteService {
 
     public List<Favorite> findAllFavoriteByHotel(UUID hotelId) throws CustomException{
         log.debug("Method 'findAllFavoriteByHotel' invoked with hotelId: {}",hotelId);
-        List<Favorite> hotelFavorites =  favoriteDAO.findByUserUserId(hotelService.getHotelById(hotelId).getHotelId());
+        List<Favorite> hotelFavorites =  favoriteDAO.findByHotelHotelId(hotelId);
 
         //Append id's to string for logging, because printing every object is excessive
         StringBuilder sb = new StringBuilder();

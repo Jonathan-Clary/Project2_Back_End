@@ -5,6 +5,8 @@ import com.revature.exceptions.CustomException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.UUID;
 @RequestMapping("/user")
 @CrossOrigin
 public class UserController {
+    Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     AuthController authController;
@@ -43,6 +46,7 @@ public class UserController {
     // handles all the custom exceptions
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException( CustomException e){
+        log.warn("Exception was thrown: {}", e.getMsg());
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
 
