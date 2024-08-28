@@ -11,4 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface SupportTicketDAO extends JpaRepository<SupportTicket, UUID> {
+
+    List<SupportTicket> findAllByUserUserId(UUID id);
+
 }

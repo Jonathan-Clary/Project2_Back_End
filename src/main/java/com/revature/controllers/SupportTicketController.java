@@ -4,6 +4,7 @@ import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.services.SupportTicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,10 +52,19 @@ public class SupportTicketController {
 
     }
 
-    //Get All SupportTickets
-    @GetMapping("/get/all")
-    public ResponseEntity<List<OutgoingSupportTicketDTO>> getAllSupportTickets() {
-        return ResponseEntity.ok(sts.getAllSupportTickets());
+    @GetMapping("/get/all/{id}")
+    public ResponseEntity<?> getAllSupportTicketsByUserId( @RequestParam(name = "id") UUID id) {
+
+        try {
+
+            List<OutgoingSupportTicketDTO> returnTickets = sts.getAllSupportTicketsByUserId(id);
+            return ResponseEntity.ok(returnTickets);
+
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+
+        }
+
     }
 
     /*

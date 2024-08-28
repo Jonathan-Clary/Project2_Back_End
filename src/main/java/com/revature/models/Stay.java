@@ -68,9 +68,6 @@ public class Stay {
         this.endDate = endDate;
     }
 
-
-
-
     public Hotel getHotel() {
         return hotel;
     }

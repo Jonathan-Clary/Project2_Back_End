@@ -115,79 +115,6 @@ public class SupportTicketServiceTest {
     }
 
     @Test
-    public void getAllSupportTickets() {
-        //given
-        final Date fakeDateCreated = new Date(2024, Calendar.AUGUST,15);
-        final UUID id1 = UUID.randomUUID();
-        final UUID id2 = UUID.randomUUID();
-        final UUID userId = UUID.randomUUID();
-
-        User user = new User();
-        user.setUserId(userId);
-        user.setFirstName("John");
-        user.setLastName("Doe");
-        user.setEmail("JohnDoe@example.com");
-        user.setPassword("password");
-        user.setCreatedAt(fakeDateCreated);
-
-        SupportTicket supportTicket1 = new SupportTicket();
-        supportTicket1.setSupportTicketId(id1);
-        supportTicket1.setUser(user);
-        supportTicket1.setStatus(TicketStatus.PENDING);
-        supportTicket1.setType(TicketType.GENERAL);
-        supportTicket1.setDescription("Description");
-        supportTicket1.setResolvedAt(null);
-
-        SupportTicket supportTicket2 = new SupportTicket();
-        supportTicket2.setSupportTicketId(id2);
-        supportTicket2.setUser(user);
-        supportTicket2.setStatus(TicketStatus.PENDING);
-        supportTicket2.setType(TicketType.GENERAL);
-        supportTicket2.setDescription("Description");
-        supportTicket2.setCreatedAt(fakeDateCreated);
-        supportTicket2.setResolvedAt(null);
-
-        OutgoingSupportTicketDTO outgoingTicketDTO1 = new OutgoingSupportTicketDTO();
-        outgoingTicketDTO1.setSupportTicketId(id1);
-        outgoingTicketDTO1.setUserId(userId);
-        outgoingTicketDTO1.setFirstName(user.getFirstName());
-        outgoingTicketDTO1.setLastName(user.getLastName());
-        outgoingTicketDTO1.setEmail(user.getEmail());
-        outgoingTicketDTO1.setDescription(supportTicket1.getDescription());
-        outgoingTicketDTO1.setStatus(supportTicket1.getStatus());
-        outgoingTicketDTO1.setType(supportTicket1.getType());
-        outgoingTicketDTO1.setCreatedAt(supportTicket1.getCreatedAt());
-
-        OutgoingSupportTicketDTO outgoingTicketDTO2 = new OutgoingSupportTicketDTO();
-        outgoingTicketDTO2.setSupportTicketId(id2);
-        outgoingTicketDTO2.setUserId(userId);
-        outgoingTicketDTO2.setFirstName(user.getFirstName());
-        outgoingTicketDTO2.setLastName(user.getLastName());
-        outgoingTicketDTO2.setEmail(user.getEmail());
-        outgoingTicketDTO2.setDescription(supportTicket2.getDescription());
-        outgoingTicketDTO2.setStatus(supportTicket2.getStatus());
-        outgoingTicketDTO2.setType(supportTicket2.getType());
-        outgoingTicketDTO2.setCreatedAt(supportTicket2.getCreatedAt());
-
-        List<SupportTicket> ticketList = Arrays.asList(supportTicket1,supportTicket2);
-        List<OutgoingSupportTicketDTO> outTicketList = Arrays.asList(outgoingTicketDTO1, outgoingTicketDTO2);
-
-        when(sDAO.findAll()).thenReturn(ticketList);
-        when(userMapper.toDto(supportTicket1)).thenReturn(outgoingTicketDTO1);
-        when(userMapper.toDto(supportTicket2)).thenReturn(outgoingTicketDTO2);
-
-        //when
-        List<OutgoingSupportTicketDTO> supportTickets = supportService.getAllSupportTickets();
-
-        //then
-        assertEquals(outTicketList, supportTickets);
-        verify(sDAO, times(1)).findAll();
-        verify(userMapper, times(1)).toDto(supportTicket1);
-        verify(userMapper, times(1)).toDto(supportTicket2);
-
-    }
-
-    @Test
     public void testRegister() throws Exception {
         //given
         final Date fakeDateCreated = new Date(2024,Calendar.AUGUST,26);
@@ -356,7 +283,7 @@ public class SupportTicketServiceTest {
         //then
         assertTrue(thrown.getMessage().contains("Support Ticket with Id: " + id + " Not Found."));
         verify(sDAO, times(1)).findById(id);
-        
+
     }
 
 }//End of SupportServiceTest

@@ -44,21 +44,10 @@ public class StayController {
         this.hotelService = hotelService;
     }
 
-
-
     @PostMapping
     public ResponseEntity<Stay> createStay(@RequestBody Stay stay) throws CustomException {
         User user = userService.getUserById(stay.getUserId());//Will throw if user doesn't exist
         Hotel hotel =  hotelService.getHotelById(stay.getHotelId());//Will throw if hotel doesn't exist
-
-        /*
-        LocalDate bookedDate = LocalDate.parse(stay.getBookedDate());
-        LocalDate endDate = LocalDate.parse(stay.getEndDate());
-
-        if(endDate.isBefore(bookedDate) || endDate.equals(bookedDate))
-            throw new InvalidDateRangeException(bookedDate,endDate);
-
-       */
 
         Date bookedDate = stay.getBookedDate();
         Date endDate = stay.getEndDate();

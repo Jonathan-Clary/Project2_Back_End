@@ -1,12 +1,13 @@
 package com.revature.services;
 
 import com.revature.DAOs.SupportTicketDAO;
+import com.revature.DAOs.UserDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.exceptions.*;
 import com.revature.mappers.*;
-import com.revature.models.Stay;
 import com.revature.models.SupportTicket;
+import com.revature.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class SupportTicketService {
 
     //Model Variable
     private SupportTicketDAO stDao;
+    private UserDAO uDao;
 
     //Mappers
     private OutgoingSupportTicketMapper mapperUser;
@@ -31,8 +33,9 @@ public class SupportTicketService {
 
     //Constructor
     @Autowired
-    public SupportTicketService(SupportTicketDAO stDao, OutgoingSupportTicketMapper mapperUser, IncomingSupportTicketMapper mapperIncoming) {
+    public SupportTicketService(SupportTicketDAO stDao, UserDAO uDao, OutgoingSupportTicketMapper mapperUser, IncomingSupportTicketMapper mapperIncoming) {
         this.stDao = stDao;
+        this.uDao = uDao;
         this.mapperUser = mapperUser;
         this.mapperIncoming = mapperIncoming;
     }
@@ -59,28 +62,27 @@ public class SupportTicketService {
 
     }
 
-    //Return all SupportTickets
-    public List<OutgoingSupportTicketDTO> getAllSupportTickets() {
-        log.debug("Method 'getAllSupportTickets' invoked");
+    public List<OutgoingSupportTicketDTO> getAllSupportTicketsByUserId(UUID id) throws UserNotFoundException{
+        log.debug("Method 'getAllSupportTicketsByUserId' invoked with id: {}", id);
+        Optional<User> user = uDao.findById(id);
 
-        //Instantiate Lists
-        List<SupportTicket> stl = stDao.findAll();
-        List<OutgoingSupportTicketDTO> returnList = new ArrayList<OutgoingSupportTicketDTO>();
+        if (user.isPresent()){
 
-        for (SupportTicket st: stl) {
+            List<SupportTicket> stList = stDao.findAllByUserUserId(id);
+            List<OutgoingSupportTicketDTO> outgoingTicketList = new ArrayList<OutgoingSupportTicketDTO>();
+            for (SupportTicket st: stList) {
 
-            returnList.add(mapperUser.toDto(st));
+                outgoingTicketList.add(mapperUser.toDto(st));
+
+            }
+
+            return outgoingTicketList;
+
+        } else {
+            throw new UserNotFoundException(id);
 
         }
 
-        //Append id's to string for logging, because printing every object is excessive
-        StringBuilder sb = new StringBuilder();
-        for(OutgoingSupportTicketDTO o: returnList){
-            sb.append(o.getSupportTicketId()).append(", ");
-        }
-        log.debug("Method 'getAllSupportTickets' returning OutgoingSupportTicketDTO list with supportTicket_ids: {}", sb.toString());
-
-        return returnList;
 
     }
 
