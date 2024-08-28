@@ -62,6 +62,7 @@ public class SupportTicketService {
 
     }
 
+    //Return a list of all Support Tickets submitted by a User
     public List<OutgoingSupportTicketDTO> getAllSupportTicketsByUserId(UUID id) throws UserNotFoundException{
         log.debug("Method 'getAllSupportTicketsByUserId' invoked with id: {}", id);
         Optional<User> user = uDao.findById(id);

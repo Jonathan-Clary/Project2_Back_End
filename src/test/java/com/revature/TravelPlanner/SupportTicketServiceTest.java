@@ -2,6 +2,7 @@ package com.revature.TravelPlanner;
 
 import com.revature.DAOs.AdminDAO;
 import com.revature.DAOs.SupportTicketDAO;
+import com.revature.DAOs.UserDAO;
 import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.enums.TicketStatus;
@@ -31,7 +32,7 @@ public class SupportTicketServiceTest {
     private SupportTicketDAO sDAO;
 
     @Mock
-    private AdminDAO aDAO;
+    private UserDAO uDao;
 
     @Mock
     private OutgoingSupportTicketMapper userMapper;
@@ -49,7 +50,7 @@ public class SupportTicketServiceTest {
     private SupportTicketService supportService;
 
     @Test
-    public void testGetSupportTicketByID() throws Exception{
+    public void testGetSupportTicketById() throws Exception{
         //given
         final Date fakeDateCreated = new Date(2024, Calendar.AUGUST,15);
         final UUID userId = UUID.randomUUID();
@@ -112,6 +113,87 @@ public class SupportTicketServiceTest {
         assertTrue(thrown.getMessage().contains("Support Ticket with Id: " + supportTicketId + " Not Found."));
         verify(sDAO, times(1)).findById(supportTicketId);
 
+    }
+
+    @Test
+    public void testGetAllSupportTicketsByUserId() throws Exception {
+        //given
+        final Date fakeDateCreated = new Date(2024,Calendar.AUGUST,26);
+        final UUID userId = UUID.randomUUID();
+        final UUID supportTicketId1 = UUID.randomUUID();
+        final UUID supportTicketId2 = UUID.randomUUID();
+
+        User user = new User();
+        user.setUserId(userId);
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setEmail("JohnDoe@example.com");
+        user.setPassword("password");
+        user.setCreatedAt(fakeDateCreated);
+
+        SupportTicket supportTicket1 = new SupportTicket();
+        supportTicket1.setSupportTicketId(supportTicketId1);
+        supportTicket1.setDescription("Description");
+        supportTicket1.setType(TicketType.GENERAL);
+        supportTicket1.setCreatedAt(fakeDateCreated);
+        supportTicket1.setResolvedAt(null);
+        supportTicket1.setStatus(TicketStatus.PENDING);
+        supportTicket1.setUser(user);
+
+        SupportTicket supportTicket2 = new SupportTicket();
+        supportTicket2.setSupportTicketId(supportTicketId2);
+        supportTicket2.setDescription("Description");
+        supportTicket2.setType(TicketType.GENERAL);
+        supportTicket2.setCreatedAt(fakeDateCreated);
+        supportTicket2.setResolvedAt(null);
+        supportTicket2.setStatus(TicketStatus.PENDING);
+        supportTicket2.setUser(user);
+
+        OutgoingSupportTicketDTO outgoingTicket1 = new OutgoingSupportTicketDTO();
+        outgoingTicket1.setSupportTicketId(supportTicketId1);
+        outgoingTicket1.setUserId(userId);
+        outgoingTicket1.setFirstName(user.getFirstName());
+        outgoingTicket1.setLastName(user.getLastName());
+        outgoingTicket1.setEmail(user.getEmail());
+        outgoingTicket1.setDescription(supportTicket1.getDescription());
+        outgoingTicket1.setStatus(supportTicket1.getStatus());
+        outgoingTicket1.setType(supportTicket1.getType());
+        outgoingTicket1.setCreatedAt(supportTicket1.getCreatedAt());
+
+        OutgoingSupportTicketDTO outgoingTicket2 = new OutgoingSupportTicketDTO();
+        outgoingTicket2.setSupportTicketId(supportTicketId1);
+        outgoingTicket2.setUserId(userId);
+        outgoingTicket2.setFirstName(user.getFirstName());
+        outgoingTicket2.setLastName(user.getLastName());
+        outgoingTicket2.setEmail(user.getEmail());
+        outgoingTicket2.setDescription(supportTicket2.getDescription());
+        outgoingTicket2.setStatus(supportTicket2.getStatus());
+        outgoingTicket2.setType(supportTicket2.getType());
+        outgoingTicket2.setCreatedAt(supportTicket2.getCreatedAt());
+
+        List<SupportTicket> supportTickets = new ArrayList<>();
+        supportTickets.add(supportTicket1);
+        supportTickets.add(supportTicket2);
+
+        List<OutgoingSupportTicketDTO> outgoingList = new ArrayList<OutgoingSupportTicketDTO>();
+        outgoingList.add(outgoingTicket1);
+        outgoingList.add(outgoingTicket2);
+
+        when(uDao.findById(userId)).thenReturn(Optional.of(user));
+        when(sDAO.findAllByUserUserId(userId)).thenReturn(supportTickets);
+        when(userMapper.toDto(supportTicket1)).thenReturn(outgoingTicket1);
+        when(userMapper.toDto(supportTicket2)).thenReturn(outgoingTicket2);
+
+        //when
+        List<OutgoingSupportTicketDTO> returnedList = supportService.getAllSupportTicketsByUserId(userId);
+
+        //then
+        assertEquals(outgoingList, returnedList);
+        verify(uDao, times(1)).findById(userId);
+        verify(sDAO, times(1)).findAllByUserUserId(userId);
+        verify(userMapper, times(1)).toDto(supportTicket1);
+        verify(userMapper, times(1)).toDto(supportTicket2);
+        
     }
 
     @Test
