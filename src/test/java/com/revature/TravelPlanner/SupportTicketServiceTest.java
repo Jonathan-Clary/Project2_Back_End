@@ -275,7 +275,7 @@ public class SupportTicketServiceTest {
     }
 
     @Test
-    public void testInvalidType() throws Exception{
+    public void testInvalidType() throws Exception {
         //given
         final UUID userId = UUID.randomUUID();
         final String type = "invalid";
@@ -291,6 +291,54 @@ public class SupportTicketServiceTest {
 
         //then
         assertTrue(thrown.getMessage().contains(type + " is an Invalid Type."));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        //given
+        final Date fakeDateCreated = new Date(2024, Calendar.AUGUST,15);
+        final UUID userId = UUID.randomUUID();
+        final UUID supportTicketId = UUID.randomUUID();
+
+        User user = new User();
+        user.setUserId(userId);
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setEmail("JohnDoe@example.com");
+        user.setPassword("password");
+        user.setCreatedAt(fakeDateCreated);
+
+        SupportTicket supportTicket = new SupportTicket();
+        supportTicket.setSupportTicketId(supportTicketId);
+        supportTicket.setUser(user);
+        supportTicket.setStatus(TicketStatus.PENDING);
+        supportTicket.setType(TicketType.GENERAL);
+        supportTicket.setDescription("Description");
+        supportTicket.setCreatedAt(fakeDateCreated);
+        supportTicket.setResolvedAt(null);
+
+        OutgoingSupportTicketDTO outgoingSupportTicketDTO = new OutgoingSupportTicketDTO();
+        outgoingSupportTicketDTO.setSupportTicketId(supportTicketId);
+        outgoingSupportTicketDTO.setUserId(userId);
+        outgoingSupportTicketDTO.setFirstName(user.getFirstName());
+        outgoingSupportTicketDTO.setLastName(user.getLastName());
+        outgoingSupportTicketDTO.setEmail(user.getEmail());
+        outgoingSupportTicketDTO.setDescription(supportTicket.getDescription());
+        outgoingSupportTicketDTO.setStatus(supportTicket.getStatus());
+        outgoingSupportTicketDTO.setType(supportTicket.getType());
+        outgoingSupportTicketDTO.setCreatedAt(supportTicket.getCreatedAt());
+
+        when(sDAO.findById(supportTicketId)).thenReturn(Optional.of(supportTicket));
+        when(userMapper.toDto(supportTicket)).thenReturn(outgoingSupportTicketDTO);
+
+        //when
+        OutgoingSupportTicketDTO deletedTicket = supportService.delete(supportTicketId);
+
+        //then
+        assertEquals(outgoingSupportTicketDTO,deletedTicket);
+        verify(sDAO, times(1)).findById(supportTicketId);
+        verify(userMapper, times(2)).toDto(supportTicket);
+
     }
 
 }//End of SupportServiceTest
