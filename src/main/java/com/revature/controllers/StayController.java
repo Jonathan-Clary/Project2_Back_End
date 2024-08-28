@@ -85,7 +85,7 @@ public class StayController {
         return ResponseEntity.status(e.getStatus()).body(e.getMsg());
     }
     //STAYS-HISTORY: Controller Method for
-    @GetMapping("/user/{userID}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Stay>> getStaysByUserId(@PathVariable UUID userId) {
         List<Stay> stays = stayService.getStaysByUserId(userId);
         return ResponseEntity.ok(stays);
