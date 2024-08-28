@@ -97,7 +97,7 @@ public class SupportTicketServiceTest {
     }
 
     @Test
-    public void testSupportTicketNotFound() {
+    public void testSupportTicketNotFoundGetById() {
         //given
         final UUID supportTicketId = UUID.randomUUID();
 
@@ -339,6 +339,24 @@ public class SupportTicketServiceTest {
         verify(sDAO, times(1)).findById(supportTicketId);
         verify(userMapper, times(2)).toDto(supportTicket);
 
+    }
+
+    @Test
+    public void testSupportTicketNotFoundDelete(){
+        //given
+        final UUID id = UUID.randomUUID();
+
+        when(sDAO.findById(id)).thenReturn(Optional.empty());
+
+        //when
+        SupportTicketNotFoundException thrown = assertThrows(
+                SupportTicketNotFoundException.class, () -> supportService.delete(id)
+        );
+
+        //then
+        assertTrue(thrown.getMessage().contains("Support Ticket with Id: " + id + " Not Found."));
+        verify(sDAO, times(1)).findById(id);
+        
     }
 
 }//End of SupportServiceTest
