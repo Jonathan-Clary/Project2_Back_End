@@ -59,6 +59,22 @@ public class FavoriteController {
         }
     }
 
+    @GetMapping("/hotel/{hotelId}/user/{userId}")
+    public ResponseEntity<List<Favorite>> getAllFavoriteByHotelAndUser(@PathVariable UUID hotelId, @PathVariable UUID userId) {
+
+        try {
+            List<Favorite> favorites= favoriteService.findFavoritesByHotelAndUser(hotelId, userId);
+            if (favorites.isEmpty()) {
+                return ResponseEntity.status(204).body(null);
+            }
+            return ResponseEntity.ok(favorites);
+        } catch (Exception e) {
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+
+
+    }
     @DeleteMapping("/favorite={favoriteId}")
     public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
         try{

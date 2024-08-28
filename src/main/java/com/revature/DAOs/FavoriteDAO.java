@@ -9,8 +9,9 @@ import java.util.UUID;
 
 @Repository
 public interface FavoriteDAO extends JpaRepository<Favorite, UUID> {
-    public List<Favorite> findByUserUserId(UUID userId);
+    List<Favorite> findByUserUserId(UUID userId);
 
-    public List<Favorite> findByHotelHotelId(UUID hotelId);
+    List<Favorite> findByHotelHotelId(UUID hotelId);
 
+    List<Favorite> findByHotelHotelIdAndUserUserId(UUID hotelId, UUID userId);
 }

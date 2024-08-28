@@ -107,4 +107,9 @@ public class FavoriteService {
         }
     }
 
+    public List<Favorite> findFavoritesByHotelAndUser(UUID hotelId, UUID userId) throws CustomException {
+        //log.debug("Method 'getFavoriteByHotelAndUser' invoked with hotel Id: {} and user Id: {}", hotelId, userId);
+
+        return favoriteDAO.findByHotelHotelIdAndUserUserId(hotelId,userService.getUserById(userId).getUserId());
+    }
 }
