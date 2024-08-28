@@ -6,6 +6,7 @@ import com.revature.DTOs.IncomingSupportTicketDTO;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.enums.TicketStatus;
 import com.revature.enums.TicketType;
+import com.revature.exceptions.InvalidDescriptionException;
 import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.mappers.*;
 import com.revature.models.SupportTicket;
@@ -69,7 +70,16 @@ public class SupportTicketServiceTest {
         supportTicket.setCreatedAt(fakeDateCreated);
         supportTicket.setResolvedAt(null);
 
-        OutgoingSupportTicketDTO outgoingSupportTicketDTO = userMapper.toDto(supportTicket);
+        OutgoingSupportTicketDTO outgoingSupportTicketDTO = new OutgoingSupportTicketDTO();
+        outgoingSupportTicketDTO.setSupportTicketId(supportTicketId);
+        outgoingSupportTicketDTO.setUserId(userId);
+        outgoingSupportTicketDTO.setFirstName(user.getFirstName());
+        outgoingSupportTicketDTO.setLastName(user.getLastName());
+        outgoingSupportTicketDTO.setEmail(user.getEmail());
+        outgoingSupportTicketDTO.setDescription(supportTicket.getDescription());
+        outgoingSupportTicketDTO.setStatus(supportTicket.getStatus());
+        outgoingSupportTicketDTO.setType(supportTicket.getType());
+        outgoingSupportTicketDTO.setCreatedAt(supportTicket.getCreatedAt());
 
         when(sDAO.findById(supportTicketId)).thenReturn(Optional.of(supportTicket));
         when(userMapper.toDto(supportTicket)).thenReturn(outgoingSupportTicketDTO);
@@ -135,15 +145,34 @@ public class SupportTicketServiceTest {
         supportTicket2.setCreatedAt(fakeDateCreated);
         supportTicket2.setResolvedAt(null);
 
-        OutgoingSupportTicketDTO outgoingTicket1 = userMapper.toDto(supportTicket1);
-        OutgoingSupportTicketDTO outgoingTicket2 = userMapper.toDto(supportTicket2);
+        OutgoingSupportTicketDTO outgoingTicketDTO1 = new OutgoingSupportTicketDTO();
+        outgoingTicketDTO1.setSupportTicketId(id1);
+        outgoingTicketDTO1.setUserId(userId);
+        outgoingTicketDTO1.setFirstName(user.getFirstName());
+        outgoingTicketDTO1.setLastName(user.getLastName());
+        outgoingTicketDTO1.setEmail(user.getEmail());
+        outgoingTicketDTO1.setDescription(supportTicket1.getDescription());
+        outgoingTicketDTO1.setStatus(supportTicket1.getStatus());
+        outgoingTicketDTO1.setType(supportTicket1.getType());
+        outgoingTicketDTO1.setCreatedAt(supportTicket1.getCreatedAt());
+
+        OutgoingSupportTicketDTO outgoingTicketDTO2 = new OutgoingSupportTicketDTO();
+        outgoingTicketDTO2.setSupportTicketId(id2);
+        outgoingTicketDTO2.setUserId(userId);
+        outgoingTicketDTO2.setFirstName(user.getFirstName());
+        outgoingTicketDTO2.setLastName(user.getLastName());
+        outgoingTicketDTO2.setEmail(user.getEmail());
+        outgoingTicketDTO2.setDescription(supportTicket2.getDescription());
+        outgoingTicketDTO2.setStatus(supportTicket2.getStatus());
+        outgoingTicketDTO2.setType(supportTicket2.getType());
+        outgoingTicketDTO2.setCreatedAt(supportTicket2.getCreatedAt());
 
         List<SupportTicket> ticketList = Arrays.asList(supportTicket1,supportTicket2);
-        List<OutgoingSupportTicketDTO> outTicketList = Arrays.asList(outgoingTicket1, outgoingTicket2);
+        List<OutgoingSupportTicketDTO> outTicketList = Arrays.asList(outgoingTicketDTO1, outgoingTicketDTO2);
 
         when(sDAO.findAll()).thenReturn(ticketList);
-        when(userMapper.toDto(supportTicket1)).thenReturn(outgoingTicket1);
-        when(userMapper.toDto(supportTicket2)).thenReturn(outgoingTicket2);
+        when(userMapper.toDto(supportTicket1)).thenReturn(outgoingTicketDTO1);
+        when(userMapper.toDto(supportTicket2)).thenReturn(outgoingTicketDTO2);
 
         //when
         List<OutgoingSupportTicketDTO> supportTickets = supportService.getAllSupportTickets();
@@ -185,7 +214,16 @@ public class SupportTicketServiceTest {
         incomingSupportTicket.setDescription(supportTicket.getDescription());
         incomingSupportTicket.setType("GENERAL");
 
-        OutgoingSupportTicketDTO outgoingSupportTicketDTO = userMapper.toDto(supportTicket);
+        OutgoingSupportTicketDTO outgoingSupportTicketDTO = new OutgoingSupportTicketDTO();
+        outgoingSupportTicketDTO.setSupportTicketId(supportTicketId);
+        outgoingSupportTicketDTO.setUserId(userId);
+        outgoingSupportTicketDTO.setFirstName(user.getFirstName());
+        outgoingSupportTicketDTO.setLastName(user.getLastName());
+        outgoingSupportTicketDTO.setEmail(user.getEmail());
+        outgoingSupportTicketDTO.setDescription(supportTicket.getDescription());
+        outgoingSupportTicketDTO.setStatus(supportTicket.getStatus());
+        outgoingSupportTicketDTO.setType(supportTicket.getType());
+        outgoingSupportTicketDTO.setCreatedAt(supportTicket.getCreatedAt());
 
         when(incomingMapper.toDto(incomingSupportTicket)).thenReturn(supportTicket);
         when(userMapper.toDto(supportTicket)).thenReturn(outgoingSupportTicketDTO);
@@ -202,4 +240,21 @@ public class SupportTicketServiceTest {
 
     }
 
-}
+    @Test
+    public void testInvalidDescription() {
+        //given
+        final UUID userId = UUID.randomUUID();
+
+        IncomingSupportTicketDTO incomingTicket = new IncomingSupportTicketDTO(userId, "", "GENERAL");
+
+        //when
+        InvalidDescriptionException thrown = assertThrows(
+                InvalidDescriptionException.class, () -> supportService.register(incomingTicket)
+        );
+
+        //then
+        assertTrue(thrown.getMessage().contains("Please Input an Nonempty Description"));
+
+    }
+
+}//End of SupportServiceTest
