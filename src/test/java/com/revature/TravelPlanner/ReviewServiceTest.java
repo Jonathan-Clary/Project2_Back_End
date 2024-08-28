@@ -1,6 +1,8 @@
 package com.revature.TravelPlanner;
 
 import com.revature.DAOs.ReviewDAO;
+import com.revature.DTOs.HotelDTO;
+import com.revature.DTOs.IncomingReviewDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidStarsException;
 import com.revature.models.Review;
@@ -45,10 +47,14 @@ public class ReviewServiceTest {
     }
 
     private static UUID UUID_TEST_1;
+    private static HotelDTO HOTEL_TEST_1;
+    private static UUID UUID_TEST_HOTEL;
 
     @BeforeAll
     static void setupIds() {
         UUID_TEST_1 = UUID.randomUUID();
+        UUID_TEST_HOTEL = UUID.randomUUID();
+        HOTEL_TEST_1 = new HotelDTO("Test",4.0,"http://hi","4034 bluefin dr", UUID_TEST_HOTEL);
     }
 
     @Test
@@ -56,27 +62,32 @@ public class ReviewServiceTest {
 
         User user = new User();
         user.setUserId(UUID_TEST_1);
-        Hotel hotel = new Hotel();
-        hotel.setHotelId(UUID_TEST_1);
+        Hotel hotel = new Hotel(HOTEL_TEST_1);
 
         Review review = new Review();
+        IncomingReviewDTO reviewDTO = new IncomingReviewDTO();
         review.setUser(user);
         review.setHotel(hotel);
         review.setStars(5);
 
+        reviewDTO.setUserId(UUID_TEST_1);
+        reviewDTO.setHotel(HOTEL_TEST_1);
+        reviewDTO.setStars(5);
+        reviewDTO.setReviewText("hello");
+
         // Mocks the behavior of the 'getById' methods to return the valid 'user' and 'hotel' objects
         when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
-        when(hotelService.getHotelById(UUID_TEST_1)).thenReturn(hotel);
+        when(hotelService.saveHotel(any(HotelDTO.class))).thenReturn(hotel);
         when(reviewDAO.save(any(Review.class))).thenReturn(review);
 
         // Invoke 'submitReview' to compare to expected
-        Review result = reviewService.submitReview(review);
+        Review result = reviewService.submitReview(reviewDTO);
 
         // Check if the results are as expected
         assertNotNull(result);
         assertEquals(5, result.getStars());
         verify(userService, times(1)).getUserById(UUID_TEST_1);
-        verify(hotelService, times(1)).getHotelById(UUID_TEST_1);
+        verify(hotelService, times(1)).saveHotel(any(HotelDTO.class));
         verify(reviewDAO, times(1)).save(any(Review.class));
     }
 
@@ -85,24 +96,29 @@ public class ReviewServiceTest {
 
         User user = new User();
         user.setUserId(UUID_TEST_1);
-        Hotel hotel = new Hotel();
-        hotel.setHotelId(UUID_TEST_1);
+        Hotel hotel = new Hotel(HOTEL_TEST_1);
 
         Review review = new Review();
+        IncomingReviewDTO reviewDTO = new IncomingReviewDTO();
         review.setUser(user);
         review.setHotel(hotel);
         review.setStars(69);
 
+        reviewDTO.setUserId(UUID_TEST_1);
+        reviewDTO.setHotel(HOTEL_TEST_1);
+        reviewDTO.setStars(69);
+        reviewDTO.setReviewText("hello");
+
         // Mocks the behavior of the 'getById' methods to return the valid 'user' and 'hotel' objects
         when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
-        when(hotelService.getHotelById(UUID_TEST_1)).thenReturn(hotel);
+        when(hotelService.saveHotel(any(HotelDTO.class))).thenReturn(hotel);
 
         // Check if the results are as expected (invalid stars)
         assertThrows(InvalidStarsException.class, () -> {
-            reviewService.submitReview(review);
+            reviewService.submitReview(reviewDTO);
         });
         verify(userService, times(1)).getUserById(UUID_TEST_1);
-        verify(hotelService, times(1)).getHotelById(UUID_TEST_1);
+        verify(hotelService, times(1)).saveHotel(any(HotelDTO.class));
         verify(reviewDAO, never()).save(any(Review.class));
     }
 
@@ -178,4 +194,6 @@ public class ReviewServiceTest {
         verify(reviewDAO, times(1)).existsById(UUID_TEST_1);
         verify(reviewDAO, never()).deleteById(any(UUID.class));
     }
+
+
 }

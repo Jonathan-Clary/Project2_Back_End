@@ -79,7 +79,7 @@ public class FavoriteController {
 
 
     }
-    @DeleteMapping("/favorite/{favoriteId}")
+    @DeleteMapping("/{favoriteId}")
     public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
         log.debug("Endpoint DELETE ./favorite/favorite={}",favoriteId);
         try{
