@@ -37,7 +37,7 @@ public class AuthService {
 
     // Method to handle login for users
     public OutgoingJwtUserDTO login(IncomingUserDTO userDTO) throws UserNotFoundException {
-        log.debug("Method 'login' invoked with userDTO: {}", userDTO);
+        log.debug("Method 'login' invoked with userDTO: {}", userDTO.toString());
         // Extract email from the incoming DTO
         String email = userDTO.getEmail();
 
@@ -54,7 +54,7 @@ public class AuthService {
             auth = authManager.authenticate(unAuth);
         } catch (Exception e) {
             // Print authentication exception message in case of failure
-            log.warn("Method 'login' Authentication Exception Thrown: {}", e.getMessage(),e);
+            log.warn("Method 'login' Authentication Exception Thrown: {}", e.getMessage());
             System.out.println("Authentication Exception: " + e.getMessage());
         }
 
@@ -68,7 +68,7 @@ public class AuthService {
 
             // If authentication was successful, return a DTO with token, userId, and email
             OutgoingJwtUserDTO outgoingJwtUserDTO = new OutgoingJwtUserDTO(token, authuser.getUserId(), authuser.getEmail());
-            log.debug("Method 'login' returning {}", outgoingJwtUserDTO);
+            log.debug("Method 'login' returning {}", outgoingJwtUserDTO.toString());
             return outgoingJwtUserDTO;
 
         } else {
@@ -92,7 +92,7 @@ public class AuthService {
             String email = userDetails.getUsername();
 
             User user = userService.getUserByEmail(email);
-            log.debug("Method 'getLoggedInUser' returning: {}", user);
+            log.debug("Method 'getLoggedInUser' returning: {}", user.toString());
             return user;
         }
         else{

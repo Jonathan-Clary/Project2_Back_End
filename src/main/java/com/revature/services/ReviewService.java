@@ -32,7 +32,7 @@ public class ReviewService {
 
     // Creates a Review
     public Review submitReview(IncomingReviewDTO review) throws CustomException {
-        log.debug("Method 'submitReview' invoked with review: {}",review);
+        log.debug("Method 'submitReview' invoked with review: {}",review.toString());
 
         User user = userService.getUserById(review.getUserId());
         Hotel hotel = hotelService.saveHotel(review.getHotel());
@@ -51,7 +51,7 @@ public class ReviewService {
         }
 
         Review returningReview = reviewDAO.save(new Review(review, user, hotel));
-        log.debug("Method 'submitReview' returning: {}",returningReview);
+        log.debug("Method 'submitReview' returning: {}",returningReview.toString());
         return returningReview;
     }
 
@@ -80,7 +80,7 @@ public class ReviewService {
             review.setStars(stars);
             review.setReviewText(reviewText);
             Review returningReview = reviewDAO.save(review);
-            log.debug("Method 'updateReview' returning: {}",returningReview);
+            log.debug("Method 'updateReview' returning: {}",returningReview.toString());
             return returningReview;
         }
         else {

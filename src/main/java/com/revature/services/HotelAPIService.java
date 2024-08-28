@@ -7,6 +7,8 @@ import com.google.gson.JsonParser;
 import com.revature.DTOs.HotelDTO;
 import com.revature.exceptions.BadRequestException;
 import com.revature.exceptions.CustomException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,11 +19,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class HotelAPIService {
-
+    static Logger log = LoggerFactory.getLogger(HotelAPIService.class);
 
 
 
     public List<HotelDTO> findHotelsByCityAndState(String location) throws CustomException {
+        log.debug("Method 'findAllFavorite' invoked with location: {}", location);
         try {
             // Define the API endpoint and your API key
             String apiKey = "&key=AIzaSyBxUK3IJcgz1dffYlPGonw5P0uLBten9rU";
@@ -56,24 +59,31 @@ public class HotelAPIService {
                 // Parse JSON response and create a list of Location objects
                 List<HotelDTO> hotels = parseJsonResponse(response.toString());
 
+                StringBuilder sb = new StringBuilder();
+                for(HotelDTO hDTO : hotels)
+                    sb.append(hDTO.getHotelID()).append(", ");
 
+                log.debug("Method 'findHotelsByCityAndState' returning hotel list with hotel_ids: {}", sb.toString());
                 return hotels;
 
             } else {
-                System.out.println("GET request failed. Response Code: " + responseCode);
+                log.warn("Method 'findHotelsByCityAndState' GET request failed. Response Code: {}", responseCode);
+                //System.out.println("GET request failed. Response Code: " + responseCode);
             }
 
             // Disconnect the connection
             connection.disconnect();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warn("Exception thrown: {}",e.getMessage(),e);
+            //e.printStackTrace();
         }
        throw new BadRequestException(location);
     }
 
 
     public static List<HotelDTO> parseJsonResponse(String jsonResponse) {
+        log.debug("Method 'parseJsonResponse' invoked with jsonResponse: {}", jsonResponse);
         List<HotelDTO> hotels = new ArrayList<>();
 
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -105,11 +115,17 @@ public class HotelAPIService {
             }
         }
 
+        StringBuilder sb = new StringBuilder();
+        for(HotelDTO h: hotels )
+            sb.append(h.getHotelID()).append(", ");
+
+        log.debug("Method 'parseJsonResponse' returning hotel list with hotel_ids: {}", sb.toString());
         return hotels;
     }
 
 
     public static String fetchImageUrl(String urlStr) {
+        log.debug("Method 'fetchImageUrl' invoked with urlStr: {}", urlStr);
         String finalUrl = "";
         try {
             URL url = new URL(urlStr);
@@ -125,8 +141,10 @@ public class HotelAPIService {
 
             conn.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warn("Exception thrown: {}",e.getMessage(),e);
+            //e.printStackTrace();
         }
+        log.debug("Method 'fetchImageUrl' returning: {}", finalUrl);
         return finalUrl;
     }
 

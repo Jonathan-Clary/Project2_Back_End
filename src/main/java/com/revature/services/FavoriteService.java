@@ -100,7 +100,7 @@ public class FavoriteService {
         Optional<Favorite> favorite = favoriteDAO.findById(favoriteId);
         if(favorite.isPresent()){
             Favorite returningFavorite = favorite.get();
-            log.debug("Method 'getFavoriteById' returning: {}", returningFavorite);
+            log.debug("Method 'getFavoriteById' returning: {}", returningFavorite.toString());
             return returningFavorite;
         }else{
             throw new FavoriteNotFoundException("Favorite with id: "+favoriteId+" was not found");
@@ -108,8 +108,13 @@ public class FavoriteService {
     }
 
     public List<Favorite> findFavoritesByHotelAndUser(UUID hotelId, UUID userId) throws CustomException {
-        //log.debug("Method 'getFavoriteByHotelAndUser' invoked with hotel Id: {} and user Id: {}", hotelId, userId);
-
-        return favoriteDAO.findByHotelHotelIdAndUserUserId(hotelId,userService.getUserById(userId).getUserId());
+        log.debug("Method 'getFavoriteByHotelAndUser' invoked with hotelId: {} and userId: {}", hotelId, userId);
+        List<Favorite> hotelFavorites = favoriteDAO.findByHotelHotelIdAndUserUserId(hotelId,userService.getUserById(userId).getUserId());
+        StringBuilder sb = new StringBuilder();
+        for(Favorite f: hotelFavorites){
+            sb.append(f.getFavoriteId()).append(", ");
+        }
+        log.debug("Method 'findFavoritesByHotelAndUser' returning favorite list with favorite_ids: {}", sb.toString());
+        return hotelFavorites;
     }
 }
