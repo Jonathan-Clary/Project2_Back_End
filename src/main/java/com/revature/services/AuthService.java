@@ -64,7 +64,7 @@ public class AuthService {
             User authuser = userDAO.findByEmail(userDTO.getEmail()).get();
 
             // Generate a JWT token for the authenticated user
-            String token = jwtProvider.generateToken(authuser.getUserId());
+            String token = jwtProvider.generateToken(authuser);
 
             // If authentication was successful, return a DTO with token, userId, and email
             OutgoingJwtUserDTO outgoingJwtUserDTO = new OutgoingJwtUserDTO(token, authuser.getUserId(), authuser.getEmail());
