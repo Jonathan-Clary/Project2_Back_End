@@ -6,6 +6,7 @@ import com.revature.exceptions.SupportTicketNotFoundException;
 import com.revature.DTOs.OutgoingSupportTicketDTO;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.services.SupportTicketService;
+import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class SupportTicketController {
     }
 
     @GetMapping("/get/all/{id}")
-    public ResponseEntity<?> getAllSupportTicketsByUserId( @RequestParam(name = "id") UUID id) {
+    public ResponseEntity<?> getAllSupportTicketsByUserId( @PathVariable UUID id) {
 
         try {
 
@@ -95,7 +96,7 @@ public class SupportTicketController {
 
     //Delete a Support Ticket from the DB
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(UUID id){
+    public ResponseEntity<?> delete(@PathVariable UUID id){
 
         try{
             return ResponseEntity.ok(sts.delete(id));
