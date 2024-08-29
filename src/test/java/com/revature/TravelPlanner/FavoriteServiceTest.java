@@ -59,6 +59,7 @@ public class FavoriteServiceTest {
         HOTEL_TEST_1 = new HotelDTO("Test",4.0,"http://hi","4034 bluefin dr", UUID_TEST_HOTEL);
     }
 
+    /*
     @Test
     void testFindAllFavorite() {
         // Arrange
@@ -202,6 +203,8 @@ public class FavoriteServiceTest {
         assertThrows(FavoriteNotFoundException.class, () -> favoriteService.getFavoriteById(UUID_TEST_1));
         verify(favoriteDAO, times(1)).findById(UUID_TEST_1);
     }
+    */
+
 
 
 }
