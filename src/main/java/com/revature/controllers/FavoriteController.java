@@ -96,11 +96,12 @@ public class FavoriteController {
 
 
     }
-    @DeleteMapping("/{favoriteId}")
-    public ResponseEntity<Object> deleteFavorite(@PathVariable UUID favoriteId){
-        log.debug("Endpoint DELETE ./favorite/favorite={}",favoriteId);
+    @DeleteMapping("/hotel/{hotelId}/user/{userId}")
+    public ResponseEntity<Object> deleteFavorite(@PathVariable UUID hotelId, @PathVariable UUID userId){
+        log.debug("Endpoint DELETE ./favorite/hotel/{}/user/{}",hotelId,userId);
         try{
-            favoriteService.deleteFavorite(favoriteId);
+            List<Favorite> favorites= favoriteService.findFavoritesByHotelAndUser(hotelId, userId);
+            favoriteService.deleteFavorite(favorites.get(0).getFavoriteId());
             return ResponseEntity.status(200).body("deleted");
         }catch(Exception e) {
             log.warn("Exception was thrown", e);
