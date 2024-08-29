@@ -51,12 +51,10 @@ public class FavoriteServiceTest {
 
     private static HotelDTO HOTEL_TEST_1;
     private static UUID UUID_TEST_1;
-    private static UUID UUID_TEST_2;
     private static UUID UUID_TEST_HOTEL;
     @BeforeAll
     static void setupIds(){
         UUID_TEST_1 = UUID.randomUUID();
-        UUID_TEST_2 = UUID.randomUUID();
         UUID_TEST_HOTEL = UUID.randomUUID();
         HOTEL_TEST_1 = new HotelDTO("Test",4.0,"http://hi","4034 bluefin dr", UUID_TEST_HOTEL);
     }
@@ -128,6 +126,7 @@ public class FavoriteServiceTest {
         when(hotelService.saveHotel(HOTEL_TEST_1)).thenReturn(hotel);
         when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
         when(favoriteDAO.save(any(Favorite.class))).thenReturn(favorite);
+        when(favoriteDAO.findByHotelHotelIdAndUserUserId(favoriteDTO.getHotel().getHotelId(),favoriteDTO.getUserId())).thenReturn(null);
 
         // Act
         Favorite result = favoriteService.addFavorite(favoriteDTO);
