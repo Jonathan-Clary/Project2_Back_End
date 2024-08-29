@@ -24,9 +24,10 @@ public class StayService {
     private UserService userService;
 
     @Autowired
-    public StayService(StayDAO stayDAO, HotelService hotelService) {
+    public StayService(StayDAO stayDAO, HotelService hotelService, UserService userService) {
         this.stayDAO = stayDAO;
         this.hotelService = hotelService;
+        this.userService = userService;
     }
 
     public Stay createStay(Stay stay) throws CustomException {
