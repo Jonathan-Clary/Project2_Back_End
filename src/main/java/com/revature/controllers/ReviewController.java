@@ -1,7 +1,9 @@
 package com.revature.controllers;
 
+import com.revature.DTOs.HotelDTO;
 import com.revature.DTOs.IncomingReviewDTO;
 import com.revature.exceptions.CustomException;
+import com.revature.models.Favorite;
 import com.revature.models.Review;
 import com.revature.services.ReviewService;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,6 +49,28 @@ public class ReviewController {
         }
         else {
             return ResponseEntity.ok(review);
+        }
+    }
+
+    @GetMapping("/hotel/best")
+    public ResponseEntity<HotelDTO> getHighestRated(){
+        log.debug("Endpoint GET ./reviews/hotel/best reached");
+        try{
+            return ResponseEntity.ok(reviewService.getHighestReviewed());
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    @GetMapping("/latest")
+    public ResponseEntity<List<Review>> getLatestReviewed(){
+        log.debug("Endpoint GET ./reviews/latest reached");
+        try{
+            return ResponseEntity.ok(reviewService.getMostRecentReviews());
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
         }
     }
 

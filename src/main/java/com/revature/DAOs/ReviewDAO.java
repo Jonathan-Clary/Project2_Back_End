@@ -12,7 +12,6 @@ import java.util.UUID;
 @Repository
 public interface ReviewDAO extends JpaRepository<Review, UUID> {
 
-    List<Review> findTop5ByHotelHotelIdOrderByCreatedAtDesc(UUID hotelId);
-
+    List<Review> getReviewByHotelHotelId(UUID hotelId);
 
 }
