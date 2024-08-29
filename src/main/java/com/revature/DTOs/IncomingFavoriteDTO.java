@@ -5,14 +5,14 @@ import java.util.UUID;
 public class IncomingFavoriteDTO {
     //private String dateAdded;
     private UUID userId;
-    private UUID hotelId;
+    private HotelDTO hotel;
 
     public IncomingFavoriteDTO() {
     }
 
-    public IncomingFavoriteDTO(UUID userId, UUID hotelId) {
+    public IncomingFavoriteDTO(UUID userId, HotelDTO hotel) {
         this.userId = userId;
-        this.hotelId = hotelId;
+        this.hotel = hotel;
     }
 
     public UUID getUserId() {
@@ -23,19 +23,19 @@ public class IncomingFavoriteDTO {
         this.userId = userId;
     }
 
-    public UUID getHotelId() {
-        return hotelId;
+    public HotelDTO getHotel() {
+        return hotel;
     }
 
-    public void setHotelId(UUID hotelId) {
-        this.hotelId = hotelId;
+    public void setHotel(HotelDTO hotelId) {
+        this.hotel = hotelId;
     }
 
     @Override
     public String toString() {
         return "IncomingFavoriteDTO{" +
                 "userId=" + userId +
-                ", hotelId=" + hotelId +
+                ", HotelDTO=" + hotel +
                 '}';
     }
 }

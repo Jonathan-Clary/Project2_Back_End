@@ -1,6 +1,9 @@
 package com.revature.controllers;
 
+import com.revature.DTOs.HotelDTO;
+import com.revature.DTOs.IncomingReviewDTO;
 import com.revature.exceptions.CustomException;
+import com.revature.models.Favorite;
 import com.revature.models.Review;
 import com.revature.services.ReviewService;
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,7 +29,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<Review> submitReview(@RequestBody Review requestReview) {
+    public ResponseEntity<Review> submitReview(@RequestBody IncomingReviewDTO requestReview) {
+        log.debug("Endpoint POST ./reviews reached");
         try {
             Review review = reviewService.submitReview(requestReview);
             return ResponseEntity.status(200).body(review);
@@ -37,6 +42,7 @@ public class ReviewController {
 
     @PatchMapping("/{reviewId}")
     public ResponseEntity<Object> updateReview(@RequestBody Map<String, String> updateFields, @PathVariable UUID reviewId) throws CustomException {
+        log.debug("Endpoint PATCH ./reviews/{} reached",reviewId);
         Review review = reviewService.updateReview(updateFields, reviewId);
         if (review == null) {
             return ResponseEntity.status(400).body("Review not found with ID: " + reviewId);
@@ -46,8 +52,31 @@ public class ReviewController {
         }
     }
 
+    @GetMapping("/hotel/best")
+    public ResponseEntity<HotelDTO> getHighestRated(){
+        log.debug("Endpoint GET ./reviews/hotel/best reached");
+        try{
+            return ResponseEntity.ok(reviewService.getHighestReviewed());
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    @GetMapping("/latest")
+    public ResponseEntity<List<Review>> getLatestReviewed(){
+        log.debug("Endpoint GET ./reviews/latest reached");
+        try{
+            return ResponseEntity.ok(reviewService.getMostRecentReviews());
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Integer> deleteReview(@PathVariable UUID reviewId) {
+        log.debug("Endpoint DELETE ./reviews/{} reached",reviewId);
         int result = reviewService.deleteReview(reviewId);
         if (result == 0) {
             return ResponseEntity.status(200).body(null);

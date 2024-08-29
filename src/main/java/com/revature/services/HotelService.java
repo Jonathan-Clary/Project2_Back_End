@@ -1,6 +1,8 @@
 package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
+import com.revature.DTOs.HotelDTO;
+import com.revature.exceptions.CustomException;
 import com.revature.exceptions.HotelNotFoundException;
 import com.revature.models.Hotel;
 import org.slf4j.Logger;
@@ -25,6 +27,8 @@ public class HotelService {
         this.hotelDAO = hotelDAO;
     }
 
+
+
     public List<Hotel> findAllHotels() {
         log.debug("Method 'findAllHotels' invoked");
         List<Hotel>  hotelList = hotelDAO.findAll();
@@ -39,11 +43,40 @@ public class HotelService {
         return hotelList;
     }
 
-    public Hotel saveHotel(Hotel hotel) {
+    public Hotel saveHotel(Hotel hotel) throws CustomException {
+        try {
         log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
+
+        Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
+        if(existingHotel.isPresent()){
+            Hotel foundHotel = existingHotel.get();
+            log.debug("Method 'saveHotel' returning: {}", foundHotel);
+            return foundHotel;
+        }
         Hotel returningHotel = hotelDAO.save(hotel);
         log.debug("Method 'saveHotel' returning: {}", returningHotel);
         return returningHotel;
+        }catch(Exception e){
+            throw new HotelNotFoundException("Hotel with that information does not exist");
+        }
+    }
+
+    public Hotel saveHotel(HotelDTO hotel) throws CustomException {
+        try {
+            log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
+
+            Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
+            if (existingHotel.isPresent()) {
+                Hotel foundHotel = existingHotel.get();
+                log.debug("Method 'saveHotel' returning: {}", foundHotel);
+                return foundHotel;
+            }
+            Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
+            log.debug("Method 'saveHotel' returning: {}", returningHotel);
+            return returningHotel;
+        }catch(Exception e){
+            throw new HotelNotFoundException("Hotel with that information does not exist");
+        }
     }
 
     public void deleteHotel(UUID hotelId) {
@@ -56,17 +89,13 @@ public class HotelService {
         log.debug("Method 'getHotelById' invoked with hotelId: {}", hotelId);
         Optional<Hotel> hotel = hotelDAO.findById(hotelId);
         if(hotel.isPresent()) {
-            log.debug("Method 'getHotelById' returning: {}", hotel.get());
-            return hotel.get();
+            Hotel h = hotel.get();
+            log.debug("Method 'getHotelById' returning: {}", h);
+            return h;
         }
-        else
+        else {
             throw new HotelNotFoundException(hotelId);
-
-        //While this is clean, re-writing to assist with logging the process
-//        return hotelDAO.findById(hotelId)
-//                .orElseThrow(()-> {
-//                    return new HotelNotFoundException(hotelId);
-//                });
+        }
     }
 
     // add more methods WIP

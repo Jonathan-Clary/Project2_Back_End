@@ -1,7 +1,9 @@
 package com.revature.services;
 
 import com.revature.DAOs.FavoriteDAO;
+import com.revature.DTOs.HotelDTO;
 import com.revature.DTOs.IncomingFavoriteDTO;
+import com.revature.exceptions.BadRequestException;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.FavoriteNotFoundException;
 import com.revature.models.Favorite;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoriteService {
@@ -46,6 +49,12 @@ public class FavoriteService {
         return favoriteList;
     }
 
+    public List<HotelDTO> findAllFavoriteHotelByUser(UUID userId) throws CustomException {
+        List<Favorite> favorites = findAllFavoriteByUser(userId);
+        return favorites.stream().map(favorite -> new HotelDTO(favorite.getHotel())).toList();
+    }
+
+
     public List<Favorite> findAllFavoriteByUser(UUID userId) throws CustomException {
         log.debug("Method 'findAllFavoriteByUser' invoked with userId: {}",userId);
         List<Favorite> userFavorites = favoriteDAO.findByUserUserId(userService.getUserById(userId).getUserId());
@@ -75,13 +84,17 @@ public class FavoriteService {
 
     public Favorite addFavorite(IncomingFavoriteDTO favorite) throws CustomException{
         log.debug("Method 'addFavorite' invoked with favorite: {}", favorite.toString());
-        Hotel hotel = hotelService.getHotelById(favorite.getHotelId());
+        Hotel hotel = hotelService.saveHotel(favorite.getHotel());
         User user = userService.getUserById(favorite.getUserId());
         if(hotel != null && user != null){
-            Favorite newFavorite = new Favorite( user, hotel);
-            Favorite returningFavorite = favoriteDAO.save(newFavorite);
-            log.debug("Method 'addFavorite' returning: {}", returningFavorite.toString());
-            return returningFavorite;
+            if(favoriteDAO.findByHotelHotelIdAndUserUserId(hotel.getHotelId(),user.getUserId()) == null){
+                Favorite newFavorite = new Favorite( user, hotel);
+                Favorite returningFavorite = favoriteDAO.save(newFavorite);
+                log.debug("Method 'addFavorite' returning: {}", returningFavorite.toString());
+                return returningFavorite;
+            }
+            log.debug("Method 'addFavorite' was requested on duplicate user/hotel");
+            throw new BadRequestException("That favorite already exists.");
         }else{
             log.warn("Method 'addFavorite' returning: null");
             return null;
@@ -100,11 +113,21 @@ public class FavoriteService {
         Optional<Favorite> favorite = favoriteDAO.findById(favoriteId);
         if(favorite.isPresent()){
             Favorite returningFavorite = favorite.get();
-            log.debug("Method 'getFavoriteById' returning: {}", returningFavorite);
+            log.debug("Method 'getFavoriteById' returning: {}", returningFavorite.toString());
             return returningFavorite;
         }else{
             throw new FavoriteNotFoundException("Favorite with id: "+favoriteId+" was not found");
         }
     }
 
+    public List<Favorite> findFavoritesByHotelAndUser(UUID hotelId, UUID userId) throws CustomException {
+        log.debug("Method 'getFavoriteByHotelAndUser' invoked with hotelId: {} and userId: {}", hotelId, userId);
+        List<Favorite> hotelFavorites = favoriteDAO.findByHotelHotelIdAndUserUserId(hotelId,userService.getUserById(userId).getUserId());
+        StringBuilder sb = new StringBuilder();
+        for(Favorite f: hotelFavorites){
+            sb.append(f.getFavoriteId()).append(", ");
+        }
+        log.debug("Method 'findFavoritesByHotelAndUser' returning favorite list with favorite_ids: {}", sb.toString());
+        return hotelFavorites;
+    }
 }

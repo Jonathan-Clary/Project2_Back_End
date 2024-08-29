@@ -31,8 +31,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<OutgoingJwtUserDTO> auth(@RequestBody IncomingUserDTO loginDTO) throws UserNotFoundException {
-        log.info("User: {} logged in successfully",loginDTO.getEmail());
+        log.debug("Endpoint POST ./auth/login reached");
         OutgoingJwtUserDTO jwtUserDTO = authService.login(loginDTO);
+        log.info("User: {} logged in successfully",loginDTO.getEmail());
         return ResponseEntity.status(201).body(jwtUserDTO);
     }
 

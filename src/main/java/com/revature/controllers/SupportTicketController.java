@@ -37,8 +37,9 @@ public class SupportTicketController {
     */
 
     //Return Support Ticket with Given Id
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<?> getSupportTicketById( @RequestParam(name = "id") UUID id ) {
+        log.debug("Endpoint GET ./support reached, id={}",id);
 
         try {
 
@@ -53,12 +54,13 @@ public class SupportTicketController {
 
     }
 
-    @GetMapping("/get/all/{id}")
-    public ResponseEntity<?> getAllSupportTicketsByUserId( @PathVariable UUID id) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getAllSupportTicketsByUserId( @PathVariable UUID userId) {
+        log.debug("Endpoint GET ./support/{} reached",userId);
 
         try {
 
-            List<OutgoingSupportTicketDTO> returnTickets = sts.getAllSupportTicketsByUserId(id);
+            List<OutgoingSupportTicketDTO> returnTickets = sts.getAllSupportTicketsByUserId(userId);
             return ResponseEntity.ok(returnTickets);
 
         } catch (UserNotFoundException e) {
@@ -73,9 +75,9 @@ public class SupportTicketController {
     */
 
     //Registers a Support Ticket to the DB
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<?> register(@RequestBody IncomingSupportTicketDTO incomingTicket){
-
+        log.debug("Endpoint POST ./support reached");
         try {
 
             OutgoingSupportTicketDTO outgoingTicket = sts.register(incomingTicket);
@@ -95,11 +97,12 @@ public class SupportTicketController {
     */
 
     //Delete a Support Ticket from the DB
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id){
+    @DeleteMapping("/{supportId}")
+    public ResponseEntity<?> delete(@PathVariable UUID supportId){
+        log.debug("Endpoint DELETE ./support/{} reached",supportId);
 
         try{
-            return ResponseEntity.ok(sts.delete(id));
+            return ResponseEntity.ok(sts.delete(supportId));
 
         } catch (SupportTicketNotFoundException e) {
             log.warn("Exception was thrown: {}", e.getMsg());

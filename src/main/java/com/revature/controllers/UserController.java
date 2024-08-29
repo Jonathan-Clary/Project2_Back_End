@@ -33,14 +33,27 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody @Valid User user)throws CustomException{
+        log.debug("Endpoint POST ./user/register reached");
         User returningUser =  userService.createUser(user);
         return ResponseEntity.status(201).body(returningUser);
     }
 
     @PatchMapping
     public ResponseEntity<Object> updateLoggedInUserProfile(@RequestBody Map<String,String> newUser) throws CustomException {
+        log.debug("Endpoint PATCH ./user reached");
         var user = userService.updateUserById(loggedInUserId(), newUser);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable UUID userId){
+        log.debug("Endpoint GET ./user reached");
+        try{
+            return ResponseEntity.ok(userService.getUserById(userId));
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
     }
 
     // handles all the custom exceptions
@@ -57,6 +70,7 @@ public class UserController {
             return authUser.getUserId();
         }
         // TODO: Please check if is that what you want to do
+        log.warn("Method 'loggedInUserId' returning null");
         return null;
     }
 }
