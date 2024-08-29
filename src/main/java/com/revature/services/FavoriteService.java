@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class FavoriteService {
@@ -103,7 +102,7 @@ public class FavoriteService {
 
     public void deleteFavorite(UUID favoriteId) throws CustomException{
         log.debug("Method 'deleteFavorite' invoked with favoriteId: {}", favoriteId);
-        favoriteDAO.deleteById(favoriteId);
+        favoriteDAO.deleteById(getFavoriteById(favoriteId).getFavoriteId());
         log.debug("Method 'deleteFavorite' completed");
 
     }

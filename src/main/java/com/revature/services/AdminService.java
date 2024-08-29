@@ -22,10 +22,7 @@ public class AdminService {
     //DAOs
     private AdminDAO aDao;
 
-    /* TODO: uncomment when admin authcontroller is made
-    @Autowired
-    AdminAuthController authController;
-    */
+
 
     @Autowired
     private PasswordEncoderProvider passwordEncoder;
