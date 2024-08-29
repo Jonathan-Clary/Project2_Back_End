@@ -28,8 +28,10 @@ public class ReviewService {
     private HotelService hotelService;
 
     @Autowired
-    public ReviewService(ReviewDAO reviewDAO) {
+    public ReviewService(ReviewDAO reviewDAO, UserService userService, HotelService hotelService) {
         this.reviewDAO = reviewDAO;
+        this.userService = userService;
+        this.hotelService = hotelService;
     }
 
     // Creates a Review

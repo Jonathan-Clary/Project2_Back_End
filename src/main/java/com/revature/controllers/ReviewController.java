@@ -74,6 +74,17 @@ public class ReviewController {
         }
     }
 
+    @GetMapping("/hotel/{hotelId}")
+    public ResponseEntity<List<Review>> getAllFavoriteByHotel(@PathVariable UUID hotelId){
+        log.debug("Endpoint GET ./favorite/hotel={}",hotelId);
+        try{
+            return ResponseEntity.ok(reviewService.getReviewByHotelId(hotelId));
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Integer> deleteReview(@PathVariable UUID reviewId) {
         log.debug("Endpoint DELETE ./reviews/{} reached",reviewId);
