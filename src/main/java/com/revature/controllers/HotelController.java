@@ -25,9 +25,10 @@ public class HotelController {
         this.hotelAPI = hotelAPI;
     }
 
-    @GetMapping("/{cityState}")
-    public ResponseEntity<List<HotelDTO>> getStaysByUserId(@PathVariable String cityState) {
+    @GetMapping("/{city}{state}")
+    public ResponseEntity<List<HotelDTO>> getStaysByUserId(@PathVariable String city, @PathVariable String state) {
        try {
+           String cityState = city+state;
            List<HotelDTO> hotels = hotelAPI.findHotelsByCityAndState(cityState);
            return ResponseEntity.ok(hotels);
        }catch(Exception e){

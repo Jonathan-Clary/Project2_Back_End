@@ -58,7 +58,7 @@ public class FavoriteService {
     public List<Favorite> findAllFavoriteByUser(UUID userId) throws CustomException {
         log.debug("Method 'findAllFavoriteByUser' invoked with userId: {}",userId);
         List<Favorite> userFavorites = favoriteDAO.findByUserUserId(userService.getUserById(userId).getUserId());
-
+        System.out.println(userFavorites.toString());
         //Append id's to string for logging, because printing every object is excessive
         StringBuilder sb = new StringBuilder();
         for(Favorite f: userFavorites){
@@ -103,7 +103,7 @@ public class FavoriteService {
 
     public void deleteFavorite(UUID favoriteId) throws CustomException{
         log.debug("Method 'deleteFavorite' invoked with favoriteId: {}", favoriteId);
-        favoriteDAO.deleteById(getFavoriteById(favoriteId).getFavoriteId());
+        favoriteDAO.deleteById(favoriteId);
         log.debug("Method 'deleteFavorite' completed");
 
     }

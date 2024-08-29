@@ -17,11 +17,11 @@ public class Favorite {
     private Date createdAt;
 
     @JoinColumn(name = "userId")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // TODO: this could be one to one will decide later
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH) // TODO: this could be one to one will decide later
     private User user;
 
     @JoinColumn(name = "hotelId")
-    @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Hotel hotel;
 
     @PrePersist
