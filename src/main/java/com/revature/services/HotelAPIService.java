@@ -65,7 +65,7 @@ public class HotelAPIService {
 
                 StringBuilder sb = new StringBuilder();
                 for(HotelDTO hDTO : hotels)
-                    sb.append(hDTO.getHotelID()).append(", ");
+                    sb.append(hDTO.getHotelId()).append(", ");
 
                 log.debug("Method 'findHotelsByCityAndState' returning hotel list with hotel_ids: {}", sb.toString());
                 return hotels;
@@ -125,7 +125,7 @@ public class HotelAPIService {
 
         StringBuilder sb = new StringBuilder();
         for(HotelDTO h: hotels )
-            sb.append(h.getHotelID()).append(", ");
+            sb.append(h.getHotelId()).append(", ");
 
         log.debug("Method 'parseJsonResponse' returning hotel list with hotel_ids: {}", sb.toString());
         return hotels;

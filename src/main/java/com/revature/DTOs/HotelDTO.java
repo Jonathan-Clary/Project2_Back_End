@@ -10,7 +10,7 @@ public class HotelDTO {
     private double rating;
     private String image;
     private String address;
-    private UUID hotelID;
+    private UUID hotelId;
 
     public HotelDTO() {
     }
@@ -20,15 +20,15 @@ public class HotelDTO {
         this.rating = hotel.getRating();
         this.image = hotel.getImage();
         this.address = hotel.getAddress();
-        this.hotelID = hotel.getHotelId();
+        this.hotelId = hotel.getHotelId();
     }
 
-    public HotelDTO(String name, double rating, String image, String address, UUID hotelID) {
+    public HotelDTO(String name, double rating, String image, String address, UUID hotelId) {
         this.name = name;
         this.rating = rating;
         this.image = image;
         this.address = address;
-        this.hotelID = hotelID;
+        this.hotelId = hotelId;
     }
 
     public String getName() {
@@ -63,12 +63,12 @@ public class HotelDTO {
         this.address = address;
     }
 
-    public UUID getHotelID() {
-        return hotelID;
+    public UUID getHotelId() {
+        return hotelId;
     }
 
     public void setHotelID(UUID hotelID) {
-        this.hotelID = hotelID;
+        this.hotelId = hotelID;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class HotelDTO {
                 ", rating=" + rating +
                 ", image='" + image + '\'' +
                 ", address='" + address + '\'' +
-                ", hotelID='" + hotelID + '\'' +
+                ", hotelId='" + hotelId + '\'' +
                 '}';
     }
 }

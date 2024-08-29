@@ -25,9 +25,14 @@ public class FavoriteController {
     public FavoriteController(FavoriteService favoriteService){this.favoriteService = favoriteService;}
 
     @PostMapping
-    public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite) throws CustomException {
+    public ResponseEntity<Favorite> addFavorite(@RequestBody IncomingFavoriteDTO newFavorite) {
         log.debug("Endpoint POST ./favorite reached");
-        return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
+        try{
+            return ResponseEntity.status(201).body(favoriteService.addFavorite(newFavorite));
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
     }
 
     @GetMapping

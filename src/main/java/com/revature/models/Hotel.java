@@ -31,7 +31,7 @@ public class Hotel {
     public Hotel() {}
 
     public Hotel(HotelDTO hotelDTO) {
-        this.hotelId = hotelDTO.getHotelID();
+        this.hotelId = hotelDTO.getHotelId();
         this.name = hotelDTO.getName();
         this.address = hotelDTO.getAddress();
         this.image = hotelDTO.getImage();

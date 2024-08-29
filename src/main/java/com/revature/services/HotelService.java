@@ -2,6 +2,7 @@ package com.revature.services;
 
 import com.revature.DAOs.HotelDAO;
 import com.revature.DTOs.HotelDTO;
+import com.revature.exceptions.CustomException;
 import com.revature.exceptions.HotelNotFoundException;
 import com.revature.models.Hotel;
 import org.slf4j.Logger;
@@ -42,7 +43,8 @@ public class HotelService {
         return hotelList;
     }
 
-    public Hotel saveHotel(Hotel hotel) {
+    public Hotel saveHotel(Hotel hotel) throws CustomException {
+        try {
         log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
 
         Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
@@ -52,19 +54,25 @@ public class HotelService {
         Hotel returningHotel = hotelDAO.save(hotel);
         log.debug("Method 'saveHotel' returning: {}", returningHotel);
         return returningHotel;
+        }catch(Exception e){
+            throw new HotelNotFoundException("Hotel with that information does not exist");
+        }
     }
 
-    public Hotel saveHotel(HotelDTO hotel) {
-        log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
+    public Hotel saveHotel(HotelDTO hotel) throws CustomException {
+        try {
+            log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
 
-        Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelID());
-        if(existingHotel.isPresent()){
-            return existingHotel.get();
+            Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
+            if (existingHotel.isPresent()) {
+                return existingHotel.get();
+            }
+            Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
+            log.debug("Method 'saveHotel' returning: {}", returningHotel);
+            return returningHotel;
+        }catch(Exception e){
+            throw new HotelNotFoundException("Hotel with that information does not exist");
         }
-        Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
-        log.debug("Method 'saveHotel' returning: {}", returningHotel);
-        return returningHotel;
-
     }
 
     public void deleteHotel(UUID hotelId) {
