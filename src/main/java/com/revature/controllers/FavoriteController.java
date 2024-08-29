@@ -86,7 +86,7 @@ public class FavoriteController {
         try {
             List<Favorite> favorites= favoriteService.findFavoritesByHotelAndUser(hotelId, userId);
             if (favorites.isEmpty()) {
-                return ResponseEntity.status(204).body(false);
+                return ResponseEntity.ok(false);
             }
             return ResponseEntity.ok(true);
         } catch (Exception e) {
