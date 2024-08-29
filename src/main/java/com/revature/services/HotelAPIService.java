@@ -9,6 +9,7 @@ import com.revature.exceptions.BadRequestException;
 import com.revature.exceptions.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class HotelAPIService {
     static Logger log = LoggerFactory.getLogger(HotelAPIService.class);
 
