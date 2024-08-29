@@ -87,7 +87,7 @@ public class FavoriteService {
         Hotel hotel = hotelService.saveHotel(favorite.getHotel());
         User user = userService.getUserById(favorite.getUserId());
         if(hotel != null && user != null){
-            if(favoriteDAO.findByHotelHotelIdAndUserUserId(hotel.getHotelId(),user.getUserId()) == null){
+            if(favoriteDAO.findByHotelHotelIdAndUserUserId(hotel.getHotelId(),user.getUserId()).isEmpty()){
                 Favorite newFavorite = new Favorite( user, hotel);
                 Favorite returningFavorite = favoriteDAO.save(newFavorite);
                 log.debug("Method 'addFavorite' returning: {}", returningFavorite.toString());
