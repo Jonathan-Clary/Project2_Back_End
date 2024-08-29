@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.DTOs.HotelDTO;
 import com.revature.DTOs.IncomingFavoriteDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.models.Favorite;
@@ -51,6 +52,17 @@ public class FavoriteController {
         log.debug("Endpoint GET ./favorite/user={}",userId);
         try{
             return ResponseEntity.ok(favoriteService.findAllFavoriteByUser(userId));
+        }catch(Exception e){
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    @GetMapping("/hotel/user/{userId}")
+    public ResponseEntity<List<HotelDTO>> getAllFavoriteHotelsByUser(@PathVariable UUID userId){
+        log.debug("Endpoint GET ./favorite/hotel/user/={}",userId);
+        try{
+            return ResponseEntity.ok(favoriteService.findAllFavoriteHotelByUser(userId));
         }catch(Exception e){
             log.warn("Exception was thrown", e);
             return ResponseEntity.status(404).body(null);

@@ -49,7 +49,9 @@ public class HotelService {
 
         Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
         if(existingHotel.isPresent()){
-            return existingHotel.get();
+            Hotel foundHotel = existingHotel.get();
+            log.debug("Method 'saveHotel' returning: {}", foundHotel);
+            return foundHotel;
         }
         Hotel returningHotel = hotelDAO.save(hotel);
         log.debug("Method 'saveHotel' returning: {}", returningHotel);
@@ -65,7 +67,9 @@ public class HotelService {
 
             Optional<Hotel> existingHotel = hotelDAO.findById(hotel.getHotelId());
             if (existingHotel.isPresent()) {
-                return existingHotel.get();
+                Hotel foundHotel = existingHotel.get();
+                log.debug("Method 'saveHotel' returning: {}", foundHotel);
+                return foundHotel;
             }
             Hotel returningHotel = hotelDAO.save(new Hotel(hotel));
             log.debug("Method 'saveHotel' returning: {}", returningHotel);
@@ -85,8 +89,9 @@ public class HotelService {
         log.debug("Method 'getHotelById' invoked with hotelId: {}", hotelId);
         Optional<Hotel> hotel = hotelDAO.findById(hotelId);
         if(hotel.isPresent()) {
-            log.debug("Method 'getHotelById' returning: {}", hotel.get());
-            return hotel.get();
+            Hotel h = hotel.get();
+            log.debug("Method 'getHotelById' returning: {}", h);
+            return h;
         }
         else {
             throw new HotelNotFoundException(hotelId);

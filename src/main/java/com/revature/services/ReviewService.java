@@ -3,7 +3,9 @@ package com.revature.services;
 import com.revature.DAOs.ReviewDAO;
 import com.revature.DTOs.IncomingReviewDTO;
 import com.revature.exceptions.CustomException;
+import com.revature.exceptions.HotelNotFoundException;
 import com.revature.exceptions.InvalidStarsException;
+import com.revature.exceptions.ReviewNotFoundException;
 import com.revature.models.Hotel;
 import com.revature.models.Review;
 import com.revature.models.User;
@@ -100,6 +102,20 @@ public class ReviewService {
         }
         log.warn("Method 'deleteReview' could not delete review with Id: {}", reviewId);
         return 0;
+    }
+
+    // Delete a Review, return 1 if it exists and was successfully deleted
+    public Review getReviewById(UUID reviewId) throws CustomException{
+        log.debug("Method 'getReviewById' invoked with hotelId: {}", reviewId);
+        Optional<Review> review = reviewDAO.findById(reviewId);
+        if(review.isPresent()) {
+            Review r = review.get();
+            log.debug("Method 'getReviewById' returning: {}", r);
+            return r;
+        }
+        else {
+            throw new ReviewNotFoundException(reviewId);
+        }
     }
 
 }

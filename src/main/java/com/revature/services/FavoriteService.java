@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.DAOs.FavoriteDAO;
+import com.revature.DTOs.HotelDTO;
 import com.revature.DTOs.IncomingFavoriteDTO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.FavoriteNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoriteService {
@@ -45,6 +47,12 @@ public class FavoriteService {
         log.debug("Method 'findAllFavorite' returning favorite list with favorite_ids: {}", sb.toString());
         return favoriteList;
     }
+
+    public List<HotelDTO> findAllFavoriteHotelByUser(UUID userId) throws CustomException {
+        List<Favorite> favorites = findAllFavoriteByUser(userId);
+        return favorites.stream().map(favorite -> new HotelDTO(favorite.getHotel())).toList();
+    }
+
 
     public List<Favorite> findAllFavoriteByUser(UUID userId) throws CustomException {
         log.debug("Method 'findAllFavoriteByUser' invoked with userId: {}",userId);
