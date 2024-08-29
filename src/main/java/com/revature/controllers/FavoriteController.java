@@ -60,7 +60,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/favorite={favoriteId}")
-    public ResponseEntity<Object> deleteReview(@PathVariable UUID favoriteId){
+    public ResponseEntity<Object> deleteFavorite(@PathVariable UUID favoriteId){
         try{
             favoriteService.deleteFavorite(favoriteId);
             return ResponseEntity.status(200).body("deleted");
