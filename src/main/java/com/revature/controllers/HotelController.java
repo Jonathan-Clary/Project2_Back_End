@@ -27,6 +27,7 @@ public class HotelController {
 
     @GetMapping("/{city}{state}")
     public ResponseEntity<List<HotelDTO>> getStaysByUserId(@PathVariable String city, @PathVariable String state) {
+        log.debug("Endpoint GET /hotels/{}{} reached",city,state);
        try {
            String cityState = city+state;
            List<HotelDTO> hotels = hotelAPI.findHotelsByCityAndState(cityState);
