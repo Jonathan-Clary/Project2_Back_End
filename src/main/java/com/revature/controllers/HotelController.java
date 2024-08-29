@@ -20,8 +20,9 @@ public class HotelController {
     private HotelAPIService hotelAPI;
 
     @Autowired
-    public HotelController(HotelService hotelService) {
+    public HotelController(HotelService hotelService, HotelAPIService hotelAPI) {
         this.hotelService = hotelService;
+        this.hotelAPI = hotelAPI;
     }
 
     @GetMapping("/{cityState}")
