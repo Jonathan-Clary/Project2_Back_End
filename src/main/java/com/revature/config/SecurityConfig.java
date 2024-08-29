@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,6 +30,7 @@ public class SecurityConfig {
     @Bean// This ensures the user chain is evaluated after the admin chain
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         // Disable CSRF configuration (not needed for a stateless API)
+        httpSecurity.cors(withDefaults());
         httpSecurity.csrf(customizer -> customizer.disable());
 
         // Define user-specific authorization rules for HTTP requests
