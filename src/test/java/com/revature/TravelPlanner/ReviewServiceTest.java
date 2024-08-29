@@ -69,6 +69,7 @@ public class ReviewServiceTest {
         review.setUser(user);
         review.setHotel(hotel);
         review.setStars(5);
+        review.setReviewText("hello");
 
         reviewDTO.setUserId(UUID_TEST_1);
         reviewDTO.setHotel(HOTEL_TEST_1);
@@ -86,6 +87,7 @@ public class ReviewServiceTest {
         // Check if the results are as expected
         assertNotNull(result);
         assertEquals(5, result.getStars());
+        assertEquals("hello", result.getReviewText());
         verify(userService, times(1)).getUserById(UUID_TEST_1);
         verify(hotelService, times(1)).saveHotel(any(HotelDTO.class));
         verify(reviewDAO, times(1)).save(any(Review.class));

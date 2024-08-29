@@ -4,6 +4,7 @@ import com.revature.DAOs.StayDAO;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.InvalidIDException;
 import com.revature.exceptions.StayNotFoundException;
+import com.revature.models.User;
 import com.revature.models.Hotel;
 import com.revature.models.Stay;
 import com.revature.utils.DateUtility;
@@ -20,6 +21,7 @@ public class StayService {
 
     private StayDAO stayDAO;
     private HotelService hotelService;
+    private UserService userService;
 
     @Autowired
     public StayService(StayDAO stayDAO, HotelService hotelService) {
@@ -27,12 +29,18 @@ public class StayService {
         this.hotelService = hotelService;
     }
 
-    public Stay createStay(Stay stay) {
+    public Stay createStay(Stay stay) throws CustomException {
         log.debug("Method 'createStay' invoked with stay: {}",stay);
+
+        if (stay.getBookedDate().equals(stay.getEndDate()) || stay.getBookedDate().after(stay.getEndDate())) {
+            throw new CustomException("Booked date must be before the end date!");
+        }
+
         Stay returningStay = stayDAO.save(stay);
         log.debug("Method 'createStay' returning: {}",returningStay);
         return returningStay;
     }
+
     public void deleteStayById(UUID id){
         log.debug("Method 'deleteStayById' invoked with stay: {}",id);
         stayDAO.deleteById(id);
