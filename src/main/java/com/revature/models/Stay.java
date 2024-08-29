@@ -5,15 +5,17 @@ package com.revature.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "stays")
 public class Stay {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int stayId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID stayId;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -24,7 +26,7 @@ public class Stay {
     //transient stops from being stored in db, bc User obj already does that
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//Include when deserializing, not serializing
-    private int userId;
+    private UUID userId;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,28 +37,36 @@ public class Stay {
 //    transient stops from being stored in db, bc User obj already does that
    @Transient
    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//Include when deserializing, not serializing
-   private int hotelId;
+   private UUID hotelId;
 
 
     @Column(nullable = false)
-    private String bookedDate;
+    private Date bookedDate;
 
     @Column(nullable = false)
-    private String endDate;
+    private Date endDate;
+
+    @Column(nullable = false)
+    private Date createdAt;
+    @PrePersist
+    private void onCreate(){
+        createdAt = new Date();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
     public Stay() {}
 
 
-    public Stay(int stayId, User user, Hotel hotel, String bookedDate, String endDate) {
+    public Stay(UUID stayId, User user, Hotel hotel, Date bookedDate, Date endDate) {
         this.stayId = stayId;
         this.user = user;
         this.hotel = hotel;
         this.bookedDate = bookedDate;
         this.endDate = endDate;
     }
-
-
-
 
     public Hotel getHotel() {
         return hotel;
@@ -66,19 +76,19 @@ public class Stay {
         this.hotel = hotel;
     }
 
-    public int getHotelId() {
+    public UUID getHotelId() {
         return hotelId;
     }
 
-    public void setHotelId(int hotelId) {
+    public void setHotelId(UUID hotelId) {
         this.hotelId = hotelId;
     }
 
-    public int getStayId() {
+    public UUID getStayId() {
         return stayId;
     }
 
-    public void setStayId(int stayId) {
+    public void setStayId(UUID stayId) {
         this.stayId = stayId;
     }
 
@@ -90,27 +100,27 @@ public class Stay {
         this.user = user;
     }
 
-    public String getBookedDate() {
+    public Date getBookedDate() {
         return bookedDate;
     }
 
-    public void setBookedDate(String bookedDate) {
+    public void setBookedDate(Date bookedDate) {
         this.bookedDate = bookedDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
@@ -122,8 +132,9 @@ public class Stay {
                 ", userId=" + userId +
                 ", hotel=" + hotel +
                 ", hotelId=" + hotelId +
-                ", bookedDate='" + bookedDate + '\'' +
-                ", endDate='" + endDate + '\'' +
+                ", bookedDate=" + bookedDate +
+                ", endDate=" + endDate +
+                ", createdAt=" + createdAt +
                 '}';
     }
 

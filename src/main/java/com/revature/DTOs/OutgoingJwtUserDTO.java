@@ -1,13 +1,15 @@
 package com.revature.DTOs;
 
 
+import java.util.UUID;
+
 public class OutgoingJwtUserDTO {
 
     private String token;
-    private int userId;
+    private UUID userId;
     private String email;
 
-    public OutgoingJwtUserDTO(String token, int userId, String email) {
+    public OutgoingJwtUserDTO(String token, UUID userId, String email) {
         this.token = token;
         this.userId = userId;
         this.email = email;
@@ -21,11 +23,11 @@ public class OutgoingJwtUserDTO {
         this.token = token;
     }
 
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

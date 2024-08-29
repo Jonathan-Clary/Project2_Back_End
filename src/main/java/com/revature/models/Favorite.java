@@ -1,59 +1,65 @@
 package com.revature.models;
 
-import com.revature.DTOs.IncomingFavoriteDTO;
 import jakarta.persistence.*;
+
+import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "favorites")
 public class Favorite {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int favoriteId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID favoriteId;
 
     @Column(nullable = false)
-    private String dateAdded;
+    private Date createdAt;
 
     @JoinColumn(name = "userId")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // TODO: this could be one to one will decide later
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH) // TODO: this could be one to one will decide later
     private User user;
 
     @JoinColumn(name = "hotelId")
-    @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne( fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Hotel hotel;
+
+    @PrePersist
+    void onCreate(){
+        //Set date of creation
+        createdAt = new Date();
+    }
 
     public Favorite() {
     }
 
-    public Favorite(int favoriteId, String dateAdded, User user, Hotel hotel) {
+    public Favorite(UUID favoriteId, User user, Hotel hotel) {
         this.favoriteId = favoriteId;
-        this.dateAdded = dateAdded;
+        //this.dateAdded = dateAdded;
         this.user = user;
         this.hotel = hotel;
     }
 
-    public Favorite(IncomingFavoriteDTO favorite, User u, Hotel h){
-        this.dateAdded = favorite.getDateAdded();
+    public Favorite(User u, Hotel h){
+        //this.dateAdded = favorite.getDateAdded();
         this.user = u;
         this.hotel = h;
     }
 
 
-    public int getFavoriteId() {
+    public UUID getFavoriteId() {
         return favoriteId;
     }
 
-    public void setFavoriteId(int favoriteId) {
+    public void setFavoriteId(UUID favoriteId) {
         this.favoriteId = favoriteId;
     }
 
-    public String getDateAdded() {
-        return dateAdded;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDateAdded(String dateAdded) {
-        this.dateAdded = dateAdded;
-    }
+    //public void setDateAdded(String dateAdded) {this.dateAdded = dateAdded;}
 
     public User getUser() {
         return user;
@@ -75,7 +81,7 @@ public class Favorite {
     public String toString() {
         return "Favorite{" +
                 "favoriteId=" + favoriteId +
-                ", dateAdded='" + dateAdded + '\'' +
+                ", createdAt=" + createdAt +
                 ", user=" + user +
                 ", hotel=" + hotel +
                 '}';

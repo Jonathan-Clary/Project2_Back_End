@@ -1,25 +1,34 @@
 package com.revature.services;
 
 import com.revature.DAOs.AdminDAO;
-import com.revature.mappers.AdminMapper;
+import com.revature.exceptions.AdminNotFoundException;
+import com.revature.exceptions.CustomException;
 import com.revature.models.Admin;
-import com.revature.DTOs.OutgoingAdminDTO;
+import com.revature.security.PasswordEncoderProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class AdminService {
 
+    //Logger
+    Logger log = LoggerFactory.getLogger(AdminService.class);
     //DAOs
     private AdminDAO aDao;
 
-    //Mapper
-    private AdminMapper am;
+    /* TODO: uncomment when admin authcontroller is made
+    @Autowired
+    AdminAuthController authController;
+    */
+
+    @Autowired
+    private PasswordEncoderProvider passwordEncoder;
 
     //Constructor
     @Autowired
@@ -29,19 +38,19 @@ public class AdminService {
 
     //Service Methods
 
-    //Method to return OutgoingAdmins to the controller
-    public List<OutgoingAdminDTO> getAllAdmins() {
-
-        List<Admin> al = aDao.findAll();
-        List<OutgoingAdminDTO> returnedList = new ArrayList<OutgoingAdminDTO>();
-
-        for (Admin oa : al) {
-            returnedList.add(am.toDto(oa));
+    public Admin getAdminById(UUID adminId) throws CustomException {
+        log.debug("Method 'getAdminById' invoked with adminId: {}", adminId);
+        Optional<Admin> admin = aDao.findById(adminId);
+        if(admin.isPresent()){
+            log.debug("Method 'getAdminById' returning: {}", admin.get().toString());
+            return admin.get();
         }
-
-        return returnedList;
-
+        throw new AdminNotFoundException("Admin with id: " + adminId+" was not found.");
     }
+
+
+
+
 }
 
 

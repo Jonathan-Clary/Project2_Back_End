@@ -1,49 +1,41 @@
 package com.revature.DTOs;
 
+import java.util.UUID;
+
 public class IncomingFavoriteDTO {
-    private String dateAdded;
-    private int userId;
-    private int hotelId;
+    //private String dateAdded;
+    private UUID userId;
+    private HotelDTO hotel;
 
     public IncomingFavoriteDTO() {
     }
 
-    public IncomingFavoriteDTO(String dateAdded, int userId, int hotelId) {
-        this.dateAdded = dateAdded;
+    public IncomingFavoriteDTO(UUID userId, HotelDTO hotel) {
         this.userId = userId;
-        this.hotelId = hotelId;
+        this.hotel = hotel;
     }
 
-    public String getDateAdded() {
-        return dateAdded;
-    }
-
-    public void setDateAdded(String dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    public int getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
-    public int getHotelId() {
-        return hotelId;
+    public HotelDTO getHotel() {
+        return hotel;
     }
 
-    public void setHotelId(int hotelId) {
-        this.hotelId = hotelId;
+    public void setHotel(HotelDTO hotelId) {
+        this.hotel = hotelId;
     }
 
     @Override
     public String toString() {
         return "IncomingFavoriteDTO{" +
-                "dateAdded='" + dateAdded + '\'' +
-                ", userId=" + userId +
-                ", hotelId=" + hotelId +
+                "userId=" + userId +
+                ", HotelDTO=" + hotel +
                 '}';
     }
 }

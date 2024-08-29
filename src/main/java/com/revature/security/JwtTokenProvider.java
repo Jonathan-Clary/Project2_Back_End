@@ -1,5 +1,6 @@
 package com.revature.security;
 
+import com.revature.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Component
@@ -20,14 +22,19 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long jwtExpirationInMs;
 
-    public String generateToken(int userId){
+    public String generateToken(User user){
 
         Map<String,Object> claims = new HashMap<>();
+        claims.put("userId",user.getUserId());
+        claims.put("firstName",user.getFirstName());
+        claims.put("lastName",user.getLastName());
+        claims.put("email",user.getEmail());
+        claims.put("createdAt",user.getCreatedAt());
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(""+userId)
+                .subject(user.getUserId().toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()+jwtExpirationInMs)) // 24 hours
                 .and()

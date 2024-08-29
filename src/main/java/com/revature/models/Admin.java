@@ -2,19 +2,19 @@ package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "admins")
 public class Admin {
 
-    //Getter and Setters
     //Model Variables
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int adminId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID adminId;
 
     @Column(nullable = false)
     private String firstName;
@@ -33,11 +33,23 @@ public class Admin {
     @OneToMany(mappedBy = "admin", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private List<Note> notes;
 
+    @Column(nullable = false)
+    private Date createdAt;
+
+    @PrePersist
+    private void onCreate(){
+        createdAt = new Date();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
     //Constructors
     public Admin() {
     }
 
-    public Admin(int adminId, String firstName, String lastName, String email, String password) {
+    public Admin(UUID adminId, String firstName, String lastName, String email, String password) {
         this.adminId = adminId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,11 +58,11 @@ public class Admin {
     }
 
     //Getter and Setter
-    public int getAdminId() {
+    public UUID getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(int adminId) {
+    public void setAdminId(UUID adminId) {
         this.adminId = adminId;
     }
 
@@ -94,7 +106,6 @@ public class Admin {
         this.notes = notes;
     }
 
-    //toString
     @Override
     public String toString() {
         return "Admin{" +
@@ -103,6 +114,8 @@ public class Admin {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", notes=" + notes +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

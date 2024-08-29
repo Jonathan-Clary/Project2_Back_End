@@ -2,8 +2,10 @@ package com.revature.exceptions;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.UUID;
+
 public class SupportTicketNotFoundException extends CustomException{
-    public SupportTicketNotFoundException(int id){super("Support Ticket with Id: " + id + " Not Found.");}
+    public SupportTicketNotFoundException(UUID id){super("Support Ticket with Id: " + id + " Not Found.");}
     public SupportTicketNotFoundException(String message){super(message);}
     public SupportTicketNotFoundException(){super();}
 
