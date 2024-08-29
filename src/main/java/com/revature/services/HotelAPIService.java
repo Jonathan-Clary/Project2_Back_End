@@ -28,6 +28,7 @@ public class HotelAPIService {
 
     public List<HotelDTO> findHotelsByCityAndState(String location) throws CustomException {
         log.debug("Method 'findAllFavorite' invoked with location: {}", location);
+        location =  location.replaceAll(" ", "+");
         try {
             // Define the API endpoint and your API key
             String apiKey = "&key=AIzaSyBxUK3IJcgz1dffYlPGonw5P0uLBten9rU";
