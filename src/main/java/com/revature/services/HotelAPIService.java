@@ -9,6 +9,7 @@ import com.revature.exceptions.BadRequestException;
 import com.revature.exceptions.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class HotelAPIService {
     static Logger log = LoggerFactory.getLogger(HotelAPIService.class);
 
@@ -26,6 +28,7 @@ public class HotelAPIService {
 
     public List<HotelDTO> findHotelsByCityAndState(String location) throws CustomException {
         log.debug("Method 'findAllFavorite' invoked with location: {}", location);
+        location =  location.replaceAll(" ", "+");
         try {
             // Define the API endpoint and your API key
             String apiKey = "&key=AIzaSyBxUK3IJcgz1dffYlPGonw5P0uLBten9rU";
