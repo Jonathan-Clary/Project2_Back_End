@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.DAOs.FavoriteDAO;
 import com.revature.DTOs.HotelDTO;
 import com.revature.DTOs.IncomingFavoriteDTO;
+import com.revature.exceptions.BadRequestException;
 import com.revature.exceptions.CustomException;
 import com.revature.exceptions.FavoriteNotFoundException;
 import com.revature.models.Favorite;
@@ -86,10 +87,14 @@ public class FavoriteService {
         Hotel hotel = hotelService.saveHotel(favorite.getHotel());
         User user = userService.getUserById(favorite.getUserId());
         if(hotel != null && user != null){
-            Favorite newFavorite = new Favorite( user, hotel);
-            Favorite returningFavorite = favoriteDAO.save(newFavorite);
-            log.debug("Method 'addFavorite' returning: {}", returningFavorite.toString());
-            return returningFavorite;
+            if(favoriteDAO.findByHotelHotelIdAndUserUserId(hotel.getHotelId(),user.getUserId()) == null){
+                Favorite newFavorite = new Favorite( user, hotel);
+                Favorite returningFavorite = favoriteDAO.save(newFavorite);
+                log.debug("Method 'addFavorite' returning: {}", returningFavorite.toString());
+                return returningFavorite;
+            }
+            log.debug("Method 'addFavorite' was requested on duplicate user/hotel");
+            throw new BadRequestException("That favorite already exists.");
         }else{
             log.warn("Method 'addFavorite' returning: null");
             return null;
