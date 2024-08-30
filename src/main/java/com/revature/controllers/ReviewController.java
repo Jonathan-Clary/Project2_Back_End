@@ -109,6 +109,19 @@ public class ReviewController {
             return ResponseEntity.status(404).body(null);
         }
 
+    }
+    @GetMapping("/user/{userId}/hotel/{hotelId}")
+    public ResponseEntity<List<Review>> getAllReviewByHotelAndUserList(@PathVariable UUID userId, @PathVariable UUID hotelId) {
+
+        try {
+            List<Review> reviews= reviewService.findReviewsByHotelAndUser(hotelId, userId);
+
+            return ResponseEntity.ok(reviews);
+
+        } catch (Exception e) {
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
 
     }
 }
