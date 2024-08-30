@@ -39,11 +39,6 @@ public class ReviewService {
         User user = userService.getUserById(review.getUserId());
         Hotel hotel = hotelService.saveHotel(review.getHotel());
 
-        if (!findReviewsByHotelAndUser(hotel.getHotelId(),user.getUserId()).isEmpty()) {
-            log.debug("Method 'submitReview' was requested on duplicate user/hotel");
-            throw new BadRequestException("That review already exists.");
-        }
-
         if (user == null) {
             log.warn("Method 'submitReview' returning null");
             return null;
