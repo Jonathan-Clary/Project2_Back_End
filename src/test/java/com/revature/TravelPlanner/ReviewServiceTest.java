@@ -64,6 +64,7 @@ public class ReviewServiceTest {
         user.setUserId(UUID_TEST_1);
         Hotel hotel = new Hotel(HOTEL_TEST_1);
 
+        List<Review> lr = new ArrayList<>();
         Review review = new Review();
         IncomingReviewDTO reviewDTO = new IncomingReviewDTO();
         review.setUser(user);
@@ -80,6 +81,8 @@ public class ReviewServiceTest {
         when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
         when(hotelService.saveHotel(any(HotelDTO.class))).thenReturn(hotel);
         when(reviewDAO.save(any(Review.class))).thenReturn(review);
+        when(reviewDAO.findByHotelHotelIdAndUserUserId(reviewDTO.getHotel().getHotelId(),reviewDTO.getUserId())).thenReturn(lr);
+
 
         // Invoke 'submitReview' to compare to expected
         Review result = reviewService.submitReview(reviewDTO);
@@ -88,7 +91,7 @@ public class ReviewServiceTest {
         assertNotNull(result);
         assertEquals(5, result.getStars());
         assertEquals("hello", result.getReviewText());
-        verify(userService, times(1)).getUserById(UUID_TEST_1);
+        verify(userService, times(2)).getUserById(UUID_TEST_1);
         verify(hotelService, times(1)).saveHotel(any(HotelDTO.class));
         verify(reviewDAO, times(1)).save(any(Review.class));
     }
@@ -100,6 +103,7 @@ public class ReviewServiceTest {
         user.setUserId(UUID_TEST_1);
         Hotel hotel = new Hotel(HOTEL_TEST_1);
 
+        List<Review> lr = new ArrayList<>();
         Review review = new Review();
         IncomingReviewDTO reviewDTO = new IncomingReviewDTO();
         review.setUser(user);
@@ -114,12 +118,13 @@ public class ReviewServiceTest {
         // Mocks the behavior of the 'getById' methods to return the valid 'user' and 'hotel' objects
         when(userService.getUserById(UUID_TEST_1)).thenReturn(user);
         when(hotelService.saveHotel(any(HotelDTO.class))).thenReturn(hotel);
+        when(reviewDAO.findByHotelHotelIdAndUserUserId(reviewDTO.getHotel().getHotelId(),reviewDTO.getUserId())).thenReturn(lr);
 
         // Check if the results are as expected (invalid stars)
         assertThrows(InvalidStarsException.class, () -> {
             reviewService.submitReview(reviewDTO);
         });
-        verify(userService, times(1)).getUserById(UUID_TEST_1);
+        verify(userService, times(2)).getUserById(UUID_TEST_1);
         verify(hotelService, times(1)).saveHotel(any(HotelDTO.class));
         verify(reviewDAO, never()).save(any(Review.class));
     }
