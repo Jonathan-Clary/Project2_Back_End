@@ -43,7 +43,7 @@ public class HotelService {
         return hotelList;
     }
 
-    public Hotel saveHotel(Hotel hotel) throws CustomException {
+    public Hotel saveHotel(Hotel hotel) throws HotelNotFoundException {
         try {
         log.debug("Method 'saveHotel' invoked with hotel: {}", hotel.toString());
 
