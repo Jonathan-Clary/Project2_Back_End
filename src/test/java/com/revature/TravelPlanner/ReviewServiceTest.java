@@ -81,6 +81,7 @@ public class ReviewServiceTest {
         when(hotelService.saveHotel(any(HotelDTO.class))).thenReturn(hotel);
         when(reviewDAO.save(any(Review.class))).thenReturn(review);
 
+
         // Invoke 'submitReview' to compare to expected
         Review result = reviewService.submitReview(reviewDTO);
 

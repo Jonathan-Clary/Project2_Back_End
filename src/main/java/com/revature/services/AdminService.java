@@ -22,8 +22,6 @@ public class AdminService {
     //DAOs
     private AdminDAO aDao;
 
-
-
     @Autowired
     private PasswordEncoderProvider passwordEncoder;
 
@@ -35,14 +33,14 @@ public class AdminService {
 
     //Service Methods
 
-    public Admin getAdminById(UUID adminId) throws CustomException {
+    public Admin getAdminById(UUID adminId) throws AdminNotFoundException {
         log.debug("Method 'getAdminById' invoked with adminId: {}", adminId);
         Optional<Admin> admin = aDao.findById(adminId);
         if(admin.isPresent()){
             log.debug("Method 'getAdminById' returning: {}", admin.get().toString());
             return admin.get();
         }
-        throw new AdminNotFoundException("Admin with id: " + adminId+" was not found.");
+        throw new AdminNotFoundException(adminId);
     }
 
 
