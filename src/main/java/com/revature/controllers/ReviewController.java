@@ -75,7 +75,7 @@ public class ReviewController {
     }
 
     @GetMapping("/hotel/{hotelId}")
-    public ResponseEntity<List<Review>> getAllFavoriteByHotel(@PathVariable UUID hotelId){
+    public ResponseEntity<List<Review>> getAllReviewByHotel(@PathVariable UUID hotelId){
         log.debug("Endpoint GET ./favorite/hotel={}",hotelId);
         try{
             return ResponseEntity.ok(reviewService.getReviewByHotelId(hotelId));
@@ -93,5 +93,22 @@ public class ReviewController {
             return ResponseEntity.status(200).body(null);
         }
         return ResponseEntity.ok(1);
+    }
+
+    @GetMapping("/hotel/{hotelId}/user/{userId}")
+    public ResponseEntity<?> getAllReviewByHotelAndUser(@PathVariable UUID hotelId, @PathVariable UUID userId) {
+
+        try {
+            List<Review> reviews= reviewService.findReviewsByHotelAndUser(hotelId, userId);
+            if (reviews.isEmpty()) {
+                return ResponseEntity.ok(false);
+            }
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            log.warn("Exception was thrown", e);
+            return ResponseEntity.status(404).body(null);
+        }
+
+
     }
 }

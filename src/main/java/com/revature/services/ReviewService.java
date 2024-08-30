@@ -3,10 +3,8 @@ package com.revature.services;
 import com.revature.DAOs.ReviewDAO;
 import com.revature.DTOs.HotelDTO;
 import com.revature.DTOs.IncomingReviewDTO;
-import com.revature.exceptions.CustomException;
-import com.revature.exceptions.HotelNotFoundException;
-import com.revature.exceptions.InvalidStarsException;
-import com.revature.exceptions.ReviewNotFoundException;
+import com.revature.exceptions.*;
+import com.revature.models.Favorite;
 import com.revature.models.Hotel;
 import com.revature.models.Review;
 import com.revature.models.User;
@@ -40,6 +38,11 @@ public class ReviewService {
 
         User user = userService.getUserById(review.getUserId());
         Hotel hotel = hotelService.saveHotel(review.getHotel());
+
+        if (!findReviewsByHotelAndUser(hotel.getHotelId(),user.getUserId()).isEmpty()) {
+            log.debug("Method 'submitReview' was requested on duplicate user/hotel");
+            throw new BadRequestException("That review already exists.");
+        }
 
         if (user == null) {
             log.warn("Method 'submitReview' returning null");
@@ -154,6 +157,18 @@ public class ReviewService {
         }else{
             throw new ReviewNotFoundException("Review for hotelId:"+hotelId+" does not exist.");
         }
+    }
+
+
+    public List<Review> findReviewsByHotelAndUser(UUID hotelId, UUID userId) throws CustomException {
+        log.debug("Method 'getReviewByHotelAndUser' invoked with hotelId: {} and userId: {}", hotelId, userId);
+        List<Review> hotelReviews = reviewDAO.findByHotelHotelIdAndUserUserId(hotelId,userService.getUserById(userId).getUserId());
+        StringBuilder sb = new StringBuilder();
+        for(Review r: hotelReviews){
+            sb.append(r.getReviewId()).append(", ");
+        }
+        log.debug("Method 'findFavoritesByHotelAndUser' returning review list with review_ids: {}", sb.toString());
+        return hotelReviews;
     }
 
     // Delete a Review, return 1 if it exists and was successfully deleted
