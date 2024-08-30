@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 //TODO: !!!!!!
 //TODO: !!!Need to change to url of s3!!!
-@CrossOrigin(origins="http://localhost:8080/")
+@CrossOrigin(origins="http://localhost:3000")
 public class AuthController {
     Logger log = LoggerFactory.getLogger(AuthController.class);
 
