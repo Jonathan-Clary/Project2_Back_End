@@ -3,6 +3,8 @@ package com.revature.services;
 import com.revature.DAOs.UserDAO;
 import com.revature.DTOs.IncomingUserDTO;
 import com.revature.DTOs.OutgoingJwtUserDTO;
+import com.revature.exceptions.CustomException;
+import com.revature.exceptions.EmailAlreadyExistException;
 import com.revature.exceptions.UserNotAuthenticatedException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
@@ -28,6 +30,9 @@ public class AuthService {
     @Autowired
     UserDAO userDAO;
 
+    @Autowired
+    EmailService emailService;
+
     // Inject the JWT provider for generating tokens
     @Autowired
     JwtTokenProvider jwtProvider;
@@ -36,10 +41,15 @@ public class AuthService {
     UserService userService;
 
     // Method to handle login for users
-    public OutgoingJwtUserDTO login(IncomingUserDTO userDTO) throws UserNotFoundException {
+    public OutgoingJwtUserDTO login(IncomingUserDTO userDTO) throws CustomException {
         log.debug("Method 'login' invoked with userDTO: {}", userDTO.toString());
         // Extract email from the incoming DTO
         String email = userDTO.getEmail();
+
+        if(!emailService.checkEmailVerified(email)){
+            log.warn("Email has not been verified: {}", email);
+            throw new EmailAlreadyExistException("Email has not been verified");
+        }
 
         // Extract password from the incoming DTO
         String password = userDTO.getPassword();

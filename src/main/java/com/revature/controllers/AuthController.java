@@ -30,7 +30,7 @@ public class AuthController {
     UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<OutgoingJwtUserDTO> auth(@RequestBody IncomingUserDTO loginDTO) throws UserNotFoundException {
+    public ResponseEntity<OutgoingJwtUserDTO> auth(@RequestBody IncomingUserDTO loginDTO) throws CustomException {
         log.debug("Endpoint POST ./auth/login reached");
         OutgoingJwtUserDTO jwtUserDTO = authService.login(loginDTO);
         log.info("User: {} logged in successfully",loginDTO.getEmail());

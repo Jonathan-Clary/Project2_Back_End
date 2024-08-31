@@ -23,6 +23,9 @@ public class UserService {
 
     private UserDAO userDAO;
 
+    @Autowired
+    EmailService emailService;
+
     // Encodes the password before saving it to the database
     @Autowired
     private PasswordEncoderProvider passwordEncoder;
@@ -84,6 +87,7 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
+        emailService.sendVerificationEmail(email);
 
         User returningUser = userDAO.save(user);
         log.debug("Method 'createUser' returning: {}", returningUser);
@@ -95,12 +99,16 @@ public class UserService {
         log.debug("Method 'updateUserById' invoked with userId: {}, newUser: {}", userId,newUser.toString());
         User user = getUserById(userId);
 
-        if(newUser.containsKey("firstName"))
+        if(newUser.containsKey("firstName")) {
             user.setFirstName(newUser.get("firstName"));
-        if(newUser.containsKey("lastName"))
+        }
+        if(newUser.containsKey("lastName")) {
             user.setLastName(newUser.get("lastName"));
-        if(newUser.containsKey("email"))
+        }
+        if(newUser.containsKey("email")) {
+            emailService.sendVerificationEmail(newUser.get("email"));
             user.setEmail(newUser.get("email"));
+        }
         if(newUser.containsKey("password")){
             String encodedPassword = passwordEncoder.encode(newUser.get("password"));
             user.setPassword(encodedPassword);

@@ -38,6 +38,7 @@ public class SecurityConfig {
             request
                     // Allow unrestricted access to user registration and login endpoints
                     .requestMatchers(HttpMethod.POST, "/user/register", "/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.DELETE, "/verify/*").permitAll()
                     // Require authentication for all other user-specific /user/** URLs
                     //.requestMatchers("/user/**").authenticated()
                     .anyRequest().authenticated();
